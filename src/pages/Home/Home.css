@@ -1,0 +1,8 @@
+.options_ul li{
+    list-style:none;
+}
+.options_ul li h5{
+    font-size: 1.5rem;
+    font-weight:300;
+    color: #495057;
+}
