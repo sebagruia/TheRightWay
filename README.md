@@ -1,3 +1,8 @@
+# The Right Way
+
+This is the refactored version of my ToDoList app.
+I'm refactoring the entire code and also adding state management with Redux
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
