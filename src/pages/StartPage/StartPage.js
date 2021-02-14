@@ -1,14 +1,19 @@
 import React, { useState, Fragment } from 'react';
 import './StartPage.css';
 
+import {useHistory} from "react-router-dom";
+
 
 
 const StartPage = () => {
+    const history = useHistory();
+
     const [transitionClass, setTransitionClass] = useState('');
     const [visibility, setVisibility] = useState('');
 
 
     const fireTransitionAndVisibility = () => {
+        history.push("./home");
         setTransitionClass('transitionForColFullWidth');
         setVisibility('hidden');
     }

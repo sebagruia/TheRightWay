@@ -1,8 +1,37 @@
-.options_ul li{
-    list-style:none;
+.options_ul {
+  margin-top: 30vh;
+  padding: 0;
 }
-.options_ul li h5{
-    font-size: 1.5rem;
-    font-weight:300;
-    color: #495057;
+.options_ul li {
+  list-style: none;
+}
+.options_ul li h5 {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #495057;
+}
+.addNewListInput-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+.addNewListInput {
+  width: 50%;
+  padding-top: 100px;
+}
+.plusButton {
+  font-size: 1.5rem;
+}
+.addNewListInput-container .form-control {
+  font-size: 1.5rem;
+  font-weight: 200;
+  border-color: #ffc107;
+}
+.ListSummary {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  padding-top:30px;
 }
