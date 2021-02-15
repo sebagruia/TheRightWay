@@ -4,13 +4,12 @@ import "./Home.css";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import { addNewListName } from "../../redux/list/listActions";
+import { addNewListAction, deleteListAction } from "../../redux/list/listActions";
 import { formatName } from "../../utils";
 
 import Item from "../../components/Item/Item";
 
 const Home = ({ dispatch, list }) => {
-  console.log(list);
   const history = useHistory();
   const [inputText, setInputText] = useState("");
 
@@ -19,12 +18,19 @@ const Home = ({ dispatch, list }) => {
   };
 
   const addNewList = () => {
-    const list = {
-      id: `${inputText}${Date.now()}`,
-      itemName: inputText,
-      numberOfItems: "0",
-    };
-    dispatch(addNewListName(list));
+    if (inputText.length > 0) {
+      const list = {
+        id: `${inputText}${Date.now()}`,
+        ListName: inputText,
+        numberOfItems: "0",
+      };
+      dispatch(addNewListAction(list));
+      setInputText("");
+    }
+  };
+
+  const deleteListName = (id) => {
+    dispatch(deleteListAction(id));
   };
 
   return (
@@ -53,8 +59,12 @@ const Home = ({ dispatch, list }) => {
             </div>
             <ul className="ListSummary">
               {list.map((item) => (
-                <Item key={`${item.id}`}>
-                  {formatName(item.itemName)}
+                <Item
+                  key={`${item.id}`}
+                  item={item}
+                  deleteList={deleteListName}
+                >
+                  {formatName(item.ListName)}
                 </Item>
               ))}
             </ul>

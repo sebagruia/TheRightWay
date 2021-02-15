@@ -3,7 +3,8 @@ import "./Item.css";
 
 import {useHistory} from "react-router-dom";
 
-const Item = ({ children }) => {
+const Item = ({ children, item, deleteList }) => {
+  const id = item.id;
   const history = useHistory();
   return (
     <li className="newListLi">
@@ -16,7 +17,7 @@ const Item = ({ children }) => {
       >
         {children}
       </button>
-      <i className="far fa-trash-alt" role="button" aria-hidden="true"></i>
+      <i onClick = {()=>deleteList(id)} className="far fa-trash-alt" role="button" aria-hidden="true"></i>
     </li>
   );
 };
