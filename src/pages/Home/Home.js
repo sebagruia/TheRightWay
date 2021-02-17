@@ -7,9 +7,10 @@ import { useHistory } from "react-router-dom";
 import { addNewListAction, deleteListAction } from "../../redux/list/listActions";
 import { formatName } from "../../utils";
 
-import Item from "../../components/Item/Item";
+import List from "../../components/List/List";
 
-const Home = ({ dispatch, list }) => {
+const Home = ({ dispatch, lists }) => {
+  
   const history = useHistory();
   const [inputText, setInputText] = useState("");
 
@@ -17,12 +18,13 @@ const Home = ({ dispatch, list }) => {
     setInputText(event.target.value);
   };
 
-  const addNewList = () => {
+  const addNewList = (event) => {
+    event.preventDefault();
     if (inputText.length > 0) {
       const list = {
         id: `${inputText}${Date.now()}`,
-        ListName: inputText,
-        numberOfItems: "0",
+        listName: inputText,
+        items:null,
       };
       dispatch(addNewListAction(list));
       setInputText("");
@@ -38,11 +40,10 @@ const Home = ({ dispatch, list }) => {
       <div className="col">
         <div className="row">
           <div className="addNewListInput-container">
-            <div className="input-group addNewListInput">
+              <form onSubmit={addNewList} className="input-group addNewListInput">
               <button
-                onClick={addNewList}
                 className="btn btn-warning plusButton"
-                type="button"
+                type="submit"
                 id="button-addon1"
               >
                 +
@@ -56,16 +57,17 @@ const Home = ({ dispatch, list }) => {
                 aria-label="Example text with button addon"
                 aria-describedby="button-addon1"
               />
-            </div>
+              </form>
+         
             <ul className="ListSummary">
-              {list.map((item) => (
-                <Item
-                  key={`${item.id}`}
-                  item={item}
+              {lists && Object.values(lists).map((list) => (
+                <List
+                  key={`${list.id}`}
+                  list={list}
                   deleteList={deleteListName}
                 >
-                  {formatName(item.ListName)}
-                </Item>
+                  {formatName(list.listName)}
+                </List>
               ))}
             </ul>
           </div>
@@ -77,7 +79,7 @@ const Home = ({ dispatch, list }) => {
 
 const mapStateToProps = (state) => {
   return {
-    list: state.listReducer.list,
+    lists: state.listReducer.lists,
   };
 };
 

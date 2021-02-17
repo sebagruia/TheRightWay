@@ -1,21 +1,52 @@
-.newListLi {
-    width: 100%;
+.list-component {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding-top:10px;
-    font-weight:200;
-  }
-  .newListLi .btn {
+    margin: 0 auto;
     width: 90%;
+    padding: 0;
+    padding-right: 10px;
+    border-bottom: 0.5px solid #d1ccc0;
   }
-  .newListLi .fa-trash-alt {
-    font-size: 1.5em;
-    color: #ced4da;
+
+  .check-list p {
+    display: inline;
+    font-size: 1.1em;
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    font-size: 1.2em;
+    font-weight: 300;
   }
-  .newListLi .fa-trash-alt:hover {
-    color: #b33939;
-    opacity: 1;
+
+  .edit-list .far {
+    padding-right: 3px;
+  }
+
+  .far {
     cursor: pointer;
   }
   
+  .fa-circle {
+    padding-right: 5px;
+  }
+  
+  .fa-check-circle {
+    padding-right: 5px;
+    font-size: 1.2em;
+  
+  }
+
+  .edit-list {
+    margin-left: auto;
+    padding-right: 10px;
+  }
+
+  .quantity {
+    width: 39px;
+    height: 21px;
+    padding-left: 2px !important;
+    border-radius: 1px;
+  }
+
+  .lineThrough {
+    text-decoration:line-through;
+  }

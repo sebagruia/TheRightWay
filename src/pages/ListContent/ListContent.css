@@ -1,0 +1,164 @@
+.listContent-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+.listContent-container .form-control {
+  font-size: 1.5rem;
+  font-weight: 200;
+  border-color: #ffc107;
+}
+
+.todo-list {
+  margin-top: 5vh;
+  width: 80%;
+  height: 400px;
+  margin-left: 15%;
+  padding-bottom: 20px;
+  overflow-y: scroll;
+}
+
+.todo-list li {
+  margin-bottom: 2vh;
+  color: #495057;
+  list-style: none;
+}
+
+.todo-list .list-title-wraper {
+  display: flex;
+}
+
+.todo-list .saveExitButton {
+  position: relative;
+  color: #2b3f5d;
+  margin-top: 25px;
+  margin-left: 25px;
+  font-size: 20px;
+}
+
+.todo-list .saveExitButton:hover {
+  color: #28a745;
+  cursor: pointer;
+}
+
+.todo-name {
+  width: 17%;
+  font-size: 1.5em;
+  font-weight: 400;
+  letter-spacing: 3px;
+  color: #2b3f5d;
+  text-transform: capitalize;
+  text-decoration: underline;
+  margin-bottom: 30px;
+  margin-top: 20px;
+  margin-left: 10%;
+  padding-bottom: 3px;
+}
+
+/* ===TOOLTIP SETUP== */
+
+/* Tooltip text */
+.todo-list .saveExitButton .tooltiptext {
+  visibility: hidden;
+  width: 35px;
+  background-color: #2b3f5d;
+  color: #fff;
+  font-family: "Yanone Kaffeesatz", sans-serif;
+  font-weight: 400;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  left: 25px;
+  top: -5px;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.todo-list .saveExitButton:hover .tooltiptext {
+  visibility: visible;
+}
+/* ========================== */
+
+/* Media QUery */
+
+@media screen and (min-width: 320px) {
+  .container-fluid {
+    width: 100vw;
+    margin-top: 0;
+  }
+
+  .listSummarySection #inputNewListItem {
+    width: 91%;
+  }
+
+  .list-content {
+    width: 100%;
+  }
+
+  /* .dropdown-menu {
+      left: 15px !important;
+    } */
+
+  .todo-list {
+    width: 100%;
+    margin-left: 0;
+    height: 250px;
+  }
+}
+
+@media screen and (min-width: 480px) {
+  .listSummarySection #inputNewListItem {
+    width: 94%;
+  }
+}
+
+@media screen and (min-width: 533px) {
+  .myListSummary-wraper .dropdown {
+    width: 70%;
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .myListSummary-wraper .dropdown {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .listSummarySection #inputNewListItem {
+    width: 88%;
+  }
+
+  .formWraper {
+    margin-left: 2px;
+  }
+}
+
+/* MEDIA QUERY based on Height*/
+
+@media screen and (min-height: 640px) {
+  .list-content {
+    height: 60vh;
+  }
+
+  .todo-list {
+    height: 300px;
+  }
+}
+
+@media screen and (min-height: 800px) {
+  .todo-list {
+    height: 350px;
+  }
+}
+
+@media screen and (min-height: 900px) {
+  .todo-list {
+    height: 400px;
+  }
+}

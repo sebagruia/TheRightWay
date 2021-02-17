@@ -7,6 +7,7 @@ import StartPage from "./pages/StartPage/StartPage";
 import Navigation from "./components/Navigation/Navigation";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
+import ListContent from "./pages/ListContent/ListContent";
 import Home from "./pages/Home/Home";
 
 const App = () => {
@@ -24,6 +25,9 @@ const App = () => {
       </Route>
       <Route path="/register">
         <Register />
+      </Route>
+      <Route path="/listContent">
+        <ListContent />
       </Route>
     </Fragment>
   );

@@ -1,25 +1,42 @@
 import React from "react";
-import "./Item.css";
+import '../Item/Item.css'
 
-import {useHistory} from "react-router-dom";
+const Item = ({ handleShow, 
+                save, 
+                label, 
+                modalInput, 
+                onClick , 
+                lineThrough, 
+                checkIcon,
+                uncheckIcon,
+                index,
+                onInputChangeTheNumberOfItems,
+                numberOfItems,
+                deleteItem}) => {
 
-const Item = ({ children, item, deleteList }) => {
-  const id = item.id;
-  const history = useHistory();
-  return (
-    <li className="newListLi">
-      <button
-        onClick={() => {
-          history.push("/listContent");
-        }}
-        type="button"
-        className="btn btn-outline-warning btn-lg btn-block capitalize button-color-orange"
-      >
-        {children}
-      </button>
-      <i onClick = {()=>deleteList(id)} className="far fa-trash-alt" role="button" aria-hidden="true"></i>
-    </li>
-  );
-};
+
+
+
+    return (
+        <li className="li-item">
+            <div className="list-component text-secondary">
+                <div className="check-list">
+                <i className="far fa-circle" style ={{display:uncheckIcon}} role="button" onClick={onClick} aria-hidden="true"></i>
+                <i className="far fa-check-circle text-success" style ={{display:checkIcon}} role="button" onClick={onClick} aria-hidden="true"></i>
+                    <p className="p-text" style={{textDecoration: lineThrough}}>
+                        {
+                            !save ? modalInput : label
+                        }
+                    </p>
+                </div>
+                <div className="edit-list">
+                    <i id={label} className="far fa-times-circle text-danger"  role="button" onClick={deleteItem} aria-hidden="true"></i>
+                    <i id={index} className="far fa-edit text-info" role="button" onClick={(event)=>handleShow(event)} aria-hidden="true"></i>
+                    <input onChange={onInputChangeTheNumberOfItems} className="quantity" type="number" aria-label="Insert a number" name="quantity" min="1" max="20" aria-describedby="number of items of the same kind" value={`${numberOfItems}`} />
+                </div>
+            </div>
+        </li>
+    )
+}
 
 export default Item;
