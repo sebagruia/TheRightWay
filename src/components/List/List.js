@@ -10,7 +10,7 @@ const List = ({ children, list, deleteList }) => {
     <li className="newListLi">
       <button
         onClick={() => {
-          history.push("/listContent", {id});
+          history.push("/listContent", {listId:id, listName:list.listName});
         }}
         type="button"
         className="btn btn-outline-warning btn-lg btn-block capitalize button-color-orange"

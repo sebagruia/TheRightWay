@@ -38,7 +38,7 @@ export const listReducer = (state = initialState, action) => {
           ...state.lists,
           [listId]: {
             ...state.lists[listId],
-            items: { ...state.lists[listId].items, [item.id]: [item] },
+            items: { ...state.lists[listId].items, [item.id]: {...item} },
           },
         },
       };

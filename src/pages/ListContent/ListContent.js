@@ -7,11 +7,15 @@ import { useLocation } from "react-router-dom";
 
 import { addNewItemInList } from "../../redux/list/listActions";
 
-const ListContent = ({ dispatch }) => {
+import Item from "../../components/Item/Item";
+
+const ListContent = ({ dispatch, lists }) => {
+  const [inputText, setInputText] = useState("");
 
   const location = useLocation();
-  const listId = location.state.id;
-  const [inputText, setInputText] = useState("");
+  const { listId, listName } = location.state;
+
+  const listItems = lists[listId].items;
 
   const handleOnChange = (event) => {
     setInputText(event.target.value);
@@ -22,7 +26,7 @@ const ListContent = ({ dispatch }) => {
     if (inputText.length > 0) {
       const item = {
         id: `${inputText}${Date.now()}`,
-        itemName:inputText,
+        itemName: inputText,
         lineThrough: null,
         uncheckIcon: null,
         checkIcon: "none",
@@ -63,9 +67,7 @@ const ListContent = ({ dispatch }) => {
             <ul className="todo-list">
               <div className="list-title-wraper">
                 <div>
-                  <h3 className="todo-name">
-                    {/* {this.state.activeButtonName} */}
-                  </h3>
+                  <h3 className="todo-name">{listName}</h3>
                 </div>
 
                 <div>
@@ -78,6 +80,9 @@ const ListContent = ({ dispatch }) => {
                   </i>
                 </div>
               </div>
+              {listItems &&
+                Object.values(listItems).map((item) => <Item key={item} item={item}/>)
+                }
             </ul>
           </div>
         </div>
@@ -86,4 +91,10 @@ const ListContent = ({ dispatch }) => {
   );
 };
 
-export default connect()(ListContent);
+const mapStateToProps = (state) => {
+  return {
+    lists: state.listReducer.lists,
+  };
+};
+
+export default connect(mapStateToProps)(ListContent);
