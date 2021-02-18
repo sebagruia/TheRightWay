@@ -1,7 +1,7 @@
 # The Right Way
 
-This is the refactored version of my ToDoList app.
-I'm refactoring the entire code and also adding state management with Redux
+This is the refactored version of my ToDoList app. I'm refactoring the entire code and also adding state management with Redux. Transforming the web app into a Progressive Web App.
+
 
 # Getting Started with Create React App
 
