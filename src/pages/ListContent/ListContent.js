@@ -81,7 +81,7 @@ const ListContent = ({ dispatch, lists }) => {
                 </div>
               </div>
               {listItems &&
-                Object.values(listItems).map((item) => <Item key={item} item={item}/>)
+                Object.values(listItems).map((item) => <Item key={item.id} item={item}/>)
                 }
             </ul>
           </div>
