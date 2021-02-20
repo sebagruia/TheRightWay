@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./Home.css";
 
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
 
 import { addNewListAction, deleteListAction } from "../../redux/list/listActions";
 import { formatName } from "../../utils";
@@ -11,7 +10,6 @@ import List from "../../components/List/List";
 
 const Home = ({ dispatch, lists }) => {
   
-  const history = useHistory();
   const [inputText, setInputText] = useState("");
 
   const handleOnChange = (event) => {

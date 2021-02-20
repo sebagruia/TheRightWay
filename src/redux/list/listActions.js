@@ -2,6 +2,7 @@ export const ADD_NEW_LIST_NAME = "ADD_NEW_LIST_NAME";
 export const ADD_NEW_ITEM_IN_LIST = "ADD_NEW_ITEM";
 export const SET_LIST_IN_USE_ID = "SET_LIST_IN_USE";
 export const DELETE_LIST = "DELETE_LIST";
+export const DELETE_LIST_ITEM = "DELETE_LIST_ITEM";
 
 export const addNewListAction = (list) => {
   return {
@@ -9,13 +10,6 @@ export const addNewListAction = (list) => {
     payload: list,
   };
 };
-
-// export const setListInUseId = (name) => {
-//   return {
-//     type: SET_LIST_IN_USE_ID,
-//     payload: name,
-//   };
-// };
 
 export const deleteListAction = (id) => {
   return {
@@ -30,6 +24,16 @@ export const addNewItemInList = (listId, item) => {
     payload: {
       listId,
       item,
+    },
+  };
+};
+
+export const deleteListItem = (listId, itemId) => {
+  return {
+    type: DELETE_LIST_ITEM,
+    payload: {
+      listId,
+      itemId,
     },
   };
 };

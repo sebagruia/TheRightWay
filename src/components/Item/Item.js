@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import "./Item.css";
 
-const Item = ({item}) => {
+const Item = ({item, deleteItem}) => {
   const[check, setCheck] = useState(false);
-  const {itemName} = item;
+  const {itemName, id} = item;
 
   const checkItem = ()=>{
     setCheck(!check);
@@ -31,7 +31,7 @@ const Item = ({item}) => {
             // id={label}
             className="far fa-times-circle text-danger"
             role="button"
-            // onClick={deleteItem}
+            onClick={()=>deleteItem(id)}
             aria-hidden="true"
           ></i>
           <i

@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import { useLocation } from "react-router-dom";
 
-import { addNewItemInList } from "../../redux/list/listActions";
+import { addNewItemInList, deleteListItem } from "../../redux/list/listActions";
 
 import Item from "../../components/Item/Item";
 
@@ -37,8 +37,8 @@ const ListContent = ({ dispatch, lists }) => {
     }
   };
 
-  const deleteItem = (id) => {
-    // dispatch(deleteListAction(id));
+  const deleteItem = (itemID) => {
+    dispatch(deleteListItem(listId, itemID));
   };
 
   return (
@@ -81,8 +81,9 @@ const ListContent = ({ dispatch, lists }) => {
                 </div>
               </div>
               {listItems &&
-                Object.values(listItems).map((item) => <Item key={item.id} item={item}/>)
-                }
+                Object.values(listItems).map((item) => (
+                  <Item key={item.id} item={item} deleteItem={deleteItem} />
+                ))}
             </ul>
           </div>
         </div>
