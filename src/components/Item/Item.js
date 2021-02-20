@@ -1,26 +1,34 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "./Item.css";
 
-const Item = ({item, deleteItem}) => {
-  const[check, setCheck] = useState(false);
-  const {itemName, id} = item;
+const Item = ({ item, deleteItem, handleShowModal }) => {
+  const [check, setCheck] = useState(false);
+  const { itemName, id } = item;
 
-  const checkItem = ()=>{
+  const checkItem = () => {
     setCheck(!check);
-  }
+  };
+
   return (
     <li className="li-item">
       <div className="list-component text-secondary">
         <div className="check-list">
           <i
-            className={`far ${check ? "fa-check-circle text-success" : "fa-circle"}`}
+            className={`far ${
+              check ? "fa-check-circle text-success" : "fa-circle"
+            }`}
             // style={{ display: uncheckIcon }}
             role="button"
             onClick={checkItem}
             aria-hidden="true"
           ></i>
-          <p className="p-text" 
-        //   style={{ textDecoration: lineThrough }}
+          <p
+            className="p-text"
+            style={
+              check
+                ? { textDecoration: "line-through" }
+                : { textDecoration: "initial" }
+            }
           >
             {/* {!save ? modalInput : label} */}
             {itemName}
@@ -31,14 +39,14 @@ const Item = ({item, deleteItem}) => {
             // id={label}
             className="far fa-times-circle text-danger"
             role="button"
-            onClick={()=>deleteItem(id)}
+            onClick={() => deleteItem(id)}
             aria-hidden="true"
           ></i>
           <i
             // id={index}
             className="far fa-edit text-info"
             role="button"
-            // onClick={(event) => handleShow(event)}
+            onClick={() => handleShowModal()}
             aria-hidden="true"
           ></i>
           <input

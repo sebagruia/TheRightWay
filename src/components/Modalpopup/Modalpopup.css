@@ -1,0 +1,71 @@
+
+.modal{
+    left:45%;
+    width:300px;
+  }
+  
+  .modal-header {
+    background-color: #2b3f5d;
+  }
+  
+  #modalCancelButton {
+    background-color: #2b3f5d;
+  }
+  
+  
+  .inputForModal {
+    width: 100%!important;
+  }
+
+
+  /* Media Query */
+
+@media screen and (min-width:320px){
+    .modal{
+      left: 3%;
+    }
+  }
+  @media screen and (min-width: 360px){
+    .modal {
+      left: 8%;
+  }
+  }
+  @media screen and (min-width: 375px){
+    .modal {
+      left: 10%;
+  }
+  }
+  @media screen and (min-width: 412px){
+    .modal {
+      left: 13%;}
+  }
+  @media screen and (min-width: 480px){
+    .modal {
+      left: 19%;
+    }
+  }
+  @media screen and (min-width: 533px){
+    .modal {
+      left: 23%;
+    }
+  }
+  @media screen and (min-width: 600px){
+    .modal {
+      left: 25%;
+    }
+  }
+  @media screen and (min-width: 768px){
+    .modal {
+      left: 31%;
+    }
+  }
+  @media screen and (min-width: 1024px){
+    .modal {
+      left: 36%;
+    }
+  }
+  @media screen and (min-width: 1366px){
+    .modal {
+      left: 39%;
+    }
+  }
