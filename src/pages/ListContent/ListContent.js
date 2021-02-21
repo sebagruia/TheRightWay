@@ -47,12 +47,14 @@ const ListContent = ({ dispatch, lists }) => {
     setShow(!show);
   };
 
+  const closeModal = () => {
+    setShow(!show);
+  };
+
   return (
     <Fragment>
-      {
-        show && <Modalpopup show={show}/>
-      }
-      
+      {show && <Modalpopup show={show} closeModal={closeModal} />}
+
       <div className="container">
         <div className="col">
           <div className="row">

@@ -1,12 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import '../Modalpopup/Modalpopup.css';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
-const Modalpopup = ({ show, onChange, handleClose, saveModalNewValue }) => {
+const Modalpopup = ({ show, onChange, closeModal, saveModalNewValue }) => {
+    const [inputValue, setInputValue] = useState("");
+
+    const handleOnChange = (event)=>{
+        console.log(event.target.value);
+        setInputValue(event.target.value);
+    }
+
     return (
-        
         < Modal show = { show } >
             <Modal.Header className="modal-header text-white">
                 <Modal.Title>Edit Entry</Modal.Title>
@@ -14,19 +20,20 @@ const Modalpopup = ({ show, onChange, handleClose, saveModalNewValue }) => {
 
             <Modal.Body>
                 <input
-                    onChange={(event)=>onChange(event)}
+                    onChange={handleOnChange}
                     type="text"
                     className="form-control inputForModal"
                     placeholder="Your edit in here"
                     aria-label="edit"
-                    aria-describedby="edit an existing entry field" />
+                    aria-describedby="edit an existing entry field" 
+                    value={inputValue}/>
             </Modal.Body>
 
             <Modal.Footer>
                 <Button
                     id="modalCancelButton"
                     className="btn text-white"
-                    onClick={(event) => handleClose(event)}>Close</Button>
+                    onClick={() => closeModal()}>Close</Button>
                 <Button
                     onClick={() =>saveModalNewValue()}
                     id="modalSaveButton"

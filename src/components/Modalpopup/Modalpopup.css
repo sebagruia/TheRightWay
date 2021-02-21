@@ -3,7 +3,9 @@
     left:45%;
     width:300px;
   }
-  
+.modal-dialog .modal-content{
+    border:0px;
+  }
   .modal-header {
     background-color: #2b3f5d;
   }

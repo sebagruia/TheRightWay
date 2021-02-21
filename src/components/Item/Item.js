@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Item.css";
 
-const Item = ({ item, deleteItem, handleShowModal }) => {
+const Item = ({ item, deleteItem, handleShowModal}) => {
   const [check, setCheck] = useState(false);
   const { itemName, id } = item;
 
