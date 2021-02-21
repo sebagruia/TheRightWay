@@ -3,20 +3,16 @@ import "./ListContent.css";
 
 import { connect } from "react-redux";
 
-import { useLocation } from "react-router-dom";
-
-import { addNewItemInList, deleteListItem } from "../../redux/list/listActions";
+import { addNewItemInList, deleteListItem, selectingCurrentItem} from "../../redux/list/listActions";
 
 import Item from "../../components/Item/Item";
 import Modalpopup from "../../components/Modalpopup/Modalpopup";
 
-const ListContent = ({ dispatch, lists }) => {
+const ListContent = ({ dispatch, lists, listDetails  }) => {
   const [inputText, setInputText] = useState("");
   const [show, setShow] = useState(false);
 
-  const location = useLocation();
-  const { listId, listName } = location.state;
-
+  const { listId, listName } = listDetails;
   const listItems = lists[listId].items;
 
   const handleOnChange = (event) => {
@@ -43,8 +39,9 @@ const ListContent = ({ dispatch, lists }) => {
     dispatch(deleteListItem(listId, itemID));
   };
 
-  const handleShowModal = () => {
+  const handleShowModal = (itemId) => {
     setShow(!show);
+    dispatch(selectingCurrentItem(itemId));
   };
 
   const closeModal = () => {
@@ -117,6 +114,7 @@ const ListContent = ({ dispatch, lists }) => {
 const mapStateToProps = (state) => {
   return {
     lists: state.listReducer.lists,
+    listDetails: state.listReducer.selectedList
   };
 };
 

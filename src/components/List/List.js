@@ -1,16 +1,23 @@
 import React from "react";
 import "./List.css";
 
+import {connect} from "react-redux";
+
 import {useHistory} from "react-router-dom";
 
-const List = ({ children, list, deleteList }) => {
-  const id = list.id;
+import {selectingCurrentList} from "../../redux/list/listActions"
+
+const List = ({ dispatch, children, list, deleteList }) => {
   const history = useHistory();
+  
+  const {id, listName} = list;
+
   return (
     <li className="newListLi">
       <button
         onClick={() => {
-          history.push("/listContent", {listId:id, listName:list.listName});
+          dispatch(selectingCurrentList({listId:id, listName:listName}));
+          history.push("/listContent");
         }}
         type="button"
         className="btn btn-outline-warning btn-lg btn-block capitalize button-color-orange"
@@ -22,4 +29,4 @@ const List = ({ children, list, deleteList }) => {
   );
 };
 
-export default List;
+export default connect()(List);

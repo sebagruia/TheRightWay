@@ -46,7 +46,7 @@ const Item = ({ item, deleteItem, handleShowModal}) => {
             // id={index}
             className="far fa-edit text-info"
             role="button"
-            onClick={() => handleShowModal()}
+            onClick={() => handleShowModal(id)}
             aria-hidden="true"
           ></i>
           <input

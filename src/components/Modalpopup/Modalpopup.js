@@ -1,15 +1,25 @@
 import React, {useState} from 'react';
 import '../Modalpopup/Modalpopup.css';
+
+import {connect} from "react-redux";
+
+import {editItemName} from "../../redux/list/listActions";
+
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
-const Modalpopup = ({ show, onChange, closeModal, saveModalNewValue }) => {
+const Modalpopup = ({dispatch,  show, closeModal, itemId, listDetails }) => {
     const [inputValue, setInputValue] = useState("");
 
+    const{listId} = listDetails;
+
     const handleOnChange = (event)=>{
-        console.log(event.target.value);
         setInputValue(event.target.value);
+    }
+
+    const saveModalNewValue = ()=>{
+        dispatch(editItemName(listId, itemId, inputValue));
     }
 
     return (
@@ -44,5 +54,12 @@ const Modalpopup = ({ show, onChange, closeModal, saveModalNewValue }) => {
     );
 }
 
+const mapStateToProps = (state)=>{
+    return{
+        itemId:state.listReducer.selectedItemId,
+        listDetails: state.listReducer.selectedList
+    }
+}
 
-export default Modalpopup;
+
+export default connect(mapStateToProps)(Modalpopup);

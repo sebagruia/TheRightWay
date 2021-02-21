@@ -3,10 +3,15 @@ import {
   DELETE_LIST,
   ADD_NEW_ITEM_IN_LIST,
   DELETE_LIST_ITEM,
+  SELECT_CURRENT_ITEM_FOR_EDITING,
+  SELECT_CURRENT_LIST,
+  EDIT_ITEM_NAME,
 } from "./listActions";
 
 const initialState = {
   lists: null,
+  selectedList: null,
+  selectedItemId: "",
 };
 
 export const listReducer = (state = initialState, action) => {
@@ -38,10 +43,9 @@ export const listReducer = (state = initialState, action) => {
     case DELETE_LIST_ITEM:
       const listIdValue = action.payload.listId;
       const itemIdValue = action.payload.itemId;
-      const {
-        [itemIdValue]: removedItem,
-        ...restItems
-      } = state.lists[listIdValue].items;
+      const { [itemIdValue]: removedItem, ...restItems } = state.lists[
+        listIdValue
+      ].items;
       console.log(restItems);
       return {
         ...state,
@@ -52,6 +56,38 @@ export const listReducer = (state = initialState, action) => {
             items: { ...restItems },
           },
         },
+      };
+    case EDIT_ITEM_NAME:
+      const idList = action.payload.listId;
+      const idItem = action.payload.itemId;
+      const newValue = action.payload.inputValue;
+      return {
+        ...state,
+        lists: {
+          ...state.lists,
+          [idList]: {
+            ...state.lists[idList],
+            items: {
+              ...state.lists[idList].items,
+              [idItem]: {
+                ...state.lists[idList].items[
+                  action.payload.itemId
+                ],
+                itemName:newValue,
+              },
+            },
+          },
+        },
+      };
+    case SELECT_CURRENT_ITEM_FOR_EDITING:
+      return {
+        ...state,
+        selectedItemId: action.payload,
+      };
+    case SELECT_CURRENT_LIST:
+      return {
+        ...state,
+        selectedList: action.payload,
       };
 
     default:
