@@ -1,12 +1,22 @@
 .listContent-container {
-  width: 100%;
+  width: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
 }
+
+.addNewItemInput{
+  width:100%;
+  padding-top: 100px;
+}
+
+.listContent-row{
+  justify-content: center;
+}
+
 .listContent-container .form-control {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 200;
   border-color: #ffc107;
 }
@@ -15,8 +25,7 @@
   margin-top: 5vh;
   width: 80%;
   height: 400px;
-  margin-left: 15%;
-  padding-bottom: 20px;
+  padding: 0 0 20px 0;  
   overflow-y: scroll;
 }
 
@@ -26,19 +35,22 @@
   list-style: none;
 }
 
-.todo-list .list-title-wraper {
+.list-title-wraper {
+  width:100%;
   display: flex;
+  align-items: center;
+  padding: 40px 0 20px 0;
 }
 
-.todo-list .saveExitButton {
+.saveExitButton {
   position: relative;
   color: #2b3f5d;
-  margin-top: 25px;
+  margin-top: -4px;
   margin-left: 25px;
   font-size: 20px;
 }
 
-.todo-list .saveExitButton:hover {
+.saveExitButton:hover {
   color: #28a745;
   cursor: pointer;
 }
@@ -51,16 +63,13 @@
   color: #2b3f5d;
   text-transform: capitalize;
   text-decoration: underline;
-  margin-bottom: 30px;
-  margin-top: 20px;
   margin-left: 10%;
-  padding-bottom: 3px;
 }
 
 /* ===TOOLTIP SETUP== */
 
 /* Tooltip text */
-.todo-list .saveExitButton .tooltiptext {
+.saveExitButton .tooltiptext {
   visibility: hidden;
   width: 35px;
   background-color: #2b3f5d;
@@ -79,7 +88,7 @@
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
-.todo-list .saveExitButton:hover .tooltiptext {
+.saveExitButton:hover .tooltiptext {
   visibility: visible;
 }
 /* ========================== */
@@ -106,30 +115,29 @@
 
   .todo-list {
     width: 100%;
-    margin-left: 0;
     height: 250px;
   }
 }
 
-@media screen and (min-width: 480px) {
+@media all and (min-width: 480px) {
   .listSummarySection #inputNewListItem {
     width: 94%;
   }
 }
 
-@media screen and (min-width: 533px) {
+@media all and (min-width: 533px) {
   .myListSummary-wraper .dropdown {
     width: 70%;
   }
 }
 
-@media screen and (min-width: 700px) {
+@media all and (min-width: 700px) {
   .myListSummary-wraper .dropdown {
     width: 50%;
   }
 }
 
-@media screen and (min-width: 992px) {
+@media all and (min-width: 992px) {
   .listSummarySection #inputNewListItem {
     width: 88%;
   }
@@ -141,7 +149,7 @@
 
 /* MEDIA QUERY based on Height*/
 
-@media screen and (min-height: 640px) {
+@media all and (min-height: 640px) {
   .list-content {
     height: 60vh;
   }
@@ -151,13 +159,13 @@
   }
 }
 
-@media screen and (min-height: 800px) {
+@media all and (min-height: 800px) {
   .todo-list {
     height: 350px;
   }
 }
 
-@media screen and (min-height: 900px) {
+@media all and (min-height: 900px) {
   .todo-list {
     height: 400px;
   }

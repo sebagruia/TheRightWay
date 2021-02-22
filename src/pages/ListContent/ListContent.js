@@ -25,10 +25,8 @@ const ListContent = ({ dispatch, lists, listDetails  }) => {
       const item = {
         id: `${inputText}${Date.now()}`,
         itemName: inputText,
-        lineThrough: null,
-        uncheckIcon: null,
-        checkIcon: "none",
-        display: "",
+        check:false,
+        quantity:"1"
       };
       dispatch(addNewItemInList(listId, item));
       setInputText("");
@@ -54,11 +52,11 @@ const ListContent = ({ dispatch, lists, listDetails  }) => {
 
       <div className="container">
         <div className="col">
-          <div className="row">
+          <div className="row listContent-row">
             <div className="listContent-container">
               <form
                 onSubmit={addNewItem}
-                className="input-group addNewListInput"
+                className="input-group addNewItemInput"
               >
                 <button
                   className="btn btn-warning plusButton"
@@ -77,8 +75,7 @@ const ListContent = ({ dispatch, lists, listDetails  }) => {
                   aria-describedby="button-addon1"
                 />
               </form>
-              <ul className="todo-list">
-                <div className="list-title-wraper">
+              <div className="list-title-wraper">
                   <div>
                     <h3 className="todo-name">{listName}</h3>
                   </div>
@@ -93,6 +90,7 @@ const ListContent = ({ dispatch, lists, listDetails  }) => {
                     </i>
                   </div>
                 </div>
+              <ul className="todo-list">
                 {listItems &&
                   Object.values(listItems).map((item) => (
                     <Item

@@ -70,10 +70,8 @@ export const listReducer = (state = initialState, action) => {
             items: {
               ...state.lists[idList].items,
               [idItem]: {
-                ...state.lists[idList].items[
-                  action.payload.itemId
-                ],
-                itemName:newValue,
+                ...state.lists[idList].items[action.payload.itemId],
+                itemName: newValue,
               },
             },
           },

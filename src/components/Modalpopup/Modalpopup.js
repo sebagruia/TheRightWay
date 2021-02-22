@@ -20,6 +20,7 @@ const Modalpopup = ({dispatch,  show, closeModal, itemId, listDetails }) => {
 
     const saveModalNewValue = ()=>{
         dispatch(editItemName(listId, itemId, inputValue));
+        closeModal();
     }
 
     return (

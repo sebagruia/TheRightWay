@@ -36,7 +36,7 @@ const Home = ({ dispatch, lists }) => {
   return (
     <div className="container">
       <div className="col">
-        <div className="row">
+        <div className="row addNewListInput-row">
           <div className="addNewListInput-container">
               <form onSubmit={addNewList} className="input-group addNewListInput">
               <button
