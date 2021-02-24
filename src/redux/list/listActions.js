@@ -6,6 +6,7 @@ export const DELETE_LIST_ITEM = "DELETE_LIST_ITEM";
 export const SELECT_CURRENT_ITEM_FOR_EDITING = "SELECT_CURENT_ITEM_FOR_EDITING";
 export const SELECT_CURRENT_LIST = "SELECT_CURRENT_LIST";
 export const EDIT_ITEM_NAME = "EDIT_ITEM_NAME";
+export const TOGGLE_CHECK_STATUS = "TOGGLE_CHECK_STATUS";
 
 export const addNewListAction = (list) => {
   return {
@@ -64,3 +65,14 @@ export const editItemName = (listId, itemId, inputValue) => {
     },
   };
 };
+
+export const toggleCheckStatus = (listId, itemId, status)=>{
+ return{
+   type:TOGGLE_CHECK_STATUS,
+   payload:{
+    listId,
+    itemId,
+    status
+   }
+ }
+}

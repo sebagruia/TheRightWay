@@ -6,6 +6,7 @@ import {
   SELECT_CURRENT_ITEM_FOR_EDITING,
   SELECT_CURRENT_LIST,
   EDIT_ITEM_NAME,
+  TOGGLE_CHECK_STATUS,
 } from "./listActions";
 
 const initialState = {
@@ -69,10 +70,29 @@ export const listReducer = (state = initialState, action) => {
             ...state.lists[idList],
             items: {
               ...state.lists[idList].items,
-              [idItem]: {
-                ...state.lists[idList].items[action.payload.itemId],
+              [idItem]: Object.assign(state.lists[idList].items[idItem], {
                 itemName: newValue,
-              },
+              }),
+            },
+          },
+        },
+      };
+    case TOGGLE_CHECK_STATUS:
+      const idList2 = action.payload.listId;
+      const idItem2 = action.payload.itemId;
+      const status = action.payload.status;
+      console.log(idList2, idItem2, status);
+      return {
+        ...state,
+        lists: {
+          ...state.lists,
+          [idList2]: {
+            ...state.lists[idList2],
+            items: {
+              ...state.lists[idList2].items,
+              [idItem2]: Object.assign(state.lists[idList2].items[idItem2], {
+                check: status
+              }),
             },
           },
         },

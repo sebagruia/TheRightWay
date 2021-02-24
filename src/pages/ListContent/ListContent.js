@@ -3,14 +3,12 @@ import "./ListContent.css";
 
 import { connect } from "react-redux";
 
-import { addNewItemInList, deleteListItem, selectingCurrentItem} from "../../redux/list/listActions";
+import { addNewItemInList} from "../../redux/list/listActions";
 
 import Item from "../../components/Item/Item";
-import Modalpopup from "../../components/Modalpopup/Modalpopup";
 
 const ListContent = ({ dispatch, lists, listDetails  }) => {
   const [inputText, setInputText] = useState("");
-  const [show, setShow] = useState(false);
 
   const { listId, listName } = listDetails;
   const listItems = lists[listId].items;
@@ -33,23 +31,8 @@ const ListContent = ({ dispatch, lists, listDetails  }) => {
     }
   };
 
-  const deleteItem = (itemID) => {
-    dispatch(deleteListItem(listId, itemID));
-  };
-
-  const handleShowModal = (itemId) => {
-    setShow(!show);
-    dispatch(selectingCurrentItem(itemId));
-  };
-
-  const closeModal = () => {
-    setShow(!show);
-  };
-
   return (
     <Fragment>
-      {show && <Modalpopup show={show} closeModal={closeModal} />}
-
       <div className="container">
         <div className="col">
           <div className="row listContent-row">
@@ -96,8 +79,6 @@ const ListContent = ({ dispatch, lists, listDetails  }) => {
                     <Item
                       key={item.id}
                       item={item}
-                      deleteItem={deleteItem}
-                      handleShowModal={handleShowModal}
                     />
                   ))}
               </ul>
