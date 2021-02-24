@@ -7,6 +7,7 @@ export const SELECT_CURRENT_ITEM_FOR_EDITING = "SELECT_CURENT_ITEM_FOR_EDITING";
 export const SELECT_CURRENT_LIST = "SELECT_CURRENT_LIST";
 export const EDIT_ITEM_NAME = "EDIT_ITEM_NAME";
 export const TOGGLE_CHECK_STATUS = "TOGGLE_CHECK_STATUS";
+export const CHANGE_ITEM_QUANTITY = "CHANGE_ITEM_QUANTITY";
 
 export const addNewListAction = (list) => {
   return {
@@ -76,3 +77,14 @@ export const toggleCheckStatus = (listId, itemId, status)=>{
    }
  }
 }
+
+export const changeItemQuantity = (listId, itemId, quantity)=>{
+  return{
+    type:CHANGE_ITEM_QUANTITY,
+    payload:{
+     listId,
+     itemId,
+     quantity
+    }
+  }
+ }

@@ -7,6 +7,7 @@ import {
   deleteListItem,
   selectingCurrentItem,
   toggleCheckStatus,
+  changeItemQuantity
 } from "../../redux/list/listActions";
 
 import Modalpopup from "../../components/Modalpopup/Modalpopup";
@@ -37,6 +38,10 @@ const Item = ({ dispatch, listDetails, item }) => {
     dispatch(toggleCheckStatus(listId, itemID, !status));
     setCheck(!status);
   };
+
+  const changeQuantity = (listId, itemID, quantity)=>{
+    dispatch(changeItemQuantity(listId, itemID, quantity));
+  }
 
   const closeModal = () => {
     setShow(!show);
@@ -82,6 +87,7 @@ const Item = ({ dispatch, listDetails, item }) => {
             ></i>
             <input
               onChange={onChangeQuantity}
+              onClick = {()=>changeQuantity(listId,id,quantity)}
               className="quantity"
               type="number"
               aria-label="Insert a number"

@@ -7,6 +7,7 @@ import {
   SELECT_CURRENT_LIST,
   EDIT_ITEM_NAME,
   TOGGLE_CHECK_STATUS,
+  CHANGE_ITEM_QUANTITY
 } from "./listActions";
 
 const initialState = {
@@ -97,6 +98,25 @@ export const listReducer = (state = initialState, action) => {
           },
         },
       };
+    case CHANGE_ITEM_QUANTITY:
+      const idList3 = action.payload.listId;
+      const idItem3 = action.payload.itemId;
+      const quantity = action.payload.quantity;
+      return{
+        ...state,
+        lists: {
+          ...state.lists,
+          [idList3]: {
+            ...state.lists[idList3],
+            items: {
+              ...state.lists[idList3].items,
+              [idItem3]: Object.assign(state.lists[idList3].items[idItem3], {
+                quantity: quantity
+              }),
+            },
+          },
+        },
+      }
     case SELECT_CURRENT_ITEM_FOR_EDITING:
       return {
         ...state,
