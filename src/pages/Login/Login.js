@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import './Login.css';
+
+import { signInWithGoogle,signInWithPassword } from "../../firebase/firebase.utils"
+
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-const Login = ({ onRouteChange, changeLogStateToTrue, loadUser}) => {
+const Login = ({ changeLogStateToTrue, loadUser}) => {
 
 
     const [validated, setValidated] = useState(false);
@@ -28,39 +31,18 @@ const Login = ({ onRouteChange, changeLogStateToTrue, loadUser}) => {
         setLoginPass(event.target.value);
     }
 
-    const onLogInClick = (event) => {
-        fetch('https://limitless-atoll-58976.herokuapp.com/login', {
-            method: 'post',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                email: loginEmail,
-                password: loginPass
-            })
-        })
-            .then(response=>response.json())
-            .then(user=>{
-                if(user.id){
-                    //Because the response of the "user.container" was a String and not a Json I had to Parse the "user.container"
-                   let parsedContainer =  user.container.map((element)=>{
-                        let parsedElement = JSON.parse(element);
-                        return parsedElement;
-                    });
-                    user.container = parsedContainer;
-                    //=====================================================================
-                    onRouteChange('home');
-                    changeLogStateToTrue();
-                    loadUser(user);
-                }
-                else{
-                    window.alert('Wrong Credentials');
-                }
-            })
+    const onLogInWithGoogle = () => {
+        signInWithGoogle();
+    }
+
+    const onLogInWithPassword = () => {
+        signInWithPassword(loginEmail,loginPass);
     }
 
     return (
         <div className="container">
-            <div className="row">
-                <div className="col-sm-6 offset-sm-3">
+            <div className="row login-row">
+                <div className="col-sm-6 login-col">
                     <Form className="login-form justify-content-center" noValidate validated={validated} onSubmit={handleSubmit} >
 
                         <Form.Group controlId="formBasicEmail">
@@ -78,10 +60,11 @@ const Login = ({ onRouteChange, changeLogStateToTrue, loadUser}) => {
                             <Form.Control.Feedback type="valid">Looks Good</Form.Control.Feedback>
 
                         </Form.Group>
-                        <Button variant="primary" type="submit" onClick={onLogInClick} >
+                        <Button onClick={onLogInWithPassword} variant="primary" type="submit"  >
                             Log In
                         </Button>
                     </Form>
+                        <button onClick={onLogInWithGoogle} className="google_signIn">Sing in with Google</button>
                 </div>
             </div>
 
