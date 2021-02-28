@@ -1,7 +1,12 @@
-import React, { Fragment } from "react";
+import React, { useEffect, Fragment } from "react";
 import "./App.css";
+import {connect} from "react-redux";
 
 import { Route, Switch } from "react-router-dom";
+
+import {auth, createUserProfileDocument} from "./firebase/firebase.utils";
+
+import {setUser} from "./redux/user/userActions";
 
 import StartPage from "./pages/StartPage/StartPage";
 import Navigation from "./components/Navigation/Navigation";
@@ -10,7 +15,29 @@ import Register from "./pages/Register/Register";
 import ListContent from "./pages/ListContent/ListContent";
 import Home from "./pages/Home/Home";
 
-const App = () => {
+const App = ({setCurrentUser}) => {
+  
+  useEffect(()=>{
+    const unsubscribFromAuth = auth.onAuthStateChanged(async (userAuth)=>{
+      if(userAuth){
+        const userRef = await createUserProfileDocument(userAuth);
+        userRef.onSnapshot((snapshot)=>{
+          setCurrentUser({
+            id:snapshot.id,
+            ...snapshot.data()
+          });
+        });
+      }
+      else{
+        setCurrentUser(userAuth);
+      }
+
+      return ()=>{
+        unsubscribFromAuth()
+      };
+    });
+  }, [setCurrentUser]);
+
   return (
     <Fragment>
       <Navigation />
@@ -35,4 +62,10 @@ const App = () => {
   );
 };
 
-export default App;
+const mapDispatchToProps = (dispatch)=>{
+  return{
+    setCurrentUser : (user)=>dispatch(setUser(user))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(App);

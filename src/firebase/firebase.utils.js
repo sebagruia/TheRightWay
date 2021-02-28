@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import firebase from "firebase";
 import "firebase/auth";
 import "firebase/firestore";
 
@@ -19,40 +19,63 @@ export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
 const provider = new firebase.auth.GoogleAuthProvider();
+provider.setCustomParameters({ prompt: "select_account" });
 
-export const signInWithGoogle = ()=>{
+export const createUserProfileDocument = async (userAuth) => {
+  if (!userAuth) {
+    return;
+  }
+
+  const userRef = firestore.doc(`/user/${userAuth.uid}`);
+  const snapShot = await userRef.get();
+
+  if (!snapShot.exists) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createdAt,
+      });
+    } catch (error) {
+      console.log("error creating user", error.message);
+    }
+  }
+  return userRef;
+};
+
+export const signInWithGoogle = () => {
   auth.signInWithPopup(provider);
-}
+};
 
-export const signInWithPassword = (loginEmail,loginPass)=>{
-  auth.signInWithEmailAndPassword(loginEmail,loginPass)
-  .then((userCredential)=>{
-    const user = userCredential.user;
-    console.log(user);
-  })
-  .catch((error)=>{
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    alert(errorMessage);
-    console.log(`There was an error signing in ${errorCode}`)
-  })
-}
+export const signInWithPassword = (loginEmail, loginPass) => {
+  auth.signInWithEmailAndPassword(loginEmail, loginPass)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log(user);
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(errorMessage);
+      console.log(`There was an error signing in ${errorCode}`);
+    });
+};
 
-export const registerNewUser = (email, password)=>{
-  auth.createUserWithEmailAndPassword(email, password)
-  .then((userCredential) => {
-    const user = userCredential.user;
-    console.log(user);
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    alert(errorMessage);
-    console.log(`There was an error registering new user ${errorCode}`)
-  });
-}
-
-
-
-
- 
+export const registerNewUser = (email, password) => {
+  auth
+    .createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log(user);
+      return user;
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(errorMessage);
+      console.log(`There was an error registering new user ${errorCode}`);
+      return null;
+    });
+};
