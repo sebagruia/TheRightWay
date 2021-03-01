@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./Login.css";
 
+import {connect} from "react-redux";
+
 import { useHistory } from "react-router-dom";
 
 import {
@@ -11,7 +13,7 @@ import {
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-const Login = () => {
+const Login = ({userAuth}) => {
   const history = useHistory();
   const [validated, setValidated] = useState(false);
   const [loginEmail, setLoginEmail] = useState("");
@@ -38,11 +40,14 @@ const Login = () => {
 
   const onLogInWithGoogle = () => {
     signInWithGoogle();
+    if (userAuth) {
+      history.push("/home");
+    }
   };
 
   const onLogInWithPassword = () => {
-    const user = signInWithPassword(loginEmail, loginPass);
-    if (user) {
+    signInWithPassword(loginEmail, loginPass);
+    if (userAuth) {
       history.push("/home");
     }
   };
@@ -105,4 +110,10 @@ const Login = () => {
   );
 };
 
-export default Login;
+const mapStateToProps = (state)=>{
+  return{
+    userAuth : state.userReducer.user
+  }
+}
+
+export default connect(mapStateToProps)(Login);
