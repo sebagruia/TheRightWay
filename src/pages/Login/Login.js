@@ -14,7 +14,6 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 const Login = ({userAuth}) => {
-  console.log(userAuth);
   const history = useHistory();
   const [validated, setValidated] = useState(false);
   const [loginEmail, setLoginEmail] = useState("");
@@ -41,15 +40,14 @@ const Login = ({userAuth}) => {
 
   const logInWithGoogle = async () => {
     const userAuth = await signInWithGoogle()
-    if (userAuth) {
+    if (userAuth.uid) {
       history.push("/home");
     }
   };
 
   const logInWithPassword = async () => {
    const userAuth = await signInWithPassword(loginEmail, loginPass);
-      console.log(userAuth);
-      if (userAuth) {
+      if (userAuth.uid) {
         history.push("/home");
       }
   };

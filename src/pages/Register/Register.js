@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import "./Register.css";
-
+import { useHistory } from "react-router-dom";
 import { registerNewUser } from "../../firebase/firebase.utils";
 
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 const Register = () => {
+  const history = useHistory();
   const [validated, setValidated] = useState(false);
   const [registerName, setLoginName] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
@@ -34,8 +35,11 @@ const Register = () => {
     setRegisterPass(event.target.value);
   };
 
-  const onRegisterClick = () => {
-    registerNewUser(registerEmail, registerPass, registerName);
+  const register = async () => {
+   const userAuth =  registerNewUser(registerEmail, registerPass, registerName);
+    if (userAuth.uid) {
+      history.push("/home");
+    }
   };
 
   return (
@@ -95,7 +99,7 @@ const Register = () => {
                 Looks Good
               </Form.Control.Feedback>
             </Form.Group>
-            <Button variant="primary" type="submit" onClick={onRegisterClick}>
+            <Button variant="primary" type="submit" onClick={register}>
               Register
             </Button>
           </Form>

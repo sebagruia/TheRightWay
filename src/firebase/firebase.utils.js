@@ -77,23 +77,21 @@ export const signInWithPassword = async (loginEmail, loginPass) => {
   }
 };
 
-export const registerNewUser = (email, password, name) => {
-  console.log(name);
-  auth
-    .createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      createUserProfileDocument(user, { displayName: name });
-      console.log(user);
-      return user;
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      alert(errorMessage);
-      console.log(`There was an error registering new user ${errorCode}`);
-      return null;
-    });
+export const registerNewUser = async (email, password, name) => {
+  try {
+    const userCredential = await auth.createUserWithEmailAndPassword(
+      email,
+      password
+    );
+    const userAuth = userCredential.user;
+    return userAuth;
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    alert(errorMessage);
+    console.log(`There was an error registering new user ${errorCode}`);
+    return null;
+  }
 };
 
 export const signOut = async () => {
