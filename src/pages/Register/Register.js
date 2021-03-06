@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 
 const Register = () => {
   const [validated, setValidated] = useState(false);
-  const [loginName, setLoginName] = useState("");
+  const [registerName, setLoginName] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPass, setRegisterPass] = useState("");
 
@@ -35,7 +35,7 @@ const Register = () => {
   };
 
   const onRegisterClick = () => {
-    registerNewUser(registerEmail, registerPass);
+    registerNewUser(registerEmail, registerPass, registerName);
   };
 
   return (

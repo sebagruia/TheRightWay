@@ -9,7 +9,7 @@ const firebaseConfig = {
   storageBucket: "therightway-e6f15.appspot.com",
   messagingSenderId: "590591734476",
   appId: "1:590591734476:web:36a7e413a992f663df4869",
-  measurementId: "G-G7G582CTJS"
+  measurementId: "G-G7G582CTJS",
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -21,7 +21,7 @@ export const firestore = firebase.firestore();
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: "select_account" });
 
-export const createUserProfileDocument = async (userAuth) => {
+export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) {
     return;
   }
@@ -37,6 +37,7 @@ export const createUserProfileDocument = async (userAuth) => {
         displayName,
         email,
         createdAt,
+        ...additionalData,
       });
     } catch (error) {
       console.log("error creating user", error.message);
@@ -45,29 +46,44 @@ export const createUserProfileDocument = async (userAuth) => {
   return userRef;
 };
 
-export const signInWithGoogle = () => {
-  auth.signInWithPopup(provider);
+export const signInWithGoogle = async () => {
+  try {
+    const userCredential = await auth.signInWithPopup(provider);
+    const userAuth = userCredential.user;
+    return userAuth;
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    alert(errorMessage);
+    console.log(`There was an error signing in ${errorCode}`);
+    return null;
+  }
 };
 
-export const signInWithPassword = (loginEmail, loginPass) => {
-  auth.signInWithEmailAndPassword(loginEmail, loginPass)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      console.log(user);
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      alert(errorMessage);
-      console.log(`There was an error signing in ${errorCode}`);
-    });
+export const signInWithPassword = async (loginEmail, loginPass) => {
+  try {
+    const userCredential = await auth.signInWithEmailAndPassword(
+      loginEmail,
+      loginPass
+    );
+    const userAuth = userCredential.user;
+    return userAuth;
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    alert(errorMessage);
+    console.log(`There was an error signing in ${errorCode}`);
+    return null;
+  }
 };
 
-export const registerNewUser = (email, password) => {
+export const registerNewUser = (email, password, name) => {
+  console.log(name);
   auth
     .createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
       const user = userCredential.user;
+      createUserProfileDocument(user, { displayName: name });
       console.log(user);
       return user;
     })
@@ -78,4 +94,13 @@ export const registerNewUser = (email, password) => {
       console.log(`There was an error registering new user ${errorCode}`);
       return null;
     });
+};
+
+export const signOut = async () => {
+  try {
+    await auth.signOut();
+    console.log("Sign Out Succesfull");
+  } catch (error) {
+    console.log(`Error when signing out ${error}`);
+  }
 };

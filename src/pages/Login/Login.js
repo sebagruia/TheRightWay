@@ -14,6 +14,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 const Login = ({userAuth}) => {
+  console.log(userAuth);
   const history = useHistory();
   const [validated, setValidated] = useState(false);
   const [loginEmail, setLoginEmail] = useState("");
@@ -38,18 +39,19 @@ const Login = ({userAuth}) => {
     setLoginPass(event.target.value);
   };
 
-  const onLogInWithGoogle = () => {
-    signInWithGoogle();
+  const logInWithGoogle = async () => {
+    const userAuth = await signInWithGoogle()
     if (userAuth) {
       history.push("/home");
     }
   };
 
-  const onLogInWithPassword = () => {
-    signInWithPassword(loginEmail, loginPass);
-    if (userAuth) {
-      history.push("/home");
-    }
+  const logInWithPassword = async () => {
+   const userAuth = await signInWithPassword(loginEmail, loginPass);
+      console.log(userAuth);
+      if (userAuth) {
+        history.push("/home");
+      }
   };
 
   return (
@@ -94,14 +96,14 @@ const Login = ({userAuth}) => {
               </Form.Control.Feedback>
             </Form.Group>
             <Button
-              onClick={onLogInWithPassword}
+              onClick={logInWithPassword}
               variant="primary"
               type="submit"
             >
               Log In
             </Button>
           </Form>
-          <button onClick={onLogInWithGoogle} className="google_signIn">
+          <button onClick={logInWithGoogle} className="google_signIn">
             Sing in with Google
           </button>
         </div>
