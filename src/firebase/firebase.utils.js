@@ -16,6 +16,7 @@ firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
 export const auth = firebase.auth();
+export const currentUser = auth.currentUser;
 export const firestore = firebase.firestore();
 
 const provider = new firebase.auth.GoogleAuthProvider();
@@ -31,7 +32,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 
   if (!snapShot.exists) {
     const { displayName, email } = userAuth;
-    const createdAt = new Date();
+    const createdAt = Date.now();
     try {
       await userRef.set({
         displayName,
@@ -77,6 +78,7 @@ export const signInWithPassword = async (loginEmail, loginPass) => {
   }
 };
 
+
 export const registerNewUser = async (email, password ) => {
   try {
     const userCredential = await auth.createUserWithEmailAndPassword(
@@ -84,6 +86,7 @@ export const registerNewUser = async (email, password ) => {
       password
     );
     const userAuth = userCredential.user;
+    userAuth.sendEmailVerification();
     return userAuth;
   } catch (error) {
     const errorCode = error.code;

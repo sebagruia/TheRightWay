@@ -12,10 +12,10 @@ import './Navigation.css';
 const Navigation = ({ userAuth }) => {
   const history = useHistory();
 
-  const save = () => {};
+  // const save = () => {};
 
-  const logOut = () => {
-    signOut();
+  const logOut = async () => {
+    await signOut();
   };
 
   return (
@@ -36,7 +36,7 @@ const Navigation = ({ userAuth }) => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
               <li className="nav-item item1 ml-auto ">
-                <h5 className="welcome"> Welcome {`${userAuth && userAuth.displayName}`}</h5>
+                <h5 className="welcome">{userAuth !== null ? `Welcome ${userAuth.displayName}` : ''}</h5>
                 <Link to="/login" onClick={userAuth && logOut} className="loginButton btn btn-outline-secondary wraper">
                   <h5 className="font-weight-light">{userAuth ? 'Log out' : 'Log in'}</h5>
                 </Link>
@@ -51,6 +51,7 @@ const Navigation = ({ userAuth }) => {
     </div>
   );
 };
+
 const mapStateToProps = (state) => {
   return {
     userAuth: state.userReducer.user,

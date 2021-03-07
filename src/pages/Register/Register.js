@@ -37,8 +37,8 @@ const Register = () => {
   const register = async () => {
     try {
       const userAuth = await registerNewUser(registerEmail, registerPass);
-      await createUserProfileDocument(userAuth, { displayName: registerName });
       if (userAuth.uid) {
+        await createUserProfileDocument(userAuth, { displayName: registerName });
         history.push('/home');
       }
     } catch (error) {

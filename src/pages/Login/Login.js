@@ -23,7 +23,6 @@ const Login = ({ userAuth }) => {
       event.preventDefault();
       event.stopPropagation();
     }
-
     setValidated(true);
   };
 
@@ -44,6 +43,7 @@ const Login = ({ userAuth }) => {
 
   const logInWithPassword = async () => {
     const userAuth = await signInWithPassword(loginEmail, loginPass);
+   console.log(userAuth.emailVerified);
     if (userAuth) {
       history.push('/home');
     }

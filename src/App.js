@@ -18,6 +18,7 @@ import Home from './pages/Home/Home';
 const App = ({ setCurrentUser }) => {
   useEffect(() => {
     const unsubscribFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+      console.log(userAuth);
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
         userRef.onSnapshot((snapshot) => {
