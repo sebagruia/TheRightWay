@@ -48,7 +48,6 @@ export const listReducer = (state = initialState, action) => {
       const { [itemIdValue]: removedItem, ...restItems } = state.lists[
         listIdValue
       ].items;
-      console.log(restItems);
       return {
         ...state,
         lists: {
@@ -82,7 +81,6 @@ export const listReducer = (state = initialState, action) => {
       const idList2 = action.payload.listId;
       const idItem2 = action.payload.itemId;
       const status = action.payload.status;
-      console.log(idList2, idItem2, status);
       return {
         ...state,
         lists: {

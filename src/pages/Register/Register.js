@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import "./Register.css";
-import { useHistory } from "react-router-dom";
-import { registerNewUser } from "../../firebase/firebase.utils";
+import React, { useState } from 'react';
+import './Register.css';
+import { useHistory } from 'react-router-dom';
+import { registerNewUser, createUserProfileDocument } from '../../firebase/firebase.utils';
 
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 const Register = () => {
   const history = useHistory();
   const [validated, setValidated] = useState(false);
-  const [registerName, setLoginName] = useState("");
-  const [registerEmail, setRegisterEmail] = useState("");
-  const [registerPass, setRegisterPass] = useState("");
+  const [registerName, setLoginName] = useState('');
+  const [registerEmail, setRegisterEmail] = useState('');
+  const [registerPass, setRegisterPass] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -20,7 +20,6 @@ const Register = () => {
       event.preventDefault();
       event.stopPropagation();
     }
-
     setValidated(true);
   };
 
@@ -36,9 +35,14 @@ const Register = () => {
   };
 
   const register = async () => {
-   const userAuth =  registerNewUser(registerEmail, registerPass, registerName);
-    if (userAuth.uid) {
-      history.push("/home");
+    try {
+      const userAuth = await registerNewUser(registerEmail, registerPass);
+      await createUserProfileDocument(userAuth, { displayName: registerName });
+      if (userAuth.uid) {
+        history.push('/home');
+      }
+    } catch (error) {
+      console.log(`Error registering new user ${error}`);
     }
   };
 
@@ -54,50 +58,23 @@ const Register = () => {
           >
             <Form.Group controlId="formBasicName">
               <Form.Label className="label">Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Name"
-                required
-                onChange={onNameChange}
-              />
-              <Form.Control.Feedback type="invalid">
-                Please type your name
-              </Form.Control.Feedback>
-              <Form.Control.Feedback type="valid">
-                Looks Good
-              </Form.Control.Feedback>
+              <Form.Control type="text" placeholder="Enter Name" required onChange={onNameChange} />
+              <Form.Control.Feedback type="invalid">Please type your name</Form.Control.Feedback>
+              <Form.Control.Feedback type="valid">Looks Good</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter email"
-                required
-                onChange={onEmailChange}
-              />
-              <Form.Control.Feedback type="invalid">
-                Please type an email address
-              </Form.Control.Feedback>
-              <Form.Control.Feedback type="valid">
-                Looks Good
-              </Form.Control.Feedback>
+              <Form.Control type="email" placeholder="Enter email" required onChange={onEmailChange} />
+              <Form.Control.Feedback type="invalid">Please type an email address</Form.Control.Feedback>
+              <Form.Control.Feedback type="valid">Looks Good</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                required
-                onChange={onPassChange}
-              />
-              <Form.Control.Feedback type="invalid">
-                Please type your password
-              </Form.Control.Feedback>
-              <Form.Control.Feedback type="valid">
-                Looks Good
-              </Form.Control.Feedback>
+              <Form.Control type="password" placeholder="Password" required onChange={onPassChange} />
+              <Form.Control.Feedback type="invalid">Please type your password</Form.Control.Feedback>
+              <Form.Control.Feedback type="valid">Looks Good</Form.Control.Feedback>
             </Form.Group>
             <Button variant="primary" type="submit" onClick={register}>
               Register

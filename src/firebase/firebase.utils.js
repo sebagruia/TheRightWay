@@ -77,7 +77,7 @@ export const signInWithPassword = async (loginEmail, loginPass) => {
   }
 };
 
-export const registerNewUser = async (email, password, name) => {
+export const registerNewUser = async (email, password ) => {
   try {
     const userCredential = await auth.createUserWithEmailAndPassword(
       email,

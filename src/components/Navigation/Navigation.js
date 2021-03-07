@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import { connect } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { connect } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 
-import { signOut } from "../../firebase/firebase.utils";
+import { signOut } from '../../firebase/firebase.utils';
 
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import "./Navigation.css";
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import './Navigation.css';
 
 const Navigation = ({ userAuth }) => {
   const history = useHistory();
@@ -24,7 +24,7 @@ const Navigation = ({ userAuth }) => {
         <Navbar expand="lg" className="navbar-dark">
           <Navbar.Brand
             onClick={() => {
-              history.push("/home");
+              history.push('/home');
             }}
           >
             <h1 className="navbar-brand">
@@ -36,23 +36,12 @@ const Navigation = ({ userAuth }) => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
               <li className="nav-item item1 ml-auto ">
-                <h5 className="welcome"> Welcome {`Name`}</h5>
-                <Link
-                  to="/login"
-                  onClick={userAuth && logOut}
-                  className="loginButton btn btn-outline-secondary wraper"
-                >
-                  <h5 className="font-weight-light">
-                    {userAuth ? "Log out" : "Log in"}
-                  </h5>
+                <h5 className="welcome"> Welcome {`${userAuth && userAuth.displayName}`}</h5>
+                <Link to="/login" onClick={userAuth && logOut} className="loginButton btn btn-outline-secondary wraper">
+                  <h5 className="font-weight-light">{userAuth ? 'Log out' : 'Log in'}</h5>
                 </Link>
-                <Link
-                  to="/register"
-                  className="registerButton btn btn-outline-secondary wraper"
-                >
-                  <h5 className="font-weight-light">
-                    {userAuth ? "Save" : "Register"}
-                  </h5>
+                <Link to="/register" className="registerButton btn btn-outline-secondary wraper">
+                  <h5 className="font-weight-light">{userAuth ? 'Save' : 'Register'}</h5>
                 </Link>
               </li>
             </Nav>
