@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import './Login.css';
+import './login.css';
 
 import { connect } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
 
-import { signInWithGoogle, signInWithPassword } from '../../firebase/firebase.utils';
+import { signInWithGoogle, signInWithPassword, createUserProfileDocument } from '../../firebase/firebase.utils';
+import { setUser } from '../../redux/user/userActions';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-const Login = ({ userAuth }) => {
+const Login = ({ dispatch }) => {
   const history = useHistory();
   const [validated, setValidated] = useState(false);
   const [loginEmail, setLoginEmail] = useState('');
@@ -43,9 +44,22 @@ const Login = ({ userAuth }) => {
 
   const logInWithPassword = async () => {
     const userAuth = await signInWithPassword(loginEmail, loginPass);
-   console.log(userAuth.emailVerified);
     if (userAuth) {
-      history.push('/home');
+      if (userAuth.emailVerified) {
+        const userRef = await createUserProfileDocument(userAuth);
+        userRef.onSnapshot((snapshot) => {
+          dispatch(
+            setUser({
+              id: snapshot.id,
+              ...snapshot.data(),
+            })
+          );
+        });
+
+        history.push('/home');
+      } else {
+        alert('You need to verify your email. Please check your Inbox and follow the link.');
+      }
     }
   };
 
@@ -80,10 +94,4 @@ const Login = ({ userAuth }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    userAuth: state.userReducer.user,
-  };
-};
-
-export default connect(mapStateToProps)(Login);
+export default connect()(Login);

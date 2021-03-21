@@ -1,0 +1,36 @@
+.login-row {
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-col {
+  flex-direction: column;
+  align-items: center;
+  padding: 0 50px 0 50px;
+}
+
+.login-form {
+  padding: 20% 0 10% 0;
+  margin: 0 auto;
+}
+
+.login-form .form-group {
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+}
+
+.login-form .form-label {
+  display: block;
+  font-size: 1.2em;
+}
+
+.login-form .form-control {
+  width: 100%;
+}
+
+.login-form .btn-primary {
+  background-color: #2b3f5d;
+}
+
+.google_signIn {
+  width: 150px;
+}

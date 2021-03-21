@@ -1,4 +1,6 @@
 import {
+  FETCH_USER_LISTS,
+  CLEAR_USER_LISTS,
   ADD_NEW_LIST_NAME,
   DELETE_LIST,
   ADD_NEW_ITEM_IN_LIST,
@@ -7,17 +9,27 @@ import {
   SELECT_CURRENT_LIST,
   EDIT_ITEM_NAME,
   TOGGLE_CHECK_STATUS,
-  CHANGE_ITEM_QUANTITY
-} from "./listActions";
+  CHANGE_ITEM_QUANTITY,
+} from './listActions';
 
 const initialState = {
   lists: null,
   selectedList: null,
-  selectedItemId: "",
+  selectedItemId: '',
 };
 
 export const listReducer = (state = initialState, action) => {
   switch (action.type) {
+    case FETCH_USER_LISTS:
+      return {
+        ...state,
+        lists: action.payload,
+      };
+    case CLEAR_USER_LISTS:
+      return {
+        ...state,
+        lists: action.payload,
+      };
     case ADD_NEW_LIST_NAME:
       return {
         ...state,
@@ -45,9 +57,7 @@ export const listReducer = (state = initialState, action) => {
     case DELETE_LIST_ITEM:
       const listIdValue = action.payload.listId;
       const itemIdValue = action.payload.itemId;
-      const { [itemIdValue]: removedItem, ...restItems } = state.lists[
-        listIdValue
-      ].items;
+      const { [itemIdValue]: removedItem, ...restItems } = state.lists[listIdValue].items;
       return {
         ...state,
         lists: {
@@ -90,7 +100,7 @@ export const listReducer = (state = initialState, action) => {
             items: {
               ...state.lists[idList2].items,
               [idItem2]: Object.assign(state.lists[idList2].items[idItem2], {
-                check: status
+                check: status,
               }),
             },
           },
@@ -100,7 +110,7 @@ export const listReducer = (state = initialState, action) => {
       const idList3 = action.payload.listId;
       const idItem3 = action.payload.itemId;
       const quantity = action.payload.quantity;
-      return{
+      return {
         ...state,
         lists: {
           ...state.lists,
@@ -109,12 +119,12 @@ export const listReducer = (state = initialState, action) => {
             items: {
               ...state.lists[idList3].items,
               [idItem3]: Object.assign(state.lists[idList3].items[idItem3], {
-                quantity: quantity
+                quantity: quantity,
               }),
             },
           },
         },
-      }
+      };
     case SELECT_CURRENT_ITEM_FOR_EDITING:
       return {
         ...state,

@@ -1,20 +1,19 @@
-import React, { Fragment, useState } from "react";
-import "./Item.css";
+import React, { Fragment, useState } from 'react';
+import './Item.css';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 import {
   deleteListItem,
   selectingCurrentItem,
   toggleCheckStatus,
-  changeItemQuantity
-} from "../../redux/list/listActions";
+  changeItemQuantity,
+} from '../../redux/list/listActions';
 
-import Modalpopup from "../../components/Modalpopup/Modalpopup";
-
+import Modalpopup from '../../components/Modalpopup/Modalpopup';
 
 const Item = ({ dispatch, listDetails, item }) => {
-  const [quantity, setQuantity] = useState("1");
+  const [quantity, setQuantity] = useState('1');
   const [check, setCheck] = useState(false);
   const [show, setShow] = useState(false);
 
@@ -39,9 +38,9 @@ const Item = ({ dispatch, listDetails, item }) => {
     setCheck(!status);
   };
 
-  const changeQuantity = (listId, itemID, quantity)=>{
+  const changeQuantity = (listId, itemID, quantity) => {
     dispatch(changeItemQuantity(listId, itemID, quantity));
-  }
+  };
 
   const closeModal = () => {
     setShow(!show);
@@ -49,26 +48,17 @@ const Item = ({ dispatch, listDetails, item }) => {
 
   return (
     <Fragment>
-        {show && <Modalpopup show={show} closeModal={closeModal} />}
+      {show && <Modalpopup show={show} closeModal={closeModal} />}
       <li className="li-item">
         <div className="list-component text-secondary">
           <div className="check-list">
             <i
-              className={`far ${
-                check ? "fa-check-circle text-success" : "fa-circle"
-              }`}
+              className={`far ${check ? 'fa-check-circle text-success' : 'fa-circle'}`}
               role="button"
-              onClick={()=>toggleCheck(listId, check,id)}
+              onClick={() => toggleCheck(listId, check, id)}
               aria-hidden="true"
             ></i>
-            <p
-              className="p-text"
-              style={
-                check
-                  ? { textDecoration: "line-through" }
-                  : { textDecoration: "initial" }
-              }
-            >
+            <p className="p-text" style={check ? { textDecoration: 'line-through' } : { textDecoration: 'initial' }}>
               {itemName}
             </p>
           </div>
@@ -87,7 +77,7 @@ const Item = ({ dispatch, listDetails, item }) => {
             ></i>
             <input
               onChange={onChangeQuantity}
-              onClick = {()=>changeQuantity(listId,id,quantity)}
+              onClick={() => changeQuantity(listId, id, quantity)}
               className="quantity"
               type="number"
               aria-label="Insert a number"

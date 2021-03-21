@@ -27,9 +27,6 @@ body {
   color: #fff;
 }
 
-
-
-
 /* Bootstrap Classes Edited */
 
 .text-danger {
@@ -40,9 +37,7 @@ body {
   background-color: #2b3f5d !important;
 }
 
-
 /* Scrollbar Css  */
-
 
 /* width */
 ::-webkit-scrollbar {
@@ -58,40 +53,3 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #2b3f5d;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

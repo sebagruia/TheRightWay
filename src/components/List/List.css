@@ -1,21 +1,20 @@
 .newListLi {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding-top:10px;
-    font-weight:200;
-  }
-  .newListLi .btn {
-    width: 90%;
-  }
-  .newListLi .fa-trash-alt {
-    font-size: 1rem;
-    color: #ced4da;
-  }
-  .newListLi .fa-trash-alt:hover {
-    color: #b33939;
-    opacity: 1;
-    cursor: pointer;
-  }
-  
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-top: 10px;
+  font-weight: 200;
+}
+.newListLi .btn {
+  width: 90%;
+}
+.newListLi .fa-trash-alt {
+  font-size: 1rem;
+  color: #ced4da;
+}
+.newListLi .fa-trash-alt:hover {
+  color: #b33939;
+  opacity: 1;
+  cursor: pointer;
+}

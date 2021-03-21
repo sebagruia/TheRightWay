@@ -6,12 +6,12 @@
   justify-content: space-around;
 }
 
-.addNewItemInput{
-  width:100%;
+.addNewItemInput {
+  width: 100%;
   padding-top: 100px;
 }
 
-.listContent-row{
+.listContent-row {
   justify-content: center;
 }
 
@@ -25,7 +25,7 @@
   margin-top: 5vh;
   width: 80%;
   height: 400px;
-  padding: 0 0 20px 0;  
+  padding: 0 0 20px 0;
   overflow-y: scroll;
 }
 
@@ -36,7 +36,7 @@
 }
 
 .list-title-wraper {
-  width:100%;
+  width: 100%;
   display: flex;
   align-items: center;
   padding: 40px 0 20px 0;
@@ -74,7 +74,7 @@
   width: 35px;
   background-color: #2b3f5d;
   color: #fff;
-  font-family: "Yanone Kaffeesatz", sans-serif;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
   font-weight: 400;
   text-align: center;
   padding: 5px 0;
@@ -110,8 +110,8 @@
   }
 
   /* .dropdown-menu {
-      left: 15px !important;
-    } */
+        left: 15px !important;
+      } */
 
   .todo-list {
     width: 100%;

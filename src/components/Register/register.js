@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import './Register.css';
+import './register.css';
+
 import { useHistory } from 'react-router-dom';
 import { registerNewUser, createUserProfileDocument } from '../../firebase/firebase.utils';
 
@@ -11,7 +12,8 @@ const Register = () => {
   const [validated, setValidated] = useState(false);
   const [registerName, setLoginName] = useState('');
   const [registerEmail, setRegisterEmail] = useState('');
-  const [registerPass, setRegisterPass] = useState('');
+  const [registerPass, setRegisterPass] = useState(undefined);
+  const [confirmPass, setConfirmPass] = useState(undefined);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -34,15 +36,32 @@ const Register = () => {
     setRegisterPass(event.target.value);
   };
 
-  const register = async () => {
-    try {
-      const userAuth = await registerNewUser(registerEmail, registerPass);
-      if (userAuth.uid) {
-        await createUserProfileDocument(userAuth, { displayName: registerName });
-        history.push('/home');
+  const onConfirmPassChange = (event) => {
+    setConfirmPass(event.target.value);
+  };
+
+  const checkPassword = () => {
+    if (registerPass !== undefined && confirmPass !== undefined) {
+      if (registerPass === confirmPass) {
+        return 'valid';
       }
-    } catch (error) {
-      console.log(`Error registering new user ${error}`);
+      return 'invalid';
+    }
+  };
+
+  const register = async () => {
+    if (confirmPass === registerPass) {
+      try {
+        const userAuth = await registerNewUser(registerEmail, registerPass);
+        if (userAuth.uid) {
+          await createUserProfileDocument(userAuth, { displayName: registerName });
+          history.push('/login');
+        }
+      } catch (error) {
+        console.log(`Error registering new user ${error}`);
+      }
+    } else {
+      alert("Your Confirmation Password doesn't match you Password");
     }
   };
 
@@ -75,6 +94,16 @@ const Register = () => {
               <Form.Control type="password" placeholder="Password" required onChange={onPassChange} />
               <Form.Control.Feedback type="invalid">Please type your password</Form.Control.Feedback>
               <Form.Control.Feedback type="valid">Looks Good</Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Confirm Password</Form.Label>
+              <Form.Control type="password" placeholder="Password" required onChange={onConfirmPassChange} />
+              <Form.Control.Feedback type={checkPassword}>
+                {confirmPass === registerPass ? 'Looks Good' : 'Please confirm your password'}
+              </Form.Control.Feedback>
+              {/* <Form.Control.Feedback type="invalid">Please confirm your password</Form.Control.Feedback>
+              <Form.Control.Feedback type="valid">Looks Good</Form.Control.Feedback> */}
             </Form.Group>
             <Button variant="primary" type="submit" onClick={register}>
               Register

@@ -10,18 +10,18 @@
   font-weight: 300;
   color: #495057;
 }
-.addNewListInput-row{
+.addNewListInput-row {
   justify-content: center;
 }
 .addNewListInput-container {
-  width: 50%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
 }
 .addNewListInput {
-  width: 100%;
+  width: 50%;
   padding-top: 100px;
 }
 .plusButton {
@@ -36,6 +36,5 @@
   display: flex;
   flex-direction: column;
   width: 70%;
-  padding-top:30px;
+  padding-top: 30px;
 }
-

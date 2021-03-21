@@ -1,25 +1,27 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { connect } from 'react-redux';
 
-import { Route, Switch } from 'react-router-dom';
+import { useHistory, Route, Switch } from 'react-router-dom';
 
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
 import { setUser } from './redux/user/userActions';
+import { fetchUserLists, clearListsAction } from './redux/list/listActions';
 
 import StartPage from './pages/StartPage/StartPage';
-import Navigation from './components/Navigation/Navigation';
-import Login from './pages/Login/Login';
-import Register from './pages/Register/Register';
-import ListContent from './pages/ListContent/ListContent';
-import Home from './pages/Home/Home';
+import LoginPage from './pages/LoginPage/LoginPage';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
+import ListContentPage from './pages/ListContentPage/ListContentPage';
+import HomePage from './pages/HomePage/HomePage';
 
-const App = ({ setCurrentUser }) => {
+const App = ({ getUserLists, selectedList, user, setCurrentUser, clearAllLists }) => {
+  const history = useHistory();
+
   useEffect(() => {
     const unsubscribFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       console.log(userAuth);
-      if (userAuth) {
+      if (userAuth && userAuth.emailVerified) {
         const userRef = await createUserProfileDocument(userAuth);
         userRef.onSnapshot((snapshot) => {
           setCurrentUser({
@@ -27,43 +29,45 @@ const App = ({ setCurrentUser }) => {
             ...snapshot.data(),
           });
         });
+        getUserLists(userAuth.uid);
       } else {
-        setCurrentUser(userAuth);
+        setCurrentUser(null);
+        clearAllLists(null);
+        history.push('/home');
       }
 
       return () => {
         unsubscribFromAuth();
       };
     });
-  }, [setCurrentUser]);
+  }, [history, getUserLists, setCurrentUser, clearAllLists]);
 
   return (
-    <Fragment>
-      <Navigation />
-      <Switch>
-        <Route exact path="/">
-          <StartPage />
-        </Route>
-        <Route path="/home">
-          <Home />
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/register">
-          <Register />
-        </Route>
-        <Route path="/listContent">
-          <ListContent />
-        </Route>
-      </Switch>
-    </Fragment>
+    <Switch>
+      <Route exact path="/">
+        <StartPage />
+      </Route>
+      <Route exact path="/home">
+        <HomePage />
+      </Route>
+      <Route path="/login">
+        <LoginPage />
+      </Route>
+      <Route path="/register">
+        <RegisterPage />
+      </Route>
+      <Route path="/listContent">
+        <ListContentPage />
+      </Route>
+    </Switch>
   );
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setCurrentUser: (user) => dispatch(setUser(user)),
+    getUserLists: (user) => dispatch(fetchUserLists(user)),
+    clearAllLists: () => dispatch(clearListsAction()),
   };
 };
 

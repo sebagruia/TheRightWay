@@ -36,7 +36,7 @@ const Navigation = ({ userAuth }) => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
               <li className="nav-item item1 ml-auto ">
-                <h5 className="welcome">{userAuth !== null ? `Welcome ${userAuth.displayName}` : ''}</h5>
+                <h5 className="welcome">{userAuth ? `Welcome ${userAuth.displayName}` : ''}</h5>
                 <Link to="/login" onClick={userAuth && logOut} className="loginButton btn btn-outline-secondary wraper">
                   <h5 className="font-weight-light">{userAuth ? 'Log out' : 'Log in'}</h5>
                 </Link>

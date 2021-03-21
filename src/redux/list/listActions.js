@@ -1,13 +1,41 @@
-export const ADD_NEW_LIST_NAME = "ADD_NEW_LIST_NAME";
-export const ADD_NEW_ITEM_IN_LIST = "ADD_NEW_ITEM";
-export const SET_LIST_IN_USE_ID = "SET_LIST_IN_USE";
-export const DELETE_LIST = "DELETE_LIST";
-export const DELETE_LIST_ITEM = "DELETE_LIST_ITEM";
-export const SELECT_CURRENT_ITEM_FOR_EDITING = "SELECT_CURENT_ITEM_FOR_EDITING";
-export const SELECT_CURRENT_LIST = "SELECT_CURRENT_LIST";
-export const EDIT_ITEM_NAME = "EDIT_ITEM_NAME";
-export const TOGGLE_CHECK_STATUS = "TOGGLE_CHECK_STATUS";
-export const CHANGE_ITEM_QUANTITY = "CHANGE_ITEM_QUANTITY";
+import { firestore } from '../../firebase/firebase.utils';
+
+export const FETCH_USER_LISTS = 'FETCH_USER_LISTS';
+export const CLEAR_USER_LISTS = 'CLEAR_USER_LISTS';
+export const ADD_NEW_LIST_NAME = 'ADD_NEW_LIST_NAME';
+export const ADD_NEW_ITEM_IN_LIST = 'ADD_NEW_ITEM';
+export const SET_LIST_IN_USE_ID = 'SET_LIST_IN_USE';
+export const DELETE_LIST = 'DELETE_LIST';
+export const DELETE_LIST_ITEM = 'DELETE_LIST_ITEM';
+export const SELECT_CURRENT_ITEM_FOR_EDITING = 'SELECT_CURENT_ITEM_FOR_EDITING';
+export const SELECT_CURRENT_LIST = 'SELECT_CURRENT_LIST';
+export const EDIT_ITEM_NAME = 'EDIT_ITEM_NAME';
+export const TOGGLE_CHECK_STATUS = 'TOGGLE_CHECK_STATUS';
+export const CHANGE_ITEM_QUANTITY = 'CHANGE_ITEM_QUANTITY';
+
+export const fetchUserLists = (userId) => async (dispatch) => {
+  const userListsRef = firestore.collection(`/users/${userId}/lists/`);
+  try {
+    userListsRef.onSnapshot((snapShot) => {
+      let listsObject = {};
+      const lists = snapShot.docs.map((item) => item.data());
+      for (let list of lists) {
+        listsObject = { ...listsObject, [list.id]: list };
+      }
+
+      dispatch({ type: FETCH_USER_LISTS, payload: listsObject });
+    });
+  } catch (error) {
+    console.log(`Error on Fetching Data From Firestore ${error}`);
+  }
+};
+
+export const clearListsAction = (value) => {
+  return {
+    type: CLEAR_USER_LISTS,
+    payload: value,
+  };
+};
 
 export const addNewListAction = (list) => {
   return {
@@ -62,29 +90,29 @@ export const editItemName = (listId, itemId, inputValue) => {
     payload: {
       listId,
       itemId,
-      inputValue
+      inputValue,
     },
   };
 };
 
-export const toggleCheckStatus = (listId, itemId, status)=>{
- return{
-   type:TOGGLE_CHECK_STATUS,
-   payload:{
-    listId,
-    itemId,
-    status
-   }
- }
-}
+export const toggleCheckStatus = (listId, itemId, status) => {
+  return {
+    type: TOGGLE_CHECK_STATUS,
+    payload: {
+      listId,
+      itemId,
+      status,
+    },
+  };
+};
 
-export const changeItemQuantity = (listId, itemId, quantity)=>{
-  return{
-    type:CHANGE_ITEM_QUANTITY,
-    payload:{
-     listId,
-     itemId,
-     quantity
-    }
-  }
- }
+export const changeItemQuantity = (listId, itemId, quantity) => {
+  return {
+    type: CHANGE_ITEM_QUANTITY,
+    payload: {
+      listId,
+      itemId,
+      quantity,
+    },
+  };
+};

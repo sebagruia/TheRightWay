@@ -1,7 +1,7 @@
-import { SET_USER } from "./userActions";
+import { SET_USER } from './userActions';
 
 const initialState = {
-  user:null,
+  user: null,
 };
 
 export const userReducer = (state = initialState, action) => {

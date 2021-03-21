@@ -1,52 +1,51 @@
 .list-component {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    margin: 0 auto;
-    width: 90%;
-    padding: 0;
-    padding-right: 10px;
-    border-bottom: 0.5px solid #d1ccc0;
-  }
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0 auto;
+  width: 90%;
+  padding: 0;
+  padding-right: 10px;
+  border-bottom: 0.5px solid #d1ccc0;
+}
 
-  .check-list p {
-    display: inline;
-    font-size: 1.1em;
-    font-family: 'Yanone Kaffeesatz', sans-serif;
-    font-size: 1.2em;
-    font-weight: 300;
-  }
+.check-list p {
+  display: inline;
+  font-size: 1.1em;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  font-size: 1.2em;
+  font-weight: 300;
+}
 
-  .edit-list .far {
-    padding-right: 3px;
-  }
+.edit-list .far {
+  padding-right: 3px;
+}
 
-  .far {
-    cursor: pointer;
-  }
-  
-  .fa-circle {
-    padding-right: 5px;
-  }
-  
-  .fa-check-circle {
-    padding-right: 5px;
-    font-size: 1.2em;
-  
-  }
+.far {
+  cursor: pointer;
+}
 
-  .edit-list {
-    margin-left: auto;
-    padding-right: 10px;
-  }
+.fa-circle {
+  padding-right: 5px;
+}
 
-  .quantity {
-    width: 39px;
-    height: 21px;
-    padding-left: 2px !important;
-    border-radius: 1px;
-  }
+.fa-check-circle {
+  padding-right: 5px;
+  font-size: 1.2em;
+}
 
-  .lineThrough {
-    text-decoration:line-through;
-  }
+.edit-list {
+  margin-left: auto;
+  padding-right: 10px;
+}
+
+.quantity {
+  width: 39px;
+  height: 21px;
+  padding-left: 2px !important;
+  border-radius: 1px;
+}
+
+.lineThrough {
+  text-decoration: line-through;
+}
