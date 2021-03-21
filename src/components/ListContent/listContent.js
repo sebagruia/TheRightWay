@@ -24,7 +24,7 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
     if (inputText.length > 0) {
       const item = {
         id: `${inputText}${Date.now()}`,
-        item: inputText,
+        itemName: inputText,
         check: false,
         quantity: '1',
       };

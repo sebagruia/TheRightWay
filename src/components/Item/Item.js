@@ -18,6 +18,7 @@ const Item = ({ dispatch, listDetails, item }) => {
   const [show, setShow] = useState(false);
 
   const { itemName, id } = item;
+  console.log(itemName);
   const { listId } = listDetails;
 
   const onChangeQuantity = (event) => {
