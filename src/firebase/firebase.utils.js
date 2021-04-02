@@ -96,7 +96,7 @@ export const signOut = async () => {
     await auth.signOut();
     console.log('Sign Out Succesfull');
   } catch (error) {
-    console.log(`Error when signing out ${error}`);
+    console.log(`Error Signing out ${error}`);
   }
 };
 
@@ -118,10 +118,19 @@ export const deleteListFromFirestore = async (userId, listName) => {
 
 export const addListItemToFirestore = async (userId, listName, item) => {
   const updatingObj = {};
-  updatingObj[`items.${item.id}`]= item;
+  updatingObj[`items.${item.id}`] = item;
   try {
-    firestore.doc(`/users/${userId}/lists/${listName}`).update(updatingObj)
-  
+    firestore.doc(`/users/${userId}/lists/${listName}`).update(updatingObj);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteListItemFromFirestore = async (userId, listName, itemID) => {
+  const updatingObj = {};
+  updatingObj[`items.${itemID}`] = firebase.firestore.FieldValue.delete();
+  try {
+    firestore.doc(`/users/${userId}/lists/${listName}`).update(updatingObj);
   } catch (error) {
     console.log(error);
   }

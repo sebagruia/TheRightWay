@@ -15,7 +15,7 @@ import RegisterPage from './pages/RegisterPage/RegisterPage';
 import ListContentPage from './pages/ListContentPage/ListContentPage';
 import HomePage from './pages/HomePage/HomePage';
 
-const App = ({ getUserLists, selectedList, user, setCurrentUser, clearAllLists }) => {
+const App = ({ getUserLists, setCurrentUser, clearAllLists }) => {
   const history = useHistory();
 
   useEffect(() => {
@@ -33,7 +33,6 @@ const App = ({ getUserLists, selectedList, user, setCurrentUser, clearAllLists }
       } else {
         setCurrentUser(null);
         clearAllLists(null);
-        history.push('/home');
       }
 
       return () => {

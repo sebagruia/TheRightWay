@@ -8,12 +8,13 @@ import { addNewItemInList } from '../../redux/list/listActions';
 
 import Item from '../../components/Item/Item';
 
-const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
+const ListContent = ({ dispatch, userAuth, lists }) => {
   const [inputText, setInputText] = useState('');
 
-  const listId = selectedList && selectedList.listId;
-  const listName = selectedList && selectedList.listName;
-  const listItems = lists && lists[listId] && lists[listId].items;
+  const selectedList = JSON.parse(sessionStorage.getItem('list'));
+  console.log(selectedList);
+
+  const listItems = lists && lists[selectedList.id].items;
 
   const handleOnChange = (event) => {
     setInputText(event.target.value);
@@ -29,11 +30,9 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
         quantity: '1',
       };
       if (userAuth) {
-        console.log(userAuth);
-        addListItemToFirestore(userAuth.id, listName, item);
+        addListItemToFirestore(userAuth.id, selectedList.listName, item);
       } else {
-        console.log(`No user ${userAuth}`);
-        dispatch(addNewItemInList(selectedList.listId, item));
+        dispatch(addNewItemInList(selectedList.id, item));
       }
       setInputText('');
     }
@@ -60,7 +59,7 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
             </form>
             <div className="list-title-wraper">
               <div>
-                <h3 className="todo-name">{listName}</h3>
+                <h3 className="todo-name">{selectedList.listName}</h3>
               </div>
 
               <div>

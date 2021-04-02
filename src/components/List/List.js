@@ -17,6 +17,7 @@ const List = ({ dispatch, userAuth, children, list, deleteList }) => {
       <button
         onClick={() => {
           dispatch(selectingCurrentList({ listId: id, listName: listName }));
+          sessionStorage.setItem('list', JSON.stringify(list));
           history.push('/listContent');
         }}
         type="button"

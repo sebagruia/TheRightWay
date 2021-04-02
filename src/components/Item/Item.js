@@ -9,24 +9,28 @@ import {
   toggleCheckStatus,
   changeItemQuantity,
 } from '../../redux/list/listActions';
+import { deleteListItemFromFirestore } from '../../firebase/firebase.utils';
 
 import Modalpopup from '../../components/Modalpopup/Modalpopup';
 
-const Item = ({ dispatch, listDetails, item }) => {
+const Item = ({ dispatch, userAuth, listDetails, item }) => {
   const [quantity, setQuantity] = useState('1');
   const [check, setCheck] = useState(false);
   const [show, setShow] = useState(false);
 
   const { itemName, id } = item;
-  console.log(itemName);
-  const { listId } = listDetails;
+  const { listName, listId } = listDetails;
 
   const onChangeQuantity = (event) => {
     setQuantity(event.target.value);
   };
 
   const deleteItem = (listId, itemID) => {
-    dispatch(deleteListItem(listId, itemID));
+    if (userAuth) {
+      deleteListItemFromFirestore(userAuth.id, listName, itemID);
+    } else {
+      dispatch(deleteListItem(listId, itemID));
+    }
   };
 
   const handleShowModal = (itemId) => {
@@ -97,6 +101,7 @@ const Item = ({ dispatch, listDetails, item }) => {
 
 const mapStateToProps = (state) => {
   return {
+    userAuth: state.userReducer.user,
     listDetails: state.listReducer.selectedList,
   };
 };
