@@ -1,12 +1,12 @@
 import {
   FETCH_USER_LISTS,
-  CLEAR_USER_LISTS,
+  CLEAR_STATE,
   ADD_NEW_LIST_NAME,
+  SELECT_CURRENT_LIST,
   DELETE_LIST,
   ADD_NEW_ITEM_IN_LIST,
   DELETE_LIST_ITEM,
   SELECT_CURRENT_ITEM_FOR_EDITING,
-  SELECT_CURRENT_LIST,
   EDIT_ITEM_NAME,
   TOGGLE_CHECK_STATUS,
   CHANGE_ITEM_QUANTITY,
@@ -14,7 +14,7 @@ import {
 
 const initialState = {
   lists: null,
-  selectedList: null,
+  selectedList: '',
   selectedItemId: '',
 };
 
@@ -25,10 +25,9 @@ export const listReducer = (state = initialState, action) => {
         ...state,
         lists: action.payload,
       };
-    case CLEAR_USER_LISTS:
+    case CLEAR_STATE:
       return {
-        ...state,
-        lists: action.payload,
+        state: initialState,
       };
     case ADD_NEW_LIST_NAME:
       return {
@@ -53,6 +52,11 @@ export const listReducer = (state = initialState, action) => {
             items: { ...state.lists[listId].items, [item.id]: { ...item } },
           },
         },
+      };
+    case SELECT_CURRENT_LIST:
+      return {
+        ...state,
+        selectedList: action.payload,
       };
     case DELETE_LIST_ITEM:
       const listIdValue = action.payload.listId;
@@ -129,11 +133,6 @@ export const listReducer = (state = initialState, action) => {
       return {
         ...state,
         selectedItemId: action.payload,
-      };
-    case SELECT_CURRENT_LIST:
-      return {
-        ...state,
-        selectedList: action.payload,
       };
 
     default:

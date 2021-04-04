@@ -7,7 +7,7 @@ import { useHistory, Route, Switch } from 'react-router-dom';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
 import { setUser } from './redux/user/userActions';
-import { fetchUserLists, clearListsAction } from './redux/list/listActions';
+import { fetchUserLists, clearStateAction } from './redux/list/listActions';
 
 import StartPage from './pages/StartPage/StartPage';
 import LoginPage from './pages/LoginPage/LoginPage';
@@ -15,13 +15,14 @@ import RegisterPage from './pages/RegisterPage/RegisterPage';
 import ListContentPage from './pages/ListContentPage/ListContentPage';
 import HomePage from './pages/HomePage/HomePage';
 
-const App = ({ getUserLists, setCurrentUser, clearAllLists }) => {
+const App = ({ getUserLists, setCurrentUser, clearState }) => {
   const history = useHistory();
 
   useEffect(() => {
     const unsubscribFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       console.log(userAuth);
       if (userAuth && userAuth.emailVerified) {
+        clearState();
         const userRef = await createUserProfileDocument(userAuth);
         userRef.onSnapshot((snapshot) => {
           setCurrentUser({
@@ -32,14 +33,13 @@ const App = ({ getUserLists, setCurrentUser, clearAllLists }) => {
         getUserLists(userAuth.uid);
       } else {
         setCurrentUser(null);
-        clearAllLists(null);
       }
 
       return () => {
         unsubscribFromAuth();
       };
     });
-  }, [history, getUserLists, setCurrentUser, clearAllLists]);
+  }, [history, getUserLists, setCurrentUser, clearState]);
 
   return (
     <Switch>
@@ -66,7 +66,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setCurrentUser: (user) => dispatch(setUser(user)),
     getUserLists: (user) => dispatch(fetchUserLists(user)),
-    clearAllLists: () => dispatch(clearListsAction()),
+    clearState: () => dispatch(clearStateAction()),
   };
 };
 

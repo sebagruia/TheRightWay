@@ -1,11 +1,8 @@
 import React from 'react';
 import './List.css';
-
 import { connect } from 'react-redux';
-
+import { selectListAction } from '../../redux/list/listActions';
 import { useHistory } from 'react-router-dom';
-
-import { selectingCurrentList } from '../../redux/list/listActions';
 
 const List = ({ dispatch, userAuth, children, list, deleteList }) => {
   const history = useHistory();
@@ -16,8 +13,7 @@ const List = ({ dispatch, userAuth, children, list, deleteList }) => {
     <li className="newListLi">
       <button
         onClick={() => {
-          dispatch(selectingCurrentList({ listId: id, listName: listName }));
-          sessionStorage.setItem('list', JSON.stringify(list));
+          dispatch(selectListAction(list));
           history.push('/listContent');
         }}
         type="button"
@@ -26,7 +22,7 @@ const List = ({ dispatch, userAuth, children, list, deleteList }) => {
         {children}
       </button>
       <i
-        onClick={() => deleteList(userAuth.id, listName, id)}
+        onClick={() => deleteList(userAuth && userAuth.id, listName, id)}
         className="far fa-trash-alt"
         role="button"
         aria-hidden="true"

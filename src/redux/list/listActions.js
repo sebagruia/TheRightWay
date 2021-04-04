@@ -1,14 +1,14 @@
 import { firestore } from '../../firebase/firebase.utils';
 
 export const FETCH_USER_LISTS = 'FETCH_USER_LISTS';
-export const CLEAR_USER_LISTS = 'CLEAR_USER_LISTS';
+export const CLEAR_STATE = 'CLEAR_STATE';
 export const ADD_NEW_LIST_NAME = 'ADD_NEW_LIST_NAME';
-export const ADD_NEW_ITEM_IN_LIST = 'ADD_NEW_ITEM';
+export const ADD_NEW_ITEM_IN_LIST = 'ADD_NEW_ITEM_IN_LIST';
+export const SELECT_CURRENT_LIST = 'SELECT_CURRENT_LIST';
 export const SET_LIST_IN_USE_ID = 'SET_LIST_IN_USE';
 export const DELETE_LIST = 'DELETE_LIST';
 export const DELETE_LIST_ITEM = 'DELETE_LIST_ITEM';
 export const SELECT_CURRENT_ITEM_FOR_EDITING = 'SELECT_CURENT_ITEM_FOR_EDITING';
-export const SELECT_CURRENT_LIST = 'SELECT_CURRENT_LIST';
 export const EDIT_ITEM_NAME = 'EDIT_ITEM_NAME';
 export const TOGGLE_CHECK_STATUS = 'TOGGLE_CHECK_STATUS';
 export const CHANGE_ITEM_QUANTITY = 'CHANGE_ITEM_QUANTITY';
@@ -30,17 +30,15 @@ export const fetchUserLists = (userId) => async (dispatch) => {
   }
 };
 
-export const clearListsAction = (value) => {
-  return {
-    type: CLEAR_USER_LISTS,
-    payload: value,
-  };
-};
-
 export const addNewListAction = (list) => {
   return {
     type: ADD_NEW_LIST_NAME,
     payload: list,
+  };
+};
+export const clearStateAction = () => {
+  return {
+    type: CLEAR_STATE,
   };
 };
 
@@ -48,6 +46,13 @@ export const deleteListAction = (id) => {
   return {
     type: DELETE_LIST,
     payload: id,
+  };
+};
+
+export const selectListAction = (list) => {
+  return {
+    type: SELECT_CURRENT_LIST,
+    payload: list,
   };
 };
 
@@ -75,12 +80,6 @@ export const selectingCurrentItem = (itemId) => {
   return {
     type: SELECT_CURRENT_ITEM_FOR_EDITING,
     payload: itemId,
-  };
-};
-export const selectingCurrentList = (list) => {
-  return {
-    type: SELECT_CURRENT_LIST,
-    payload: list,
   };
 };
 

@@ -8,11 +8,8 @@ import { addNewItemInList } from '../../redux/list/listActions';
 
 import Item from '../../components/Item/Item';
 
-const ListContent = ({ dispatch, userAuth, lists }) => {
+const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
   const [inputText, setInputText] = useState('');
-
-  const selectedList = JSON.parse(sessionStorage.getItem('list'));
-  console.log(selectedList);
 
   const listItems = lists && lists[selectedList.id].items;
 

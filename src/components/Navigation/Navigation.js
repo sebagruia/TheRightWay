@@ -1,20 +1,19 @@
 import React from 'react';
-
 import { connect } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-
 import { signOut } from '../../firebase/firebase.utils';
-
+import { clearStateAction } from '../../redux/list/listActions';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import './Navigation.css';
 
-const Navigation = ({ userAuth }) => {
+const Navigation = ({ dispatch, userAuth }) => {
   const history = useHistory();
 
   // const save = () => {};
 
   const logOut = async () => {
+    dispatch(clearStateAction());
     await signOut();
   };
 

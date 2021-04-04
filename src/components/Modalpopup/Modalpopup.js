@@ -8,17 +8,15 @@ import { editItemName } from '../../redux/list/listActions';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-const Modalpopup = ({ dispatch, show, closeModal, itemId, listDetails }) => {
+const Modalpopup = ({ dispatch, show, closeModal, itemId, selectedList }) => {
   const [inputValue, setInputValue] = useState('');
-
-  const { listId } = listDetails;
 
   const handleOnChange = (event) => {
     setInputValue(event.target.value);
   };
 
   const saveModalNewValue = () => {
-    dispatch(editItemName(listId, itemId, inputValue));
+    dispatch(editItemName(selectedList.id, itemId, inputValue));
     closeModal();
   };
 
@@ -55,7 +53,6 @@ const Modalpopup = ({ dispatch, show, closeModal, itemId, listDetails }) => {
 const mapStateToProps = (state) => {
   return {
     itemId: state.listReducer.selectedItemId,
-    listDetails: state.listReducer.selectedList,
   };
 };
 

@@ -13,19 +13,20 @@ import { deleteListItemFromFirestore } from '../../firebase/firebase.utils';
 
 import Modalpopup from '../../components/Modalpopup/Modalpopup';
 
-const Item = ({ dispatch, userAuth, listDetails, item }) => {
-  const [quantity, setQuantity] = useState('1');
-  const [check, setCheck] = useState(false);
-  const [show, setShow] = useState(false);
-
+const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
   const { itemName, id } = item;
-  const { listName, listId } = listDetails;
+  const quantityValue = lists[selectedList.id].items[id].quantity;
+  const itemState = lists[selectedList.id].items[id].check;
+
+  const [quantity, setQuantity] = useState(quantityValue);
+  const [check, setCheck] = useState(itemState);
+  const [show, setShow] = useState(false);
 
   const onChangeQuantity = (event) => {
     setQuantity(event.target.value);
   };
 
-  const deleteItem = (listId, itemID) => {
+  const deleteItem = (listId, itemID, listName) => {
     if (userAuth) {
       deleteListItemFromFirestore(userAuth.id, listName, itemID);
     } else {
@@ -53,14 +54,14 @@ const Item = ({ dispatch, userAuth, listDetails, item }) => {
 
   return (
     <Fragment>
-      {show && <Modalpopup show={show} closeModal={closeModal} />}
+      {show && <Modalpopup show={show} closeModal={closeModal} selectedList={selectedList} />}
       <li className="li-item">
         <div className="list-component text-secondary">
           <div className="check-list">
             <i
               className={`far ${check ? 'fa-check-circle text-success' : 'fa-circle'}`}
               role="button"
-              onClick={() => toggleCheck(listId, check, id)}
+              onClick={() => toggleCheck(selectedList.id, check, id)}
               aria-hidden="true"
             ></i>
             <p className="p-text" style={check ? { textDecoration: 'line-through' } : { textDecoration: 'initial' }}>
@@ -71,7 +72,7 @@ const Item = ({ dispatch, userAuth, listDetails, item }) => {
             <i
               className="far fa-times-circle text-danger"
               role="button"
-              onClick={() => deleteItem(listId, id)}
+              onClick={() => deleteItem(selectedList.id, id, selectedList.listName)}
               aria-hidden="true"
             ></i>
             <i
@@ -82,7 +83,7 @@ const Item = ({ dispatch, userAuth, listDetails, item }) => {
             ></i>
             <input
               onChange={onChangeQuantity}
-              onClick={() => changeQuantity(listId, id, quantity)}
+              onClick={() => changeQuantity(selectedList.id, id, quantity)}
               className="quantity"
               type="number"
               aria-label="Insert a number"
@@ -102,7 +103,8 @@ const Item = ({ dispatch, userAuth, listDetails, item }) => {
 const mapStateToProps = (state) => {
   return {
     userAuth: state.userReducer.user,
-    listDetails: state.listReducer.selectedList,
+    selectedList: state.listReducer.selectedList,
+    lists: state.listReducer.lists,
   };
 };
 

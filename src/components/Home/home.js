@@ -35,7 +35,7 @@ const Home = ({ dispatch, userAuth, lists }) => {
   };
 
   const deleteListName = (userId, listName, id) => {
-    if (userAuth) {
+    if (userId) {
       deleteListFromFirestore(userId, listName);
     } else {
       dispatch(deleteListAction(id));
