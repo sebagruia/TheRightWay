@@ -26,7 +26,7 @@ const Home = ({ dispatch, userAuth, lists }) => {
       };
 
       if (userAuth) {
-        addListNameToFirestore(userAuth.id, listName, listDetails);
+        addListNameToFirestore(userAuth.id, listDetails.id, listDetails);
       } else {
         dispatch(addNewListAction(listDetails));
       }
@@ -34,11 +34,11 @@ const Home = ({ dispatch, userAuth, lists }) => {
     }
   };
 
-  const deleteListName = (userId, listName, id) => {
+  const deleteListName = (userId, listId) => {
     if (userId) {
-      deleteListFromFirestore(userId, listName);
+      deleteListFromFirestore(userId, listId);
     } else {
-      dispatch(deleteListAction(id));
+      dispatch(deleteListAction(listId));
     }
   };
 

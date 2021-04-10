@@ -7,8 +7,6 @@ import { useHistory } from 'react-router-dom';
 const List = ({ dispatch, userAuth, children, list, deleteList }) => {
   const history = useHistory();
 
-  const { id, listName } = list;
-
   return (
     <li className="newListLi">
       <button
@@ -22,7 +20,7 @@ const List = ({ dispatch, userAuth, children, list, deleteList }) => {
         {children}
       </button>
       <i
-        onClick={() => deleteList(userAuth && userAuth.id, listName, id)}
+        onClick={() => deleteList(userAuth && userAuth.id, list.id)}
         className="far fa-trash-alt"
         role="button"
         aria-hidden="true"

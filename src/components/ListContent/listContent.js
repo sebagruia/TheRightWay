@@ -11,8 +11,6 @@ import Item from '../../components/Item/Item';
 const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
   const [inputText, setInputText] = useState('');
 
-  console.log(selectedList);
-
   const listItems = lists && lists[selectedList.id].items;
 
   const handleOnChange = (event) => {
@@ -29,7 +27,7 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
         quantity: '1',
       };
       if (userAuth) {
-        addListItemToFirestore(userAuth.id, selectedList.listName, item);
+        addListItemToFirestore(userAuth.id, selectedList.id, item);
       } else {
         dispatch(addNewItemInList(selectedList.id, item));
       }

@@ -24,9 +24,9 @@ const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
     setQuantity(event.target.value);
   };
 
-  const deleteItem = (listId, itemID, listName) => {
+  const deleteItem = (listId, itemID) => {
     if (userAuth) {
-      deleteListItemFromFirestore(userAuth.id, listName, itemID);
+      deleteListItemFromFirestore(userAuth.id, listId, itemID);
     } else {
       dispatch(deleteListItem(listId, itemID));
     }
@@ -39,7 +39,7 @@ const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
 
   const toggleCheck = (selectedList, status, item) => {
     if (userAuth) {
-      toggleCheckInFirestore(userAuth.id, selectedList.listName, item);
+      toggleCheckInFirestore(userAuth.id, selectedList.id, item);
     } else {
       dispatch(toggleCheckStatus(selectedList.id, item.id, !status));
     }

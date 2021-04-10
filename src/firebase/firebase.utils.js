@@ -108,19 +108,19 @@ export const addListNameToFirestore = async (userId, listName, listDetails) => {
   }
 };
 
-export const deleteListFromFirestore = async (userId, listName) => {
+export const deleteListFromFirestore = async (userId, listId) => {
   try {
-    firestore.collection(`/users/${userId}/lists/`).doc(listName).delete();
+    firestore.collection(`/users/${userId}/lists/`).doc(listId).delete();
   } catch (error) {
     console.log(error);
   }
 };
 
-export const addListItemToFirestore = async (userId, listName, item) => {
+export const addListItemToFirestore = async (userId, listId, item) => {
   const updatingObj = {};
   updatingObj[`items.${item.id}`] = item;
   try {
-    firestore.doc(`/users/${userId}/lists/${listName}`).update(updatingObj);
+    firestore.doc(`/users/${userId}/lists/${listId}`).update(updatingObj);
   } catch (error) {
     console.log(error);
   }
@@ -136,11 +136,11 @@ export const deleteListItemFromFirestore = async (userId, listName, itemID) => {
   }
 };
 
-export const toggleCheckInFirestore = async (userId, listName, item) => {
+export const toggleCheckInFirestore = async (userId, listId, item) => {
   const updatingObj = {};
-  updatingObj[`items.${item.id}.check`] = !item;
+  updatingObj[`items.${item.id}.check`] = !item.check;
   try {
-    firestore.doc(`/users/${userId}/lists/${listName}`).update(updatingObj);
+    firestore.doc(`/users/${userId}/lists/${listId}`).update(updatingObj);
   } catch (error) {
     console.log(error);
   }
