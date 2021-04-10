@@ -9,17 +9,15 @@ import {
   toggleCheckStatus,
   changeItemQuantity,
 } from '../../redux/list/listActions';
-import { deleteListItemFromFirestore } from '../../firebase/firebase.utils';
+import { deleteListItemFromFirestore, toggleCheckInFirestore } from '../../firebase/firebase.utils';
 
 import Modalpopup from '../../components/Modalpopup/Modalpopup';
 
 const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
-  const { itemName, id } = item;
+  const { itemName, id, check } = item;
   const quantityValue = lists[selectedList.id].items[id].quantity;
-  const itemState = lists[selectedList.id].items[id].check;
 
   const [quantity, setQuantity] = useState(quantityValue);
-  const [check, setCheck] = useState(itemState);
   const [show, setShow] = useState(false);
 
   const onChangeQuantity = (event) => {
@@ -39,9 +37,12 @@ const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
     dispatch(selectingCurrentItem(itemId));
   };
 
-  const toggleCheck = (listId, status, itemID) => {
-    dispatch(toggleCheckStatus(listId, itemID, !status));
-    setCheck(!status);
+  const toggleCheck = (selectedList, status, item) => {
+    if (userAuth) {
+      toggleCheckInFirestore(userAuth.id, selectedList.listName, item);
+    } else {
+      dispatch(toggleCheckStatus(selectedList.id, item.id, !status));
+    }
   };
 
   const changeQuantity = (listId, itemID, quantity) => {
@@ -61,7 +62,7 @@ const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
             <i
               className={`far ${check ? 'fa-check-circle text-success' : 'fa-circle'}`}
               role="button"
-              onClick={() => toggleCheck(selectedList.id, check, id)}
+              onClick={() => toggleCheck(selectedList, check, item)}
               aria-hidden="true"
             ></i>
             <p className="p-text" style={check ? { textDecoration: 'line-through' } : { textDecoration: 'initial' }}>

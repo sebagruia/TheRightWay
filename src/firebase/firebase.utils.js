@@ -135,3 +135,13 @@ export const deleteListItemFromFirestore = async (userId, listName, itemID) => {
     console.log(error);
   }
 };
+
+export const toggleCheckInFirestore = async (userId, listName, item) => {
+  const updatingObj = {};
+  updatingObj[`items.${item.id}.check`] = !item;
+  try {
+    firestore.doc(`/users/${userId}/lists/${listName}`).update(updatingObj);
+  } catch (error) {
+    console.log(error);
+  }
+};
