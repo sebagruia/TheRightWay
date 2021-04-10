@@ -22,7 +22,6 @@ const App = ({ getUserLists, setCurrentUser, clearState }) => {
     const unsubscribFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       console.log(userAuth);
       if (userAuth && userAuth.emailVerified) {
-        clearState();
         const userRef = await createUserProfileDocument(userAuth);
         userRef.onSnapshot((snapshot) => {
           setCurrentUser({

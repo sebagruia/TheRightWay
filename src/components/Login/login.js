@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 
 import { signInWithGoogle, signInWithPassword, createUserProfileDocument } from '../../firebase/firebase.utils';
 import { setUser } from '../../redux/user/userActions';
+import { clearStateAction } from '../../redux/list/listActions';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -20,6 +21,7 @@ const Login = ({ dispatch }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.currentTarget;
+    dispatch(clearStateAction());
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();

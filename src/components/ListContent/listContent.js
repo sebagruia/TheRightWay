@@ -11,6 +11,8 @@ import Item from '../../components/Item/Item';
 const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
   const [inputText, setInputText] = useState('');
 
+  console.log(selectedList);
+
   const listItems = lists && lists[selectedList.id].items;
 
   const handleOnChange = (event) => {
