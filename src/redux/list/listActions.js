@@ -15,14 +15,25 @@ export const CHANGE_ITEM_QUANTITY = 'CHANGE_ITEM_QUANTITY';
 
 export const fetchUserLists = (userId) => async (dispatch) => {
   const userListsRef = firestore.collection(`/users/${userId}/lists/`);
+
   try {
     userListsRef.onSnapshot((snapShot) => {
       let listsObject = {};
       const lists = snapShot.docs.map((item) => item.data());
-      for (let list of lists) {
-        listsObject = { ...listsObject, [list.id]: list };
-      }
-
+      lists.forEach((list) => {
+        if (list.items) {
+          let listItems = {};
+          const itemsKeys = Object.keys(list.items).sort();
+          console.log(itemsKeys);
+          for (let key of itemsKeys) {
+            listItems = { ...listItems, [key]: list.items[key] };
+          }
+          listsObject = { ...listsObject, [list.id]: { ...list, items: { ...listItems } } };
+          console.log(listsObject);
+        } else {
+          listsObject = { ...listsObject, [list.id]: list };
+        }
+      });
       dispatch({ type: FETCH_USER_LISTS, payload: listsObject });
     });
   } catch (error) {

@@ -9,7 +9,11 @@ import {
   toggleCheckStatus,
   changeItemQuantity,
 } from '../../redux/list/listActions';
-import { deleteListItemFromFirestore, toggleCheckInFirestore } from '../../firebase/firebase.utils';
+import {
+  deleteListItemFromFirestore,
+  toggleCheckInFirestore,
+  changeQuantityInFirestore,
+} from '../../firebase/firebase.utils';
 
 import Modalpopup from '../../components/Modalpopup/Modalpopup';
 
@@ -45,8 +49,12 @@ const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
     }
   };
 
-  const changeQuantity = (listId, itemID, quantity) => {
-    dispatch(changeItemQuantity(listId, itemID, quantity));
+  const changeQuantity = (listId, id, quantity) => {
+    if (userAuth) {
+      changeQuantityInFirestore(userAuth.id, listId, id, quantity);
+    } else {
+      dispatch(changeItemQuantity(listId, id, quantity));
+    }
   };
 
   const closeModal = () => {

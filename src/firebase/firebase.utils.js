@@ -100,16 +100,21 @@ export const signOut = async () => {
   }
 };
 
-export const addListNameToFirestore = async (userId, listName, listDetails) => {
+export const addListNameToFirestore = async (userId, listId, listDetails) => {
   try {
-    firestore.collection(`/users/${userId}/lists/`).doc(listName).set(listDetails);
+    firestore.collection(`/users/${userId}/lists/`).doc(listId).set(listDetails);
   } catch (error) {
     console.log(error);
   }
 };
 
 export const deleteListFromFirestore = async (userId, listId) => {
+  // const listRef = firestore.doc(`/users/${userId}/lists/${listId}/items`);
+  const itemsRef = firestore.collection(`/users/${userId}/lists/${listId}/items`);
+
   try {
+    const items = await itemsRef.get();
+    items.docs.map((doc) => doc.ref.delete());
     firestore.collection(`/users/${userId}/lists/`).doc(listId).delete();
   } catch (error) {
     console.log(error);
@@ -119,8 +124,10 @@ export const deleteListFromFirestore = async (userId, listId) => {
 export const addListItemToFirestore = async (userId, listId, item) => {
   const updatingObj = {};
   updatingObj[`items.${item.id}`] = item;
+  console.log(item);
   try {
     firestore.doc(`/users/${userId}/lists/${listId}`).update(updatingObj);
+    // firestore.collection(`/users/${userId}/lists/${listId}/items`).add(item);
   } catch (error) {
     console.log(error);
   }
@@ -141,6 +148,16 @@ export const toggleCheckInFirestore = async (userId, listId, item) => {
   updatingObj[`items.${item.id}.check`] = !item.check;
   try {
     firestore.doc(`/users/${userId}/lists/${listId}`).update(updatingObj);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const changeQuantityInFirestore = async (userId, listId, itemId, quantity) => {
+  const updatingObj = {};
+  updatingObj[`items.${itemId}.quantity`] = quantity;
+  try {
+    await firestore.doc(`/users/${userId}/lists/${listId}`).update(updatingObj);
   } catch (error) {
     console.log(error);
   }
