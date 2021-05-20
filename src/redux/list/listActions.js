@@ -24,12 +24,10 @@ export const fetchUserLists = (userId) => async (dispatch) => {
         if (list.items) {
           let listItems = {};
           const itemsKeys = Object.keys(list.items).sort();
-          console.log(itemsKeys);
           for (let key of itemsKeys) {
             listItems = { ...listItems, [key]: list.items[key] };
           }
           listsObject = { ...listsObject, [list.id]: { ...list, items: { ...listItems } } };
-          console.log(listsObject);
         } else {
           listsObject = { ...listsObject, [list.id]: list };
         }

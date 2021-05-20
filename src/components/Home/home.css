@@ -1,24 +1,8 @@
-.options_ul {
-  margin-top: 30vh;
-  padding: 0;
-}
-.options_ul li {
-  list-style: none;
-}
-.options_ul li h5 {
-  font-size: 1.5rem;
-  font-weight: 300;
-  color: #495057;
-}
-.addNewListInput-row {
-  justify-content: center;
-}
 .addNewListInput-container {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
 }
 .addNewListInput {
   width: 50%;
@@ -35,6 +19,45 @@
 .ListSummary {
   display: flex;
   flex-direction: column;
-  width: 70%;
-  padding-top: 30px;
+  width: 30%;
+  height: 45vh;
+  margin-top: 30px;
+  overflow-y: scroll;
+}
+
+/* Media Query */
+@media all and (max-width: 576px) {
+  .addNewListInput {
+    padding-top: 50px;
+  }
+  .ListSummary {
+    height: 350px;
+    overflow-y: scroll;
+  }
+}
+
+@media all and (max-width: 992px) {
+  .addNewListInput {
+    width: 70%;
+  }
+}
+
+@media all and (max-width: 767px) {
+  .addNewListInput {
+    width: 100%;
+  }
+  .ListSummary {
+    width: 100%;
+  }
+}
+
+@media all and (min-width: 768px) and (max-width: 991px) {
+  .ListSummary {
+    width: 50%;
+  }
+}
+@media all and (min-width: 992px) {
+  .ListSummary {
+    width: 30%;
+  }
 }

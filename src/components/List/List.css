@@ -1,4 +1,5 @@
 .newListLi {
+  position: relative;
   width: 100%;
   display: flex;
   align-items: center;
@@ -8,12 +9,17 @@
 }
 .newListLi .btn {
   width: 90%;
+  order: 2;
 }
-.newListLi .fa-trash-alt {
-  font-size: 1rem;
+.newListLi .fa-times-circle {
+  position: absolute;
+  top: 45%;
+  left: 24px;
+  font-size: 1.2rem;
   color: #ced4da;
+  order: 1;
 }
-.newListLi .fa-trash-alt:hover {
+.newListLi .fa-times-circle:hover {
   color: #b33939;
   opacity: 1;
   cursor: pointer;

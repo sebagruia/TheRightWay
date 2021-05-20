@@ -21,7 +21,7 @@ const List = ({ dispatch, userAuth, children, list, deleteList }) => {
       </button>
       <i
         onClick={() => deleteList(userAuth && userAuth.id, list.id)}
-        className="far fa-trash-alt"
+        className="far fa-times-circle"
         role="button"
         aria-hidden="true"
       ></i>
