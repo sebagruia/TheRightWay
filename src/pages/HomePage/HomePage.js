@@ -1,5 +1,5 @@
 import React from 'react';
-import './HomePage.css';
+import styles from './HomePage.module.scss';
 
 import Layout from '../../components/Layout/layout';
 import Home from '../../components/Home/home';

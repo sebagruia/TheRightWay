@@ -1,0 +1,26 @@
+.newListLi {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-top: 10px;
+  font-weight: 200;
+  .btn {
+    width: 90%;
+    order: 2;
+  }
+  .fa_times_circle {
+    position: absolute;
+    top: 45%;
+    left: 24px;
+    font-size: 1.2rem;
+    color: #ced4da;
+    order: 1;
+    &:hover {
+      color: #b33939;
+      opacity: 1;
+      cursor: pointer;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import './List.css';
+import styles from './List.module.scss';
 import { connect } from 'react-redux';
 import { selectListAction } from '../../redux/list/listActions';
 import { useHistory } from 'react-router-dom';
@@ -8,7 +8,7 @@ const List = ({ dispatch, userAuth, children, list, deleteList }) => {
   const history = useHistory();
 
   return (
-    <li className="newListLi">
+    <li className={styles.newListLi}>
       <button
         onClick={() => {
           dispatch(selectListAction(list));
@@ -21,7 +21,7 @@ const List = ({ dispatch, userAuth, children, list, deleteList }) => {
       </button>
       <i
         onClick={() => deleteList(userAuth && userAuth.id, list.id)}
-        className="far fa-times-circle"
+        className={`far fa-times-circle ${styles.fa_times_circle}`}
         role="button"
         aria-hidden="true"
       ></i>
