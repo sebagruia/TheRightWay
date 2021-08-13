@@ -1,0 +1,57 @@
+/* Primary palette */
+$primaryColor: #2b3f5d;
+$accentColor: #d39e00;
+$neutralColor: #36385a;
+$backgroundColor: #222549;
+$whiteColor: #ffff;
+$warmWhite: #fffdf7;
+
+/* Secondary palette */
+$borderColor: #d8eff0;
+$teal900: #c69500;
+$primary900: #10246a;
+
+// Media queries breakpoints
+$screen-xxs: 375px;
+$screen-xxs-max: ($screen-xxs + 1);
+
+// Media queries breakpoints
+// Extra small screen / phone
+$screen-xs: 480px;
+$screen-xs-min: $screen-xs;
+
+// Small screen / tablet
+$screen-sm: 576px;
+$screen-sm-min: $screen-sm;
+
+// Medium screen / desktop
+$screen-md: 768px;
+$screen-md-min: $screen-md;
+
+// Large screen / wide desktop
+$screen-lg: 992px;
+$screen-lg-min: $screen-lg;
+
+// Extra large screen / full hd
+$screen-xl: 1200px;
+$screen-xl-min: $screen-xl;
+
+// default content screen
+$screen-cs: 1140px;
+$screen-cs-min: $screen-cs;
+
+// default content screen
+// $screen-cs: 1400px;
+// $screen-cs-min: $screen-cs;
+
+// Extra extra large screen / large desktop
+$screen-xxl: 1600px;
+$screen-xxl-min: $screen-xxl;
+
+// provide a maximum
+$screen-xs-max: ($screen-sm-min - 1px);
+$screen-sm-max: ($screen-md-min - 1px);
+$screen-md-max: ($screen-lg-min - 1px);
+$screen-lg-max: ($screen-xl-min - 1px);
+$screen-xl-max: ($screen-xxl-min - 1px);
+$screen-cs-min: ($screen-cs-min - 1px);

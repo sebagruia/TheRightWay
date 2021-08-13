@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './home.css';
+import styles from './home.module.scss';
 
 import { connect } from 'react-redux';
 
@@ -44,25 +44,34 @@ const Home = ({ dispatch, userAuth, lists }) => {
 
   return (
     <div className="container">
-      <div className="row addNewListInput-row">
+      <div className={`row ${styles.addNewListInput_row}`}>
         <div className="col">
-          <div className="addNewListInput-container">
-            <form onSubmit={addNewList} className="input-group addNewListInput">
-              <button className="btn btn-warning plusButton" type="submit" id="button-addon1">
+          <div className={styles.addNewListInput_container}>
+            <div className={styles.titleContainer}>
+              <div className={styles.h1container}>
+                <h1>
+                  <span className={styles.bold}>Task</span> <span className={styles.light}></span>Lists
+                </h1>
+              </div>
+
+              <hr />
+            </div>
+            <form onSubmit={addNewList} className={`input-group ${styles.addNewListInput}`}>
+              <button className={`btn btn-warning ${styles.plusButton}`} type="submit" id="button-addon1">
                 +
               </button>
               <input
                 onChange={handleOnChange}
                 type="text"
                 value={listName}
-                className="form-control"
+                className={`form-control ${styles.form_control}`}
                 placeholder="New List Name"
                 aria-label="Example text with button addon"
                 aria-describedby="button-addon1"
               />
             </form>
 
-            <ul className="ListSummary">
+            <ul className={styles.listSummary}>
               {lists &&
                 Object.values(lists).map((list) => (
                   <List key={`${list.id}`} list={list} deleteList={deleteListName} userAuth={userAuth}>

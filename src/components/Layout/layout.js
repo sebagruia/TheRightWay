@@ -1,5 +1,5 @@
 import React from 'react';
-import './layout.css';
+import styles from'./layout.module.scss';
 
 import Navigation from '../Navigation/Navigation';
 import { Fragment } from 'react';
