@@ -7,12 +7,17 @@ import { addListItemToFirestore } from '../../firebase/firebase.utils';
 import { addNewItemInList } from '../../redux/list/listActions';
 
 import Item from '../../components/Item/Item';
+import ProgressBar from 'react-bootstrap/ProgressBar';
 
 const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
   const [inputText, setInputText] = useState('');
   const [visible, setVisible] = useState(true);
 
   const listItems = lists && lists[selectedList.id].items;
+
+  const listItemsArray = Object.values(listItems);
+  const checkedItems = listItemsArray.filter((list) => list.check === true).length;
+  const percentage = Math.floor((checkedItems / listItemsArray.length) * 100);
 
   const handleClick = () => {
     setVisible(!visible);
@@ -46,9 +51,13 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
         <div className="col">
           <div className={styles.listContent_container}>
             <div className={styles.titleContainer}>
-                <h1>
-                  <span className={styles.bold}>{selectedList.listName.toUpperCase()}</span>{' '}
-                </h1>
+              <h1>
+                <span className={styles.bold}>{selectedList.listName.toUpperCase()}</span>{' '}
+              </h1>
+              <div className={styles.progressContainer}>
+                <ProgressBar animated variant="warning" now={percentage} label={percentage} />
+                <p>{`${checkedItems} of ${listItemsArray.length} tasks`}</p>
+              </div>
             </div>
             <form onSubmit={addNewItem} className={`input-group ${styles.addNewItemInput}`}>
               {visible ? (
@@ -77,7 +86,6 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
                 </button>
               </div>
             </form>
-            <div className={styles.list_title_wraper}></div>
             <ul className={styles.todo_list}>
               {listItems && Object.values(listItems).map((item) => <Item key={item.id} item={item} />)}
             </ul>
