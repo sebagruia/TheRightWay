@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './listContent.css';
+import styles from './listContent.module.scss';
 
 import { connect } from 'react-redux';
 
@@ -10,8 +10,13 @@ import Item from '../../components/Item/Item';
 
 const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
   const [inputText, setInputText] = useState('');
+  const [visible, setVisible] = useState(true);
 
   const listItems = lists && lists[selectedList.id].items;
+
+  const handleClick = () => {
+    setVisible(!visible);
+  };
 
   const handleOnChange = (event) => {
     setInputText(event.target.value);
@@ -37,39 +42,43 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
 
   return (
     <div className="container">
-      <div className="col">
-        <div className="row listContent-row">
-          <div className="listContent-container">
-            <form onSubmit={addNewItem} className="input-group addNewItemInput">
-              <button className="btn btn-warning plusButton" type="submit" id="button-addon1">
-                +
-              </button>
-              <input
-                onChange={handleOnChange}
-                type="text"
-                value={inputText}
-                className="form-control"
-                placeholder="New Item Name"
-                aria-label="Example text with button addon"
-                aria-describedby="button-addon1"
-              />
-            </form>
-            <div className="list-title-wraper">
-              <div>
-                <h3 className="todo-name">{selectedList.listName}</h3>
-              </div>
-
-              <div>
-                <i
-                  className="fas fa-save saveExitButton"
-                  role="button"
-                  // onClick={this.saveListButtonFunctionalities}
-                >
-                  <span className="tooltiptext">Save</span>
-                </i>
-              </div>
+      <div className={`row ${styles.listContent_row}`}>
+        <div className="col">
+          <div className={styles.listContent_container}>
+            <div className={styles.titleContainer}>
+                <h1>
+                  <span className={styles.bold}>{selectedList.listName.toUpperCase()}</span>{' '}
+                </h1>
             </div>
-            <ul className="todo-list">
+            <form onSubmit={addNewItem} className={`input-group ${styles.addNewItemInput}`}>
+              {visible ? (
+                <button onClick={handleClick} className={`btn btn-warning ${styles.plusButton} `} type="button">
+                  +
+                </button>
+              ) : null}
+
+              <div className={`${styles.inputGroup}  ${!visible ? `reveal` : `hide`}`}>
+                <input
+                  onChange={handleOnChange}
+                  type="text"
+                  value={inputText}
+                  className={`form-control ${styles.form_control}`}
+                  placeholder="New Item Name"
+                  aria-label="Example text with button addon"
+                  aria-describedby="button-addon1"
+                />
+                <button
+                  onClick={handleClick}
+                  className={`btn btn-warning ${styles.addButton} `}
+                  type="submit"
+                  id="button-addon1"
+                >
+                  +
+                </button>
+              </div>
+            </form>
+            <div className={styles.list_title_wraper}></div>
+            <ul className={styles.todo_list}>
               {listItems && Object.values(listItems).map((item) => <Item key={item.id} item={item} />)}
             </ul>
           </div>

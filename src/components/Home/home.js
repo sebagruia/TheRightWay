@@ -11,6 +11,12 @@ import List from '../../components/List/List';
 
 const Home = ({ dispatch, userAuth, lists }) => {
   const [listName, setListName] = useState('');
+  const [visible, setVisible] = useState(true);
+
+  const handleClick = (event) => {
+    console.log(event);
+    setVisible(!visible);
+  };
 
   const handleOnChange = (event) => {
     setListName(event.target.value);
@@ -53,22 +59,33 @@ const Home = ({ dispatch, userAuth, lists }) => {
                   <span className={styles.bold}>Task</span> <span className={styles.light}></span>Lists
                 </h1>
               </div>
-
               <hr />
             </div>
             <form onSubmit={addNewList} className={`input-group ${styles.addNewListInput}`}>
-              <button className={`btn btn-warning ${styles.plusButton}`} type="submit" id="button-addon1">
-                +
-              </button>
-              <input
-                onChange={handleOnChange}
-                type="text"
-                value={listName}
-                className={`form-control ${styles.form_control}`}
-                placeholder="New List Name"
-                aria-label="Example text with button addon"
-                aria-describedby="button-addon1"
-              />
+              {visible ? (
+                <button onClick={handleClick} className={`btn btn-warning ${styles.plusButton}`} type="submit">
+                  +
+                </button>
+              ) : null}
+              <div className={`${styles.inputGroup} ${!visible ? `reveal` : `hide`}`}>
+                <input
+                  onChange={handleOnChange}
+                  type="text"
+                  value={listName}
+                  className={`form-control ${styles.form_control}`}
+                  placeholder="New List Name"
+                  aria-label="Example text with button addon"
+                  aria-describedby="button-addon1"
+                />
+                <button
+                  onClick={handleClick}
+                  className={`btn btn-warning ${styles.addButton} `}
+                  type="submit"
+                  id="button-addon1"
+                >
+                  +
+                </button>
+              </div>
             </form>
 
             <ul className={styles.listSummary}>
