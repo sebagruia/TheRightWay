@@ -12,12 +12,9 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
   const [inputText, setInputText] = useState('');
   const [visible, setVisible] = useState(true);
-
-  const listItems = lists && lists[selectedList.id].items;
-
-  const listItemsArray = Object.values(listItems);
-  const checkedItems = listItemsArray.filter((list) => list.check === true).length;
-  const percentage = Math.floor((checkedItems / listItemsArray.length) * 100);
+  const listItems = lists[selectedList.id].items;
+  const checkedItems = listItems && Object.values(listItems).filter((list) => list.check === true).length;
+  const percentage = listItems && Math.floor((checkedItems / Object.values(listItems).length) * 100);
 
   const handleClick = () => {
     setVisible(!visible);
@@ -54,10 +51,12 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
               <h1>
                 <span className={styles.bold}>{selectedList.listName.toUpperCase()}</span>{' '}
               </h1>
-              <div className={styles.progressContainer}>
-                <ProgressBar animated variant="warning" now={percentage} label={percentage} />
-                <p>{`${checkedItems} of ${listItemsArray.length} tasks`}</p>
-              </div>
+              {listItems && (
+                <div className={styles.progressContainer}>
+                  <ProgressBar animated variant="warning" now={percentage} label={`${percentage}%`} />
+                  <p>{`${checkedItems} of ${Object.values(listItems).length} tasks`}</p>
+                </div>
+              )}
             </div>
             <form onSubmit={addNewItem} className={`input-group ${styles.addNewItemInput}`}>
               {visible ? (
