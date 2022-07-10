@@ -41,7 +41,6 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
       setInputText('');
     }
   };
-
   return (
     <div className="container">
       <div className={`row ${styles.listContent_row}`}>
@@ -53,7 +52,12 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
               </h1>
               {listItems && (
                 <div className={styles.progressContainer}>
-                  <ProgressBar animated variant="warning" now={percentage} label={`${percentage}%`} />
+                  <ProgressBar
+                    animated
+                    variant="warning"
+                    now={percentage}
+                    label={`${!isNaN(percentage) ? percentage : 0}%`}
+                  />
                   <p>{`${checkedItems} of ${Object.values(listItems).length} tasks`}</p>
                 </div>
               )}
