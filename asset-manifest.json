@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/TheRightWay/static/css/main.ba3c28f9.chunk.css",
+    "main.js": "/TheRightWay/static/js/main.2fc0a50c.chunk.js",
+    "main.js.map": "/TheRightWay/static/js/main.2fc0a50c.chunk.js.map",
+    "runtime-main.js": "/TheRightWay/static/js/runtime-main.8a722f32.js",
+    "runtime-main.js.map": "/TheRightWay/static/js/runtime-main.8a722f32.js.map",
+    "static/js/2.b1859055.chunk.js": "/TheRightWay/static/js/2.b1859055.chunk.js",
+    "static/js/2.b1859055.chunk.js.map": "/TheRightWay/static/js/2.b1859055.chunk.js.map",
+    "static/js/3.e19a8c79.chunk.js": "/TheRightWay/static/js/3.e19a8c79.chunk.js",
+    "static/js/3.e19a8c79.chunk.js.map": "/TheRightWay/static/js/3.e19a8c79.chunk.js.map",
+    "index.html": "/TheRightWay/index.html",
+    "static/css/main.ba3c28f9.chunk.css.map": "/TheRightWay/static/css/main.ba3c28f9.chunk.css.map",
+    "static/js/2.b1859055.chunk.js.LICENSE.txt": "/TheRightWay/static/js/2.b1859055.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8a722f32.js",
+    "static/js/2.b1859055.chunk.js",
+    "static/css/main.ba3c28f9.chunk.css",
+    "static/js/main.2fc0a50c.chunk.js"
+  ]
+}
