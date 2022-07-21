@@ -1,0 +1,110 @@
+@use "../../styles/variables.scss" as *;
+
+.listContent_row {
+  justify-content: center;
+  .listContent_container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    @media all and (max-width: $screen-sm) {
+      width: 100%;
+    }
+    .bold,
+    .light {
+      color: $primaryColor;
+    }
+    .bold {
+      font-weight: 600;
+    }
+    .light {
+      font-weight: 300;
+    }
+    .titleContainer {
+      position: relative;
+      width: 50%;
+      padding-left: 20px;
+      @media screen and (max-width: 576px) {
+        width: 100%;
+      }
+      @media screen and (min-width: 577px) and (max-width: 992px) {
+        width: 80%;
+      }
+      h1 {
+        font-weight: 300;
+        text-align: left;
+      }
+      .progressContainer {
+        width: 30%;
+        p {
+          padding-top: 5px;
+          font-family: 'Yanone Kaffeesatz', sans-serif;
+        }
+      }
+    }
+    .addNewItemInput {
+      width: 50%;
+      display: flex;
+      justify-content: flex-start;
+      padding: 10px 0 0 20px;
+      @media all and (max-width: 576px) {
+        width: 100%;
+      }
+      @media screen and (min-width: 577px) and (max-width: 992px) {
+        width: 80%;
+      }
+      .plusButton {
+        z-index: 2;
+      }
+      .inputGroup {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .form_control {
+          height: calc(1.15em + 0.75rem + 2px);
+          margin-right: -5px;
+          font-size: 1.3rem;
+          font-weight: 200;
+          border-color: #ffc107;
+        }
+      }
+
+      .plusButton,
+      .addButton {
+        font-size: 1rem;
+      }
+    }
+
+    .todo_list {
+      margin-top: 5vh;
+      width: 50%;
+      height: 400px;
+      padding: 0 0 20px 0;
+      overflow-y: scroll;
+      @media screen and (max-width: 576px) {
+        width: 100%;
+        height: 250px;
+      }
+      @media screen and (min-width: 577px) and (max-width: 992px) {
+        width: 80%;
+        height: 250px;
+      }
+      @media all and (min-height: 640px) {
+        height: 300px;
+      }
+      @media all and (min-height: 800px) {
+        height: 350px;
+      }
+      @media all and (min-height: 900px) {
+        height: 400px;
+      }
+
+      li {
+        margin-bottom: 2vh;
+        color: #495057;
+        list-style: none;
+      }
+    }
+  }
+}

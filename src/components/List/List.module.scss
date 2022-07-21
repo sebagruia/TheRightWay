@@ -6,6 +6,13 @@
   justify-content: space-around;
   padding-top: 10px;
   font-weight: 200;
+  &:hover {
+    .fa_times_circle {
+      color: #b33939;
+      opacity: 1;
+      cursor: pointer;
+    }
+  }
   .btn {
     width: 90%;
     order: 2;
@@ -17,10 +24,5 @@
     font-size: 1.2rem;
     color: #ced4da;
     order: 1;
-    &:hover {
-      color: #b33939;
-      opacity: 1;
-      cursor: pointer;
-    }
   }
 }

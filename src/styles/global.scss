@@ -1,0 +1,25 @@
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
+input,
+textarea {
+  &:focus {
+    outline: none;
+    border-color: #ffc107 !important;
+  }
+}
+
+.hide {
+  width: 1px;
+  opacity: 0;
+}
+
+.reveal {
+  width: auto;
+  opacity: 1;
+  transition: opacity 0.8s;
+}
