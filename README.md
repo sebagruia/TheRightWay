@@ -5,6 +5,9 @@ This is the refactored version of my ToDoList app.
 * Connecting the app to Firebase
 * Transforming the web app into a Progressive Web App.
 
+## App Link
+
+https://sebagruia.github.io/TheRightWay/home
 
 ## App Status
 **UNDER DEVELOPMENT**
