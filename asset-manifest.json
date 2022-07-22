@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/TheRightWay/static/css/main.42b91fd7.chunk.css",
-    "main.js": "/TheRightWay/static/js/main.05c68277.chunk.js",
-    "main.js.map": "/TheRightWay/static/js/main.05c68277.chunk.js.map",
+    "main.css": "/TheRightWay/static/css/main.1e3516e4.chunk.css",
+    "main.js": "/TheRightWay/static/js/main.fcb848eb.chunk.js",
+    "main.js.map": "/TheRightWay/static/js/main.fcb848eb.chunk.js.map",
     "runtime-main.js": "/TheRightWay/static/js/runtime-main.21c81321.js",
     "runtime-main.js.map": "/TheRightWay/static/js/runtime-main.21c81321.js.map",
-    "static/js/2.73fc003e.chunk.js": "/TheRightWay/static/js/2.73fc003e.chunk.js",
-    "static/js/2.73fc003e.chunk.js.map": "/TheRightWay/static/js/2.73fc003e.chunk.js.map",
+    "static/js/2.06f780fe.chunk.js": "/TheRightWay/static/js/2.06f780fe.chunk.js",
+    "static/js/2.06f780fe.chunk.js.map": "/TheRightWay/static/js/2.06f780fe.chunk.js.map",
     "static/js/3.178aa366.chunk.js": "/TheRightWay/static/js/3.178aa366.chunk.js",
     "static/js/3.178aa366.chunk.js.map": "/TheRightWay/static/js/3.178aa366.chunk.js.map",
     "index.html": "/TheRightWay/index.html",
-    "static/css/main.42b91fd7.chunk.css.map": "/TheRightWay/static/css/main.42b91fd7.chunk.css.map",
-    "static/js/2.73fc003e.chunk.js.LICENSE.txt": "/TheRightWay/static/js/2.73fc003e.chunk.js.LICENSE.txt"
+    "static/css/main.1e3516e4.chunk.css.map": "/TheRightWay/static/css/main.1e3516e4.chunk.css.map",
+    "static/js/2.06f780fe.chunk.js.LICENSE.txt": "/TheRightWay/static/js/2.06f780fe.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.21c81321.js",
-    "static/js/2.73fc003e.chunk.js",
-    "static/css/main.42b91fd7.chunk.css",
-    "static/js/main.05c68277.chunk.js"
+    "static/js/2.06f780fe.chunk.js",
+    "static/css/main.1e3516e4.chunk.css",
+    "static/js/main.fcb848eb.chunk.js"
   ]
 }
