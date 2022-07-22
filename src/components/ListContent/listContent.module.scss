@@ -1,4 +1,4 @@
-@use "../../styles/variables.scss" as *;
+@use '../../styles/variables.scss' as *;
 
 .listContent_row {
   justify-content: center;
@@ -8,6 +8,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+    .backArrow {
+      align-self: flex-start;
+      margin-bottom: 40px;
+    }
     @media all and (max-width: $screen-sm) {
       width: 100%;
     }

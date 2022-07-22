@@ -9,6 +9,8 @@ import { addNewItemInList } from '../../redux/list/listActions';
 import Item from '../../components/Item/Item';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
+import backArrow from '../../assets/iconmonstr-arrow-15-32.png';
+
 const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
   const [inputText, setInputText] = useState('');
   const [visible, setVisible] = useState(true);
@@ -46,6 +48,7 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
       <div className={`row ${styles.listContent_row}`}>
         <div className="col">
           <div className={styles.listContent_container}>
+            <img src={backArrow} alt="back arrow" className={styles.backArrow} />
             <div className={styles.titleContainer}>
               <h1>
                 <span className={styles.bold}>{selectedList.listName.toUpperCase()}</span>{' '}
