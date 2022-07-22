@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './listContent.module.scss';
 
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { addListItemToFirestore } from '../../firebase/firebase.utils';
 import { addNewItemInList } from '../../redux/list/listActions';
@@ -9,7 +10,7 @@ import { addNewItemInList } from '../../redux/list/listActions';
 import Item from '../../components/Item/Item';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
-import backArrow from '../../assets/iconmonstr-arrow-15-32.png';
+import backArrow from '../../assets/iconmonstr-arrow-59-48.png';
 
 const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
   const [inputText, setInputText] = useState('');
@@ -48,7 +49,9 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
       <div className={`row ${styles.listContent_row}`}>
         <div className="col">
           <div className={styles.listContent_container}>
-            <img src={backArrow} alt="back arrow" className={styles.backArrow} />
+            <Link to="/home" className={styles.backArrow}>
+              <img src={backArrow} alt="back arrow" />
+            </Link>
             <div className={styles.titleContainer}>
               <h1>
                 <span className={styles.bold}>{selectedList.listName.toUpperCase()}</span>{' '}
