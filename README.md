@@ -7,7 +7,7 @@ This is the refactored version of my ToDoList app.
 
 ## App Link
 
-https://sebagruia.github.io/TheRightWay/home
+https://sebagruia.github.io/TheRightWay/
 
 ## App Status
 **UNDER DEVELOPMENT**
