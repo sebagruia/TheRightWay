@@ -17,7 +17,6 @@ import HomePage from './pages/HomePage/HomePage';
 
 const App = ({ getUserLists, setCurrentUser, clearState }) => {
   const history = useHistory();
-console.log(process.env.PUBLIC_URL);
   useEffect(() => {
     const unsubscribFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth && userAuth.emailVerified) {
