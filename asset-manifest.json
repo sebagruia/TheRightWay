@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/TheRightWay/static/css/main.d6bf3b47.chunk.css",
-    "main.js": "/TheRightWay/static/js/main.c8e3b8f8.chunk.js",
-    "main.js.map": "/TheRightWay/static/js/main.c8e3b8f8.chunk.js.map",
+    "main.css": "/TheRightWay/static/css/main.df3fd5e6.chunk.css",
+    "main.js": "/TheRightWay/static/js/main.a5239823.chunk.js",
+    "main.js.map": "/TheRightWay/static/js/main.a5239823.chunk.js.map",
     "runtime-main.js": "/TheRightWay/static/js/runtime-main.21c81321.js",
     "runtime-main.js.map": "/TheRightWay/static/js/runtime-main.21c81321.js.map",
     "static/js/2.0ad3b769.chunk.js": "/TheRightWay/static/js/2.0ad3b769.chunk.js",
@@ -10,13 +10,13 @@
     "static/js/3.178aa366.chunk.js": "/TheRightWay/static/js/3.178aa366.chunk.js",
     "static/js/3.178aa366.chunk.js.map": "/TheRightWay/static/js/3.178aa366.chunk.js.map",
     "index.html": "/TheRightWay/index.html",
-    "static/css/main.d6bf3b47.chunk.css.map": "/TheRightWay/static/css/main.d6bf3b47.chunk.css.map",
+    "static/css/main.df3fd5e6.chunk.css.map": "/TheRightWay/static/css/main.df3fd5e6.chunk.css.map",
     "static/js/2.0ad3b769.chunk.js.LICENSE.txt": "/TheRightWay/static/js/2.0ad3b769.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.21c81321.js",
     "static/js/2.0ad3b769.chunk.js",
-    "static/css/main.d6bf3b47.chunk.css",
-    "static/js/main.c8e3b8f8.chunk.js"
+    "static/css/main.df3fd5e6.chunk.css",
+    "static/js/main.a5239823.chunk.js"
   ]
 }
