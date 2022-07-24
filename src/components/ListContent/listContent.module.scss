@@ -79,13 +79,16 @@
           border-color: #ffc107;
           border-radius: 5px 0 0 5px;
         }
+        .addButton {
+          font-size: 1rem;
+        }
       }
       .sortContainer {
-        z-index: 2;
+        img {
+          filter: invert(21%) sepia(8%) saturate(3882%) hue-rotate(177deg) brightness(87%) contrast(84%);
+        }
       }
-      .addButton {
-        font-size: 1rem;
-      }
+      
     }
 
     .todo_list {

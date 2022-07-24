@@ -10,9 +10,9 @@ import { addNewItemInList } from '../../redux/list/listActions';
 import Item from '../../components/Item/Item';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
-import backArrow from '../../assets/iconmonstr-arrow-59-48.png';
-import ascendingIcon from '../../assets/ascendingIcon.png';
-import descendingIcon from '../../assets/descendingIcon.png';
+import backArrow from '../../assets/images/iconmonstr-arrow-59-48.png';
+import ascendingIcon from '../../assets/svg/sortAsc.svg';
+import descendingIcon from '../../assets/svg/sortDesc.svg';
 
 import { sortDescending } from '../../utils';
 
@@ -79,7 +79,7 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
               )}
             </div>
             <form onSubmit={addNewItem} className={`input-group ${styles.addNewItemInput}`}>
-              <div className={`${styles.inputGroup}`}>
+              <div className={styles.inputGroup}>
                 <input
                   onChange={handleOnChange}
                   type="text"
@@ -98,13 +98,15 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
                   +
                 </button>
               </div>
-              <div className={`${styles.sortContainer}}`} onClick={handleSort}>
-                {sort ? (
-                  <img src={ascendingIcon} alt="ascendingIcon" />
-                ) : (
-                  <img src={descendingIcon} alt="descendingIcon" />
-                )}
-              </div>
+              {listItems && Object.values(listItems).length > 0 && (
+                <div className={styles.sortContainer} onClick={handleSort}>
+                  {sort ? (
+                    <img src={ascendingIcon} alt="ascendingIcon" />
+                  ) : (
+                    <img src={descendingIcon} alt="descendingIcon" />
+                  )}
+                </div>
+              )}
             </form>
             <ul className={styles.todo_list}>
               {listItems && !sort
@@ -113,7 +115,8 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
                     .map((item) => {
                       return <Item key={item.id} item={item} />;
                     })
-                : Object.values(listItems).map((item) => {
+                : listItems &&
+                  Object.values(listItems).map((item) => {
                     return <Item key={item.id} item={item} />;
                   })}
             </ul>
