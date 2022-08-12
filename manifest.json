@@ -1,7 +1,7 @@
 {
   "name": "The Right Way",
   "short_name": "The Right Way",
-  "start_url": "/",
+  "start_url": ".",
   "display": "standalone",
   "description": "A to-do application",
   "lang": "EN",
