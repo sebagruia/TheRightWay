@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/TheRightWay/static/css/main.c49670f6.chunk.css",
-    "main.js": "/TheRightWay/static/js/main.3691a6d2.chunk.js",
-    "main.js.map": "/TheRightWay/static/js/main.3691a6d2.chunk.js.map",
+    "main.js": "/TheRightWay/static/js/main.58729194.chunk.js",
+    "main.js.map": "/TheRightWay/static/js/main.58729194.chunk.js.map",
     "runtime-main.js": "/TheRightWay/static/js/runtime-main.21c81321.js",
     "runtime-main.js.map": "/TheRightWay/static/js/runtime-main.21c81321.js.map",
     "static/js/2.0ad3b769.chunk.js": "/TheRightWay/static/js/2.0ad3b769.chunk.js",
@@ -21,6 +21,6 @@
     "static/js/runtime-main.21c81321.js",
     "static/js/2.0ad3b769.chunk.js",
     "static/css/main.c49670f6.chunk.css",
-    "static/js/main.3691a6d2.chunk.js"
+    "static/js/main.58729194.chunk.js"
   ]
 }
