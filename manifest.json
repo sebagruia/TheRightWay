@@ -6,8 +6,8 @@
   "description": "A to-do application",
   "lang": "EN",
   "dir": "auto",
-  "theme_color": "#000000",
-  "background_color": "#000000",
+  "theme_color": "#2b3f5d",
+  "background_color": "#2b3f5d",
   "orientation": "any",
   "icons": [
     {
