@@ -14,7 +14,6 @@ const Home = ({ dispatch, userAuth, lists }) => {
   const [visible, setVisible] = useState(true);
 
   const handleClick = (event) => {
-    console.log(event);
     setVisible(!visible);
   };
 
