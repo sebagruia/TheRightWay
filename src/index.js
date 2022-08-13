@@ -8,11 +8,12 @@ import './styles/global.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { store, persistor } from './redux/store';
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter  basename={process.env.PUBLIC_URL}>
         <PersistGate loading={null} persistor={persistor}>
           <App />
         </PersistGate>
@@ -26,3 +27,4 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+serviceWorkerRegistration.register();

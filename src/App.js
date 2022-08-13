@@ -17,10 +17,8 @@ import HomePage from './pages/HomePage/HomePage';
 
 const App = ({ getUserLists, setCurrentUser, clearState }) => {
   const history = useHistory();
-
   useEffect(() => {
     const unsubscribFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-      console.log(userAuth);
       if (userAuth && userAuth.emailVerified) {
         const userRef = await createUserProfileDocument(userAuth);
         userRef.onSnapshot((snapshot) => {

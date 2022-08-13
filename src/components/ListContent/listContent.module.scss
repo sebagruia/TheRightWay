@@ -1,4 +1,4 @@
-@use "../../styles/variables.scss" as *;
+@use '../../styles/variables.scss' as *;
 
 .listContent_row {
   justify-content: center;
@@ -8,6 +8,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+
+    .backArrow {
+      align-self: flex-start;
+      margin-bottom: 40px;
+      padding-left: 16px;
+    }
+
     @media all and (max-width: $screen-sm) {
       width: 100%;
     }
@@ -46,34 +53,42 @@
     .addNewItemInput {
       width: 50%;
       display: flex;
-      justify-content: flex-start;
-      padding: 10px 0 0 20px;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0px 0px 0px;
       @media all and (max-width: 576px) {
-        width: 100%;
+        width: 90%;
       }
       @media screen and (min-width: 577px) and (max-width: 992px) {
         width: 80%;
       }
-      .plusButton {
-        z-index: 2;
-      }
+
       .inputGroup {
         display: flex;
         justify-content: center;
         align-items: center;
+        width: 250px;
+        @media all and(max-width:375px) {
+          width: 200px;
+        }
         .form_control {
           height: calc(1.15em + 0.75rem + 2px);
-          margin-right: -5px;
+          margin-right: -1px;
           font-size: 1.3rem;
           font-weight: 200;
           border-color: #ffc107;
+          border-radius: 5px 0 0 5px;
+        }
+        .addButton {
+          font-size: 1rem;
         }
       }
-
-      .plusButton,
-      .addButton {
-        font-size: 1rem;
+      .sortContainer {
+        img {
+          filter: invert(21%) sepia(8%) saturate(3882%) hue-rotate(177deg) brightness(87%) contrast(84%);
+        }
       }
+      
     }
 
     .todo_list {

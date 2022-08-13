@@ -26,6 +26,7 @@ const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
 
   const onChangeQuantity = (event) => {
     setQuantity(event.target.value);
+    changeQuantity(selectedList.id, id, event.target.value)
   };
 
   const deleteItem = (listId, itemID) => {
@@ -100,7 +101,7 @@ const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
               min="1"
               max="20"
               aria-describedby="number of items of the same kind"
-              value={`${quantity}`}
+              value={quantity}
             />
           </div>
         </div>

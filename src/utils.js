@@ -8,3 +8,14 @@ export const formatName = (string) => {
   });
   return formatedString;
 };
+
+export const sortDescending =  (a, b) =>{
+  if (a.itemName.toUpperCase() > b.itemName.toUpperCase()) {
+      return -1;
+  }
+  if (a.itemName.toUpperCase() < b.itemName.toUpperCase()) {
+      return 1;
+  }
+  return 0;
+};
+

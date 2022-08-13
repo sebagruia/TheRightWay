@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './listContent.module.scss';
 
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { addListItemToFirestore } from '../../firebase/firebase.utils';
 import { addNewItemInList } from '../../redux/list/listActions';
@@ -9,9 +10,16 @@ import { addNewItemInList } from '../../redux/list/listActions';
 import Item from '../../components/Item/Item';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
+import backArrow from '../../assets/images/iconmonstr-arrow-59-48.png';
+import ascendingIcon from '../../assets/svg/sortAsc.svg';
+import descendingIcon from '../../assets/svg/sortDesc.svg';
+
+import { sortDescending } from '../../utils';
+
 const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
   const [inputText, setInputText] = useState('');
   const [visible, setVisible] = useState(true);
+  const [sort, setSort] = useState(true);
   const listItems = lists[selectedList.id].items;
   const checkedItems = listItems && Object.values(listItems).filter((list) => list.check === true).length;
   const percentage = listItems && Math.floor((checkedItems / Object.values(listItems).length) * 100);
@@ -22,6 +30,9 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
 
   const handleOnChange = (event) => {
     setInputText(event.target.value);
+  };
+  const handleSort = () => {
+    setSort(!sort);
   };
 
   const addNewItem = (event) => {
@@ -41,11 +52,16 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
       setInputText('');
     }
   };
+
   return (
     <div className="container">
       <div className={`row ${styles.listContent_row}`}>
         <div className="col">
           <div className={styles.listContent_container}>
+            <Link to="/home" className={styles.backArrow}>
+              <img src={backArrow} alt="back arrow" />
+            </Link>
+
             <div className={styles.titleContainer}>
               <h1>
                 <span className={styles.bold}>{selectedList.listName.toUpperCase()}</span>{' '}
@@ -63,13 +79,7 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
               )}
             </div>
             <form onSubmit={addNewItem} className={`input-group ${styles.addNewItemInput}`}>
-              {visible ? (
-                <button onClick={handleClick} className={`btn btn-warning ${styles.plusButton} `} type="button">
-                  +
-                </button>
-              ) : null}
-
-              <div className={`${styles.inputGroup}  ${!visible ? `reveal` : `hide`}`}>
+              <div className={styles.inputGroup}>
                 <input
                   onChange={handleOnChange}
                   type="text"
@@ -88,9 +98,27 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
                   +
                 </button>
               </div>
+              {listItems && Object.values(listItems).length > 0 && (
+                <div className={styles.sortContainer} onClick={handleSort}>
+                  {sort ? (
+                    <img src={ascendingIcon} alt="ascendingIcon" />
+                  ) : (
+                    <img src={descendingIcon} alt="descendingIcon" />
+                  )}
+                </div>
+              )}
             </form>
             <ul className={styles.todo_list}>
-              {listItems && Object.values(listItems).map((item) => <Item key={item.id} item={item} />)}
+              {listItems && !sort
+                ? Object.values(listItems)
+                    .sort(sortDescending)
+                    .map((item) => {
+                      return <Item key={item.id} item={item} />;
+                    })
+                : listItems &&
+                  Object.values(listItems).map((item) => {
+                    return <Item key={item.id} item={item} />;
+                  })}
             </ul>
           </div>
         </div>
