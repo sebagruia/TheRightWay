@@ -4,11 +4,12 @@ import '../Modalpopup/Modalpopup.css';
 import { connect } from 'react-redux';
 
 import { editItemName } from '../../redux/list/listActions';
+import { updatingListItemNameToFirestore } from '../../firebase/firebase.utils';
 
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-const Modalpopup = ({ dispatch, show, closeModal, itemId, selectedList }) => {
+const Modalpopup = ({ dispatch, userAuth, show, closeModal, item, selectedList }) => {
   const [inputValue, setInputValue] = useState('');
 
   const handleOnChange = (event) => {
@@ -16,7 +17,11 @@ const Modalpopup = ({ dispatch, show, closeModal, itemId, selectedList }) => {
   };
 
   const saveModalNewValue = () => {
-    dispatch(editItemName(selectedList.id, itemId, inputValue));
+    if (userAuth) {
+      updatingListItemNameToFirestore(userAuth.id, selectedList.id, item.id, inputValue);
+    } else {
+      dispatch(editItemName(selectedList.id, item.id, inputValue));
+    }
     closeModal();
   };
 
@@ -34,7 +39,7 @@ const Modalpopup = ({ dispatch, show, closeModal, itemId, selectedList }) => {
           placeholder="Your edit in here"
           aria-label="edit"
           aria-describedby="edit an existing entry field"
-          value={inputValue}
+          value={inputValue ? inputValue : item.itemName}
         />
       </Modal.Body>
 
@@ -50,10 +55,4 @@ const Modalpopup = ({ dispatch, show, closeModal, itemId, selectedList }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    itemId: state.listReducer.selectedItemId,
-  };
-};
-
-export default connect(mapStateToProps)(Modalpopup);
+export default connect(null)(Modalpopup);
