@@ -64,7 +64,7 @@ const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
 
   return (
     <Fragment>
-      {show && <Modalpopup show={show} closeModal={closeModal} selectedList={selectedList} />}
+      {show && <Modalpopup show={show} closeModal={closeModal} selectedList={selectedList} item={item} userAuth={userAuth}/>}
       <li className="li-item">
         <div className="list-component text-secondary">
           <div className="check-list">
