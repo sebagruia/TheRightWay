@@ -1,18 +1,18 @@
 import React from 'react';
-import styles from './List.module.scss';
 import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { selectListAction } from '../../redux/list/listActions';
-import { useHistory } from 'react-router-dom';
+import styles from './List.module.scss';
 
 const List = ({ dispatch, userAuth, children, list, deleteList }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <li className={styles.newListLi}>
       <button
         onClick={() => {
           dispatch(selectListAction(list));
-          history.push('/listContent');
+          navigate('/listContent');
         }}
         type="button"
         className="btn btn-outline-warning btn-lg btn-block capitalize button-color-orange"

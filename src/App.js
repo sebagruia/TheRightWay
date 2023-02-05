@@ -1,22 +1,22 @@
 import React, { useEffect } from 'react';
-import './App.css';
 import { connect } from 'react-redux';
+import './App.css';
 
-import { useHistory, Route, Switch } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
+import { clearStateAction, fetchUserLists } from './redux/list/listActions';
 import { setUser } from './redux/user/userActions';
-import { fetchUserLists, clearStateAction } from './redux/list/listActions';
 
-import StartPage from './pages/StartPage/StartPage';
+import HomePage from './pages/HomePage/HomePage';
+import ListContentPage from './pages/ListContentPage/ListContentPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
-import ListContentPage from './pages/ListContentPage/ListContentPage';
-import HomePage from './pages/HomePage/HomePage';
+import StartPage from './pages/StartPage/StartPage';
 
 const App = ({ getUserLists, setCurrentUser, clearState }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   useEffect(() => {
     const unsubscribFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth && userAuth.emailVerified) {
@@ -36,26 +36,16 @@ const App = ({ getUserLists, setCurrentUser, clearState }) => {
         unsubscribFromAuth();
       };
     });
-  }, [history, getUserLists, setCurrentUser, clearState]);
+  }, [navigate, getUserLists, setCurrentUser, clearState]);
 
   return (
-    <Switch>
-      <Route exact path="/">
-        <StartPage />
-      </Route>
-      <Route exact path="/home">
-        <HomePage />
-      </Route>
-      <Route path="/login">
-        <LoginPage />
-      </Route>
-      <Route path="/register">
-        <RegisterPage />
-      </Route>
-      <Route path="/listContent">
-        <ListContentPage />
-      </Route>
-    </Switch>
+    <Routes>
+      <Route path="/" element={<StartPage />} />
+      <Route path="/home" element={<HomePage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/listContent" element={<ListContentPage />} />
+    </Routes>
   );
 };
 

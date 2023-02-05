@@ -1,0 +1,40 @@
+.header_container {
+  margin: 0;
+  padding: 0;
+  font-family: "Yanone Kaffeesatz";
+}
+header {
+  background-color: #2b3f5d;
+  border-bottom: 10px solid #ffc107;
+  margin-bottom: 16px;
+}
+
+.changedStyle {
+  font-size: 0.8rem !important;
+}
+
+.nav_item_custom .wraper {
+  color: #fff;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.nav_item_custom .saveExitButton {
+  color: #ffc107;
+}
+
+.nav_item_custom .welcome {
+  margin-right: 10px;
+}
+
+.nav_item_custom .wraper h5,
+.nav_item_custom h5 {
+  display: inline-block;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  line-height: 10px;
+}
+
+
+
+
+

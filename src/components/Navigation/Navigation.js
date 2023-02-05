@@ -1,16 +1,18 @@
 import React from 'react';
+
 import { connect } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
-import { signOut } from '../../firebase/firebase.utils';
 import { clearStateAction } from '../../redux/list/listActions';
-import Navbar from 'react-bootstrap/Navbar';
+
 import Nav from 'react-bootstrap/Nav';
-import './Navigation.css';
+import Navbar from 'react-bootstrap/Navbar';
+import { Link, useNavigate } from 'react-router-dom';
+
+import styles from './Navigation.module.scss';
+
+import { signOut } from '../../firebase/firebase.utils';
 
 const Navigation = ({ dispatch, userAuth }) => {
-  const history = useHistory();
-
-  // const save = () => {};
+  const navigate = useNavigate();
 
   const logOut = async () => {
     dispatch(clearStateAction());
@@ -18,29 +20,29 @@ const Navigation = ({ dispatch, userAuth }) => {
   };
 
   return (
-    <div className="container-fluid header-container">
+    <div className={`container-fluid ${styles.header_container}`}>
       <header className="col">
         <Navbar expand="lg" className="navbar-dark">
           <Navbar.Brand
             onClick={() => {
-              history.push('/home');
+              navigate('/home');
             }}
           >
             <h1 className="navbar-brand">
-              <span className="changedStyle">Do things</span> The Right Way
+              <span className={styles.changedStyle}>Do things</span> The Right Way
             </h1>
           </Navbar.Brand>
 
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <li className="nav-item item1 ml-auto ">
-                <h5 className="welcome">{userAuth ? `Welcome ${userAuth.displayName}` : ''}</h5>
-                <Link to="/login" onClick={userAuth && logOut} className="loginButton btn btn-outline-secondary wraper">
-                  <h5 className="font-weight-light">{userAuth ? 'Log out' : 'Log in'}</h5>
+              <li className={`nav-item ${styles.item1} ${styles.nav_item_custom} ml-auto`}>
+                <h5 className={styles.welcome}>{userAuth ? `Welcome ${userAuth.displayName}` : ''}</h5>
+                <Link to="/login" onClick={userAuth && logOut} className={`btn btn-outline-secondary ${styles.wraper}`}>
+                  <span className="font-weight-light">{userAuth ? 'Log out' : 'Log in'}</span>
                 </Link>
-                <Link to="/register" className="registerButton btn btn-outline-secondary wraper">
-                  <h5 className="font-weight-light">{userAuth ? 'Save' : 'Register'}</h5>
+                <Link to="/register" className={`btn btn-outline-secondary ${styles.wraper}`}>
+                  <span className="font-weight-light">{userAuth ? 'Save' : 'Register'}</span>
                 </Link>
               </li>
             </Nav>

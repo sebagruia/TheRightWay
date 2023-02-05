@@ -1,26 +1,29 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
-import './index.css';
-import './styles/global.scss';
 import App from './App';
+import './index.css';
+import { persistor, store } from './redux/store';
 import reportWebVitals from './reportWebVitals';
-import { store, persistor } from './redux/store';
-import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import './styles/fonts.scss';
+import './styles/global.scss';
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter  basename={process.env.PUBLIC_URL}>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <PersistGate loading={null} persistor={persistor}>
           <App />
         </PersistGate>
       </BrowserRouter>
     </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -23,3 +23,62 @@ textarea {
   opacity: 1;
   transition: opacity 0.8s;
 }
+
+// Navbar
+nav {
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+}
+
+.navbar-light {
+  color: #fff !important;
+}
+
+.navbar-brand {
+  font-family: 'Merriweather', serif;
+  font-size: 1.6rem !important;
+  color: #fff !important;
+  cursor: pointer;
+}
+.navbar-nav {
+  width: 100%;
+}
+
+@media screen and (min-width: 320px) {
+  .navbar-brand {
+    font-size: 1rem !important;
+    margin-right: 0.8rem !important;
+  }
+  .navbar-toggler {
+    font-size: 1rem !important;
+  }
+
+  .navbar-toggler-icon {
+    width: 0.8em;
+    height: 1.5em;
+  }
+  .navbar-nav .item1 {
+    margin-left: 0 !important;
+  }
+}
+
+@media screen and (min-width: 375px) {
+  .navbar-brand {
+    font-size: 1.4rem !important;
+  }
+  .navbar-toggler-icon {
+    width: 1.2em !important;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .navbar-brand {
+    font-size: 1.6rem !important;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .navbar-nav .item1 {
+    margin-left: auto !important;
+  }
+}
