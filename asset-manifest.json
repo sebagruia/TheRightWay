@@ -1,26 +1,30 @@
 {
   "files": {
-    "main.css": "/TheRightWay/static/css/main.c49670f6.chunk.css",
-    "main.js": "/TheRightWay/static/js/main.f6464480.chunk.js",
-    "main.js.map": "/TheRightWay/static/js/main.f6464480.chunk.js.map",
-    "runtime-main.js": "/TheRightWay/static/js/runtime-main.21c81321.js",
-    "runtime-main.js.map": "/TheRightWay/static/js/runtime-main.21c81321.js.map",
-    "static/js/2.0ad3b769.chunk.js": "/TheRightWay/static/js/2.0ad3b769.chunk.js",
-    "static/js/2.0ad3b769.chunk.js.map": "/TheRightWay/static/js/2.0ad3b769.chunk.js.map",
-    "static/js/3.178aa366.chunk.js": "/TheRightWay/static/js/3.178aa366.chunk.js",
-    "static/js/3.178aa366.chunk.js.map": "/TheRightWay/static/js/3.178aa366.chunk.js.map",
-    "index.html": "/TheRightWay/index.html",
+    "main.css": "/TheRightWay/static/css/main.f60f4b2b.css",
+    "main.js": "/TheRightWay/static/js/main.43329243.js",
+    "static/js/496.9d891f60.chunk.js": "/TheRightWay/static/js/496.9d891f60.chunk.js",
     "service-worker.js": "/TheRightWay/service-worker.js",
-    "service-worker.js.map": "/TheRightWay/service-worker.js.map",
-    "static/css/main.c49670f6.chunk.css.map": "/TheRightWay/static/css/main.c49670f6.chunk.css.map",
-    "static/js/2.0ad3b769.chunk.js.LICENSE.txt": "/TheRightWay/static/js/2.0ad3b769.chunk.js.LICENSE.txt",
-    "static/media/sortAsc.3158d5e9.svg": "/TheRightWay/static/media/sortAsc.3158d5e9.svg",
-    "static/media/sortDesc.0d9e423e.svg": "/TheRightWay/static/media/sortDesc.0d9e423e.svg"
+    "static/media/YanoneKaffeesatz-Medium.woff": "/TheRightWay/static/media/YanoneKaffeesatz-Medium.6975062f603be1050aec.woff",
+    "static/media/YanoneKaffeesatz-Light.woff": "/TheRightWay/static/media/YanoneKaffeesatz-Light.b8fa10ab0ad6695fd7e1.woff",
+    "static/media/YanoneKaffeesatz-Regular.woff": "/TheRightWay/static/media/YanoneKaffeesatz-Regular.269afe347f8f10372145.woff",
+    "static/media/YanoneKaffeesatz-SemiBold.woff": "/TheRightWay/static/media/YanoneKaffeesatz-SemiBold.b9febdacc9b9e976c9e5.woff",
+    "static/media/YanoneKaffeesatz-Bold.woff": "/TheRightWay/static/media/YanoneKaffeesatz-Bold.f9db302e34015f5324bc.woff",
+    "static/media/YanoneKaffeesatz-ExtraLight.woff": "/TheRightWay/static/media/YanoneKaffeesatz-ExtraLight.2fb7b738d2fb82886cd3.woff",
+    "static/media/YanoneKaffeesatz-Medium.woff2": "/TheRightWay/static/media/YanoneKaffeesatz-Medium.4964ef1d0e193673ce81.woff2",
+    "static/media/YanoneKaffeesatz-Regular.woff2": "/TheRightWay/static/media/YanoneKaffeesatz-Regular.01a462347428bd0dbca0.woff2",
+    "static/media/YanoneKaffeesatz-SemiBold.woff2": "/TheRightWay/static/media/YanoneKaffeesatz-SemiBold.7032acf4973a4c1398eb.woff2",
+    "static/media/YanoneKaffeesatz-Light.woff2": "/TheRightWay/static/media/YanoneKaffeesatz-Light.fdc5a1082afbd914c93b.woff2",
+    "static/media/YanoneKaffeesatz-Bold.woff2": "/TheRightWay/static/media/YanoneKaffeesatz-Bold.baf4fe229a41ffdb52fe.woff2",
+    "static/media/YanoneKaffeesatz-ExtraLight.woff2": "/TheRightWay/static/media/YanoneKaffeesatz-ExtraLight.14f2d90d114c8b4a518d.woff2",
+    "index.html": "/TheRightWay/index.html",
+    "static/media/sortAsc.svg": "/TheRightWay/static/media/sortAsc.3158d5e9084163b3789d8134c0fcf0cb.svg",
+    "static/media/sortDesc.svg": "/TheRightWay/static/media/sortDesc.0d9e423e7e7ab082cd48211192c40a04.svg",
+    "main.f60f4b2b.css.map": "/TheRightWay/static/css/main.f60f4b2b.css.map",
+    "main.43329243.js.map": "/TheRightWay/static/js/main.43329243.js.map",
+    "496.9d891f60.chunk.js.map": "/TheRightWay/static/js/496.9d891f60.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.21c81321.js",
-    "static/js/2.0ad3b769.chunk.js",
-    "static/css/main.c49670f6.chunk.css",
-    "static/js/main.f6464480.chunk.js"
+    "static/css/main.f60f4b2b.css",
+    "static/js/main.43329243.js"
   ]
 }
