@@ -19,7 +19,6 @@ const Register = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.currentTarget;
-    console.log(form.checkValidity());
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
