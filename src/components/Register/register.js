@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import './register.css';
+import styles from './Register.module.scss';
 
-import { useHistory } from 'react-router-dom';
-import { registerNewUser, createUserProfileDocument } from '../../firebase/firebase.utils';
+import { useNavigate } from 'react-router-dom';
 
-import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+
+import { createUserProfileDocument, registerNewUser } from '../../firebase/firebase.utils';
 
 const Register = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [registerName, setLoginName] = useState('');
   const [registerEmail, setRegisterEmail] = useState('');
@@ -18,6 +19,7 @@ const Register = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.currentTarget;
+    console.log(form.checkValidity());
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
@@ -40,8 +42,8 @@ const Register = () => {
     setConfirmPass(event.target.value);
   };
 
-  const checkPassword = () => {
-    if (registerPass !== undefined && confirmPass !== undefined) {
+  const checkPasswordMatch = () => {
+    if (registerPass !== undefined && confirmPass !== undefined && registerPass !== '' && confirmPass !== '') {
       if (registerPass === confirmPass) {
         return 'valid';
       }
@@ -55,14 +57,12 @@ const Register = () => {
         const userAuth = await registerNewUser(registerEmail, registerPass);
         if (userAuth.uid) {
           await createUserProfileDocument(userAuth, { displayName: registerName });
-          history.push('/login');
+          navigate('/login');
         }
       } catch (error) {
         console.log(`Error registering new user ${error}`);
       }
-    } else {
-      alert("Your Confirmation Password doesn't match you Password");
-    }
+    } 
   };
 
   return (
@@ -70,42 +70,72 @@ const Register = () => {
       <div className="row">
         <div className="col-sm-6 offset-sm-3">
           <Form
-            className="register-form justify-content-center"
+            className={`${styles.register_form} justify-content-center`}
             noValidate
             validated={validated}
             onSubmit={handleSubmit}
           >
-            <Form.Group controlId="formBasicName">
-              <Form.Label className="label">Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter Name" required onChange={onNameChange} />
+            <Form.Group controlId="formBasicName" className='pb-2'>
+              <Form.Label className={styles.label}>Name</Form.Label>
+              <Form.Control
+                className={styles.form_control_custom}
+                type="text"
+                placeholder="Enter Name"
+                required
+                onChange={onNameChange}
+              />
               <Form.Control.Feedback type="invalid">Please type your name</Form.Control.Feedback>
               <Form.Control.Feedback type="valid">Looks Good</Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" required onChange={onEmailChange} />
+            <Form.Group controlId="formBasicEmail" className='pb-2'>
+              <Form.Label className={styles.label}>Email address</Form.Label>
+              <Form.Control
+                className={styles.form_control_custom}
+                type="email"
+                placeholder="Enter email"
+                required
+                onChange={onEmailChange}
+              />
               <Form.Control.Feedback type="invalid">Please type an email address</Form.Control.Feedback>
               <Form.Control.Feedback type="valid">Looks Good</Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" required onChange={onPassChange} />
+            <Form.Group controlId="formBasicPassword" className='pb-2'>
+              <Form.Label className={styles.label}>Password</Form.Label>
+              <Form.Control
+                className={styles.form_control_custom}
+                type="password"
+                placeholder="Password"
+                required
+                onChange={onPassChange}
+              />
               <Form.Control.Feedback type="invalid">Please type your password</Form.Control.Feedback>
               <Form.Control.Feedback type="valid">Looks Good</Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" required onChange={onConfirmPassChange} />
-              <Form.Control.Feedback type={checkPassword}>
-                {confirmPass === registerPass ? 'Looks Good' : 'Please confirm your password'}
-              </Form.Control.Feedback>
-              {/* <Form.Control.Feedback type="invalid">Please confirm your password</Form.Control.Feedback>
-              <Form.Control.Feedback type="valid">Looks Good</Form.Control.Feedback> */}
+            <Form.Group controlId="formCheckBasicPassword" className='pb-2'>
+              <Form.Label className={styles.label}>Confirm Password</Form.Label>
+              <Form.Control
+                className={styles.form_control_custom}
+                type="password"
+                placeholder="Password"
+                required
+                onChange={onConfirmPassChange}
+              />
+              {checkPasswordMatch() === 'invalid' ? (
+                <Form.Control.Feedback className="text-danger">Please check your password</Form.Control.Feedback>
+              ) : (
+                <Form.Control.Feedback>Looks Good</Form.Control.Feedback>
+              )}
             </Form.Group>
-            <Button variant="primary" type="submit" onClick={register}>
+            <Button
+              className={`${styles.btn_primary_custom} mt-3`}
+              variant="primary"
+              size="sm"
+              type="submit"
+              onClick={register}
+            >
               Register
             </Button>
           </Form>

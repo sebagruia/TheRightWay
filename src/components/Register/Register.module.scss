@@ -1,22 +1,22 @@
-.register-form {
+.register_form{
   padding: 20% 0 70%;
   width: 77%;
   margin: 0 auto;
-}
-
-.register-form .form-group {
   font-family: 'Yanone Kaffeesatz', sans-serif;
+
 }
 
-.register-form .form-label {
+.register_form .label{
   display: block;
   font-size: 1.2em;
+  font-weight: bold;
+  color:#2b3f5d;
 }
 
-.register-form .form-control {
+.register_form .form_control_custom {
   width: 100%;
 }
 
-.register-form .btn-primary {
+.register_form .btn_primary_custom {
   background-color: #2b3f5d;
 }
