@@ -7,14 +7,14 @@ import { Link } from 'react-router-dom';
 import { addListItemToFirestore } from '../../firebase/firebase.utils';
 import { addNewItemInList } from '../../redux/list/listActions';
 
-import Item from '../../components/Item/Item';
 import ProgressBar from 'react-bootstrap/ProgressBar';
+import Item from '../../components/Item/Item';
 
 import backArrow from '../../assets/images/iconmonstr-arrow-59-48.png';
 import ascendingIcon from '../../assets/svg/sortAsc.svg';
 import descendingIcon from '../../assets/svg/sortDesc.svg';
 
-import { sortDescending } from '../../utils';
+import { formatName, sortDescending } from '../../utils';
 
 const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
   const [inputText, setInputText] = useState('');
@@ -52,6 +52,8 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
       setInputText('');
     }
   };
+  console.log(listItems);
+  console.log(listItems && Object.keys(listItems));
 
   return (
     <div className="container">
@@ -63,10 +65,32 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
             </Link>
 
             <div className={styles.titleContainer}>
-              <h1>
-                <span className={styles.bold}>{selectedList.listName.toUpperCase()}</span>{' '}
-              </h1>
-              {listItems && (
+              <div className={styles.addItemButtontAndTitle}>
+                <h1 className="m-0">
+                  <span className={styles.bold}>{formatName(selectedList.listName)}</span>{' '}
+                </h1>
+                <div className={styles.buttonContainer}>
+                  <button
+                    onClick={handleClick}
+                    className={`btn btn-warning ${styles.addButton} `}
+                    type="submit"
+                    id="button-addon1"
+                  >
+                    <span className={styles.buttonSign}>+</span>
+                  </button>
+                </div>
+                {listItems && Object.keys(listItems).length > 0 && (
+                  <div className={styles.sortContainer} onClick={handleSort}>
+                    {sort ? (
+                      <img src={ascendingIcon} alt="ascendingIcon" />
+                    ) : (
+                      <img src={descendingIcon} alt="descendingIcon" />
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {listItems && Object.keys(listItems).length > 0 && (
                 <div className={styles.progressContainer}>
                   <ProgressBar
                     animated
@@ -74,52 +98,49 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
                     now={percentage}
                     label={`${!isNaN(percentage) ? percentage : 0}%`}
                   />
-                  <p>{`${checkedItems} of ${Object.values(listItems).length} tasks`}</p>
+                  <p>{`${checkedItems} of ${Object.keys(listItems).length} tasks`}</p>
                 </div>
               )}
             </div>
-            <form onSubmit={addNewItem} className={`input-group ${styles.addNewItemInput}`}>
-              <div className={styles.inputGroup}>
-                <input
-                  onChange={handleOnChange}
-                  type="text"
-                  value={inputText}
-                  className={`form-control ${styles.form_control}`}
-                  placeholder="New Item Name"
-                  aria-label="Example text with button addon"
-                  aria-describedby="button-addon1"
-                />
-                <button
-                  onClick={handleClick}
-                  className={`btn btn-warning ${styles.addButton} `}
-                  type="submit"
-                  id="button-addon1"
-                >
-                  +
-                </button>
-              </div>
-              {listItems && Object.values(listItems).length > 0 && (
-                <div className={styles.sortContainer} onClick={handleSort}>
-                  {sort ? (
-                    <img src={ascendingIcon} alt="ascendingIcon" />
-                  ) : (
-                    <img src={descendingIcon} alt="descendingIcon" />
-                  )}
+            <div className={styles.addNewItemInput_container}>
+              <form onSubmit={addNewItem} className={`input-group ${styles.addNewItemInput}`}>
+                <div className={styles.inputGroup}>
+                  <input
+                    onChange={handleOnChange}
+                    type="text"
+                    value={inputText}
+                    className={`form-control ${styles.form_control}`}
+                    placeholder="New Item Name"
+                    aria-label="Example text with button addon"
+                    aria-describedby="button-addon1"
+                  />
+                  <button
+                    onClick={handleClick}
+                    className={`btn btn-warning ${styles.addButton} `}
+                    type="submit"
+                    id="button-addon1"
+                  >
+                    +
+                  </button>
                 </div>
+              </form>
+              {listItems && Object.keys(listItems).length > 0 && (
+                <ul className={styles.todo_list}>
+                  {!sort
+                    ? Object.keys(listItems)
+                        .sort(sortDescending)
+                        .map((itemKey) => {
+                          return <Item key={listItems[itemKey].id} item={listItems[itemKey]} />;
+                        })
+                    : Object.keys(listItems)
+                        .sort()
+                        .map((itemKey) => {
+                          console.log(itemKey);
+                          return <Item key={listItems[itemKey].id} item={listItems[itemKey]} />;
+                        })}
+                </ul>
               )}
-            </form>
-            <ul className={styles.todo_list}>
-              {listItems && !sort
-                ? Object.values(listItems)
-                    .sort(sortDescending)
-                    .map((item) => {
-                      return <Item key={item.id} item={item} />;
-                    })
-                : listItems &&
-                  Object.values(listItems).map((item) => {
-                    return <Item key={item.id} item={item} />;
-                  })}
-            </ul>
+            </div>
           </div>
         </div>
       </div>

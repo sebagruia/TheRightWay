@@ -1,19 +1,19 @@
 import React, { Fragment, useState } from 'react';
-import './Item.css';
+import styles from './Item.module.scss';
 
 import { connect } from 'react-redux';
 
 import {
+  changeQuantityInFirestore,
+  deleteListItemFromFirestore,
+  toggleCheckInFirestore,
+} from '../../firebase/firebase.utils';
+import {
+  changeItemQuantity,
   deleteListItem,
   selectingCurrentItem,
   toggleCheckStatus,
-  changeItemQuantity,
 } from '../../redux/list/listActions';
-import {
-  deleteListItemFromFirestore,
-  toggleCheckInFirestore,
-  changeQuantityInFirestore,
-} from '../../firebase/firebase.utils';
 
 import Modalpopup from '../../components/Modalpopup/Modalpopup';
 
@@ -21,12 +21,17 @@ const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
   const { itemName, id, check } = item;
   const quantityValue = lists[selectedList.id].items[id].quantity;
 
-  const [quantity, setQuantity] = useState(quantityValue);
+  const [quantity, setQuantity] = useState(quantityValue || 1);
   const [show, setShow] = useState(false);
 
   const onChangeQuantity = (event) => {
-    setQuantity(event.target.value);
-    changeQuantity(selectedList.id, id, event.target.value)
+    if (event.target.value === '') {
+      setQuantity(1);
+      changeQuantity(selectedList.id, id, event.target.value);
+    } else {
+      setQuantity(event.target.value);
+      changeQuantity(selectedList.id, id, event.target.value);
+    }
   };
 
   const deleteItem = (listId, itemID) => {
@@ -64,12 +69,16 @@ const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
 
   return (
     <Fragment>
-      {show && <Modalpopup show={show} closeModal={closeModal} selectedList={selectedList} item={item} userAuth={userAuth}/>}
+      {show && (
+        <Modalpopup show={show} closeModal={closeModal} selectedList={selectedList} item={item} userAuth={userAuth} />
+      )}
       <li className="li-item">
-        <div className="list-component text-secondary">
-          <div className="check-list">
+        <div className={`${styles.list_component} text-secondary`}>
+          <div className={styles.check_list}>
             <i
-              className={`far ${check ? 'fa-check-circle text-success' : 'fa-circle'}`}
+              className={`far pr-1 ${check ? 'fa-check-circle text-success' : 'fa-circle'} ${
+                styles.fa_check_circle_custom
+              }`}
               role="button"
               onClick={() => toggleCheck(selectedList, check, item)}
               aria-hidden="true"
@@ -78,23 +87,30 @@ const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
               {itemName}
             </p>
           </div>
-          <div className="edit-list">
-            <i
-              className="far fa-times-circle text-danger"
+          <div className={styles.edit_list}>
+            {/* <i
+              className={`far fa-times-circle text-danger pr-1`}
               role="button"
               onClick={() => deleteItem(selectedList.id, id, selectedList.listName)}
               aria-hidden="true"
-            ></i>
+            ></i> */}
             <i
-              className="far fa-edit text-info"
+              className={`${styles.edit} fas fa-regular fa-pencil pr-1`}
               role="button"
               onClick={() => handleShowModal(id)}
               aria-hidden="true"
             ></i>
+            <i
+              className={`${styles.garbage} fas fa-regular fa-trash pr-1`}
+              role="button"
+              onClick={() => deleteItem(selectedList.id, id, selectedList.listName)}
+              aria-hidden="true"
+            ></i>
+
             <input
               onChange={onChangeQuantity}
               onClick={() => changeQuantity(selectedList.id, id, quantity)}
-              className="quantity"
+              className={`${styles.quantity} mr-1`}
               type="number"
               aria-label="Insert a number"
               name="quantity"
@@ -103,6 +119,7 @@ const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
               aria-describedby="number of items of the same kind"
               value={quantity}
             />
+            <i className="fas fa-solid fa-box-open text-warning"></i>
           </div>
         </div>
       </li>

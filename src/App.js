@@ -14,6 +14,7 @@ import ListContentPage from './pages/ListContentPage/ListContentPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import StartPage from './pages/StartPage/StartPage';
+import EditItem from './pages/EditItem/EditItem';
 
 const App = ({ getUserLists, setCurrentUser, clearState }) => {
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ const App = ({ getUserLists, setCurrentUser, clearState }) => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/listContent" element={<ListContentPage />} />
+      <Route path="/editItem" element={<EditItem />} />
     </Routes>
   );
 };

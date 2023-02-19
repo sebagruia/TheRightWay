@@ -1,0 +1,45 @@
+.list_component {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0 auto;
+  padding: 0;
+  padding-right: 10px;
+  border-bottom: 0.5px solid #d1ccc0;
+  @media all and (max-width: 576px) {
+    width: 100%;
+  }
+  .check_list p {
+    display: inline;
+    font-size: 1.1em;
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    font-size: 1.2em;
+    font-weight: 300;
+  }
+  .edit_list {
+    margin-left: auto;
+    i {
+      cursor: pointer;
+    }
+    .quantity {
+      width: 39px;
+      height: 21px;
+      padding-left: 2px !important;
+      border-radius: 1px;
+    }
+    .edit{
+      &:hover {
+        color: #0f569e;
+      }
+    }
+    .garbage {
+      &:hover {
+        color: #e87a84;
+      }
+    }
+  }
+}
+
+.fa_check_circle_custom {
+  font-size: 1.2em;
+}

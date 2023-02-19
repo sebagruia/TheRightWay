@@ -13,7 +13,7 @@ const Home = ({ dispatch, userAuth, lists }) => {
   const [listName, setListName] = useState('');
   const [visible, setVisible] = useState(true);
 
-  const handleClick = (event) => {
+  const handleClick = () => {
     setVisible(!visible);
   };
 

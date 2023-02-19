@@ -9,13 +9,12 @@ export const formatName = (string) => {
   return formatedString;
 };
 
-export const sortDescending =  (a, b) =>{
-  if (a.itemName.toUpperCase() > b.itemName.toUpperCase()) {
-      return -1;
+export const sortDescending = (a, b) => {
+  if (a > b) {
+    return -1;
   }
-  if (a.itemName.toUpperCase() < b.itemName.toUpperCase()) {
-      return 1;
+  if (a < b) {
+    return 1;
   }
   return 0;
 };
-
