@@ -52,15 +52,13 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
       setInputText('');
     }
   };
-  console.log(listItems);
-  console.log(listItems && Object.keys(listItems));
 
   return (
     <div className="container">
       <div className={`row ${styles.listContent_row}`}>
         <div className="col">
           <div className={styles.listContent_container}>
-            <Link to="/home" className={styles.backArrow}>
+            <Link to="/home" className="backArrow">
               <img src={backArrow} alt="back arrow" />
             </Link>
 
@@ -79,7 +77,7 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
                     <span className={styles.buttonSign}>+</span>
                   </button>
                 </div>
-                {listItems && Object.keys(listItems).length > 0 && (
+                {listItems && Object.keys(listItems).length > 1 && (
                   <div className={styles.sortContainer} onClick={handleSort}>
                     {sort ? (
                       <img src={ascendingIcon} alt="ascendingIcon" />

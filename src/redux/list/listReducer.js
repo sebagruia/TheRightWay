@@ -1,16 +1,4 @@
-import {
-  FETCH_USER_LISTS,
-  CLEAR_STATE,
-  ADD_NEW_LIST_NAME,
-  SELECT_CURRENT_LIST,
-  DELETE_LIST,
-  ADD_NEW_ITEM_IN_LIST,
-  DELETE_LIST_ITEM,
-  SELECT_CURRENT_ITEM_FOR_EDITING,
-  EDIT_ITEM_NAME,
-  TOGGLE_CHECK_STATUS,
-  CHANGE_ITEM_QUANTITY,
-} from './listActions';
+import { listActions } from "./actionEnums";
 
 const initialState = {
   lists: null,
@@ -20,27 +8,27 @@ const initialState = {
 
 export const listReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_USER_LISTS:
+    case listActions.FETCH_USER_LISTS:
       return {
         ...state,
         lists: action.payload,
       };
-    case CLEAR_STATE:
+    case listActions.CLEAR_STATE:
       return {
         state: initialState,
       };
-    case ADD_NEW_LIST_NAME:
+    case listActions.ADD_NEW_LIST_NAME:
       return {
         ...state,
         lists: { ...state.lists, [action.payload.id]: action.payload },
       };
-    case DELETE_LIST:
+    case listActions.DELETE_LIST:
       const { [action.payload]: remove, ...rest } = state.lists;
       return {
         ...state,
         lists: { ...rest },
       };
-    case ADD_NEW_ITEM_IN_LIST:
+    case listActions.ADD_NEW_ITEM_IN_LIST:
       const listId = action.payload.listId;
       const item = action.payload.item;
       return {
@@ -53,12 +41,12 @@ export const listReducer = (state = initialState, action) => {
           },
         },
       };
-    case SELECT_CURRENT_LIST:
+    case listActions.SELECT_CURRENT_LIST:
       return {
         ...state,
         selectedList: action.payload,
       };
-    case DELETE_LIST_ITEM:
+    case listActions.DELETE_LIST_ITEM:
       const listIdValue = action.payload.listId;
       const itemIdValue = action.payload.itemId;
       const { [itemIdValue]: removedItem, ...restItems } = state.lists[listIdValue].items;
@@ -72,7 +60,7 @@ export const listReducer = (state = initialState, action) => {
           },
         },
       };
-    case EDIT_ITEM_NAME:
+    case listActions.EDIT_ITEM_NAME:
       const idList = action.payload.listId;
       const idItem = action.payload.itemId;
       const newValue = action.payload.inputValue;
@@ -91,7 +79,7 @@ export const listReducer = (state = initialState, action) => {
           },
         },
       };
-    case TOGGLE_CHECK_STATUS:
+    case listActions.TOGGLE_CHECK_STATUS:
       const idList2 = action.payload.listId;
       const idItem2 = action.payload.itemId;
       const status = action.payload.status;
@@ -110,7 +98,7 @@ export const listReducer = (state = initialState, action) => {
           },
         },
       };
-    case CHANGE_ITEM_QUANTITY:
+    case listActions.CHANGE_ITEM_QUANTITY:
       const idList3 = action.payload.listId;
       const idItem3 = action.payload.itemId;
       const quantity = action.payload.quantity;
@@ -129,7 +117,7 @@ export const listReducer = (state = initialState, action) => {
           },
         },
       };
-    case SELECT_CURRENT_ITEM_FOR_EDITING:
+    case listActions.SELECT_CURRENT_ITEM_FOR_EDITING:
       return {
         ...state,
         selectedItemId: action.payload,

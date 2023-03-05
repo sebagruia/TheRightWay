@@ -1,6 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import styles from './Item.module.scss';
 
+import { useNavigate } from 'react-router-dom';
+
 import { connect } from 'react-redux';
 
 import {
@@ -18,6 +20,8 @@ import {
 import Modalpopup from '../../components/Modalpopup/Modalpopup';
 
 const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
+  const navigate = useNavigate();
+  console.log(item);
   const { itemName, id, check } = item;
   const quantityValue = lists[selectedList.id].items[id].quantity;
 
@@ -46,6 +50,11 @@ const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
     setShow(!show);
     dispatch(selectingCurrentItem(itemId));
   };
+
+  const editItem = (itemId)=>{
+    dispatch(selectingCurrentItem(itemId));
+    navigate("/editItem")
+  }
 
   const toggleCheck = (selectedList, status, item) => {
     if (userAuth) {
@@ -88,22 +97,17 @@ const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
             </p>
           </div>
           <div className={styles.edit_list}>
-            {/* <i
-              className={`far fa-times-circle text-danger pr-1`}
-              role="button"
-              onClick={() => deleteItem(selectedList.id, id, selectedList.listName)}
-              aria-hidden="true"
-            ></i> */}
             <i
               className={`${styles.edit} fas fa-regular fa-pencil pr-1`}
               role="button"
-              onClick={() => handleShowModal(id)}
+              // onClick={() => handleShowModal(id)}
+              onClick={()=>editItem(id)}
               aria-hidden="true"
             ></i>
             <i
               className={`${styles.garbage} fas fa-regular fa-trash pr-1`}
               role="button"
-              onClick={() => deleteItem(selectedList.id, id, selectedList.listName)}
+              onClick={() => deleteItem(selectedList.id, selectedList.listName)}
               aria-hidden="true"
             ></i>
 

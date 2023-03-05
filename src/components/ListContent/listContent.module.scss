@@ -9,10 +9,6 @@
     align-items: flex-start;
     justify-content: space-around;
     padding-left: 16px;
-    .backArrow {
-      align-self: flex-start;
-      margin-bottom: 40px;
-    }
     @media all and (max-width: $screen-sm) {
       width: 100%;
     }
