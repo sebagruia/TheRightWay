@@ -73,10 +73,10 @@ export const deleteListItem = (listId, itemId) => {
   };
 };
 
-export const selectingCurrentItem = (itemId) => {
+export const selectingCurrentItem = (item) => {
   return {
     type: listActions.SELECT_CURRENT_ITEM_FOR_EDITING,
-    payload: itemId,
+    payload: item,
   };
 };
 

@@ -133,7 +133,6 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
                     : Object.keys(listItems)
                         .sort()
                         .map((itemKey) => {
-                          console.log(itemKey);
                           return <Item key={listItems[itemKey].id} item={listItems[itemKey]} />;
                         })}
                 </ul>

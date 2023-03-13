@@ -1,7 +1,15 @@
+import { getAnalytics } from 'firebase/analytics';
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+} from 'firebase/auth';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import { getAnalytics } from 'firebase/analytics';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB6b4D40cLSubf_qDK7BzKMDnoH_l_2N1A',
@@ -16,10 +24,12 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export const analytics = getAnalytics();
-export const auth = firebase.auth();
+// export const auth = firebase.auth();
+export const auth = getAuth();
 export const firestore = firebase.firestore();
 
-const provider = new firebase.auth.GoogleAuthProvider();
+// const provider = new firebase.auth.GoogleAuthProvider();
+const provider = new GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' });
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
@@ -49,7 +59,8 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 
 export const signInWithGoogle = async () => {
   try {
-    const userCredential = await auth.signInWithPopup(provider);
+    // const userCredential = await auth.signInWithPopup(provider);
+    const userCredential = await signInWithPopup(auth, provider);
     const userAuth = userCredential.user;
     return userAuth;
   } catch (error) {
@@ -63,7 +74,7 @@ export const signInWithGoogle = async () => {
 
 export const signInWithPassword = async (loginEmail, loginPass) => {
   try {
-    const userCredential = await auth.signInWithEmailAndPassword(loginEmail, loginPass);
+    const userCredential = await signInWithEmailAndPassword(loginEmail, loginPass);
     const userAuth = userCredential.user;
     return userAuth;
   } catch (error) {
@@ -77,7 +88,7 @@ export const signInWithPassword = async (loginEmail, loginPass) => {
 
 export const registerNewUser = async (email, password) => {
   try {
-    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+    const userCredential = await createUserWithEmailAndPassword(email, password);
     const userAuth = userCredential.user;
     if (userAuth) {
       await userAuth.sendEmailVerification();
@@ -92,9 +103,9 @@ export const registerNewUser = async (email, password) => {
   }
 };
 
-export const signOut = async () => {
+export const signOutUser = async () => {
   try {
-    await auth.signOut();
+    await signOut(auth);
     console.log('Sign Out Succesfull');
   } catch (error) {
     console.log(`Error Signing out ${error}`);
@@ -125,7 +136,6 @@ export const deleteListFromFirestore = async (userId, listId) => {
 export const addListItemToFirestore = async (userId, listId, item) => {
   const updatingObj = {};
   updatingObj[`items.${item.id}`] = item;
-  console.log(item);
   try {
     firestore.doc(`/users/${userId}/lists/${listId}`).update(updatingObj);
     // firestore.collection(`/users/${userId}/lists/${listId}/items`).add(item);

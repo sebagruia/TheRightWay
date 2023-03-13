@@ -1,12 +1,46 @@
-import { listActions } from "./actionEnums";
+import { Item, List, Lists } from '../../interfaces/utilsInterfaces';
+import { listActions } from './actionEnums';
 
-const initialState = {
-  lists: null,
-  selectedList: '',
-  selectedItemId: '',
+interface ListAction {
+  type: listActions;
+  payload: any;
+}
+
+interface InitialState {
+  lists: Lists;
+  selectedList: List;
+  // selectedItemId: Item;
+  selectedItemObject: Item;
+}
+
+// const initialState = {
+//   lists: null,
+//   selectedList: "",
+//   selectedItemId: '',
+// };
+const initialState: InitialState = {
+  lists: {},
+  selectedList: {
+    id: '',
+    listName: '',
+    items: {},
+  },
+  // selectedItemId: {
+  //   id: '',
+  //   itemName: '',
+  //   check: false,
+  //   quantity: '',
+  // },
+  selectedItemObject: {
+    id: '',
+    itemName: '',
+    check: false,
+    quantity: '',
+  },
+
 };
 
-export const listReducer = (state = initialState, action) => {
+export const listReducer = (state = initialState, action: ListAction) => {
   switch (action.type) {
     case listActions.FETCH_USER_LISTS:
       return {
@@ -23,11 +57,11 @@ export const listReducer = (state = initialState, action) => {
         lists: { ...state.lists, [action.payload.id]: action.payload },
       };
     case listActions.DELETE_LIST:
-      const { [action.payload]: remove, ...rest } = state.lists;
-      return {
-        ...state,
-        lists: { ...rest },
-      };
+        const { [action.payload]: remove, ...rest } = state.lists;
+        return {
+          ...state,
+          lists: { ...rest },
+        };
     case listActions.ADD_NEW_ITEM_IN_LIST:
       const listId = action.payload.listId;
       const item = action.payload.item;
@@ -60,6 +94,7 @@ export const listReducer = (state = initialState, action) => {
           },
         },
       };
+
     case listActions.EDIT_ITEM_NAME:
       const idList = action.payload.listId;
       const idItem = action.payload.itemId;
@@ -98,6 +133,7 @@ export const listReducer = (state = initialState, action) => {
           },
         },
       };
+
     case listActions.CHANGE_ITEM_QUANTITY:
       const idList3 = action.payload.listId;
       const idItem3 = action.payload.itemId;
@@ -117,10 +153,11 @@ export const listReducer = (state = initialState, action) => {
           },
         },
       };
+
     case listActions.SELECT_CURRENT_ITEM_FOR_EDITING:
       return {
         ...state,
-        selectedItemId: action.payload,
+        selectedItemObject: action.payload,
       };
 
     default:

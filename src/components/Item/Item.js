@@ -19,9 +19,10 @@ import {
 
 import Modalpopup from '../../components/Modalpopup/Modalpopup';
 
+import { formatName } from '../../utils';
+
 const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
   const navigate = useNavigate();
-  console.log(item);
   const { itemName, id, check } = item;
   const quantityValue = lists[selectedList.id].items[id].quantity;
 
@@ -46,15 +47,10 @@ const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
     }
   };
 
-  const handleShowModal = (itemId) => {
-    setShow(!show);
-    dispatch(selectingCurrentItem(itemId));
+  const editItem = (item) => {
+    dispatch(selectingCurrentItem(item));
+    navigate('/editItem');
   };
-
-  const editItem = (itemId)=>{
-    dispatch(selectingCurrentItem(itemId));
-    navigate("/editItem")
-  }
 
   const toggleCheck = (selectedList, status, item) => {
     if (userAuth) {
@@ -93,25 +89,24 @@ const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
               aria-hidden="true"
             ></i>
             <p className="p-text" style={check ? { textDecoration: 'line-through' } : { textDecoration: 'initial' }}>
-              {itemName}
+              {formatName(itemName)}
             </p>
           </div>
           <div className={styles.edit_list}>
-            <i
-              className={`${styles.edit} fas fa-regular fa-pencil pr-1`}
-              role="button"
-              // onClick={() => handleShowModal(id)}
-              onClick={()=>editItem(id)}
-              aria-hidden="true"
-            ></i>
             <i
               className={`${styles.garbage} fas fa-regular fa-trash pr-1`}
               role="button"
               onClick={() => deleteItem(selectedList.id, selectedList.listName)}
               aria-hidden="true"
             ></i>
+            <i
+              className={`${styles.edit} fas fa-solid fa-circle-chevron-right`}
+              role="button"
+              onClick={() => editItem(item)}
+              aria-hidden="true"
+            ></i>
 
-            <input
+            {/* <input
               onChange={onChangeQuantity}
               onClick={() => changeQuantity(selectedList.id, id, quantity)}
               className={`${styles.quantity} mr-1`}
@@ -123,7 +118,7 @@ const Item = ({ dispatch, userAuth, item, selectedList, lists }) => {
               aria-describedby="number of items of the same kind"
               value={quantity}
             />
-            <i className="fas fa-solid fa-box-open text-warning"></i>
+            <i className="fas fa-solid fa-box-open text-warning"></i> */}
           </div>
         </div>
       </li>

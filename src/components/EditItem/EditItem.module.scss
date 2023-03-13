@@ -1,6 +1,19 @@
-.cardContainer{
-   .cardTitle{
+.cardContainer {
+  .cardTitle {
     font-weight: 600;
     color: #2b3f5d;
-   } 
+    input{
+      
+    }
+  }
+  .categoryDropDownMenu {
+    .categoryItem {
+      font-size: 24px;
+    }
+    span {
+      font-size: 18px;
+      font-family: 'Yanone Kaffeesatz', sans-serif;
+      font-weight: 300;
+    }
+  }
 }
