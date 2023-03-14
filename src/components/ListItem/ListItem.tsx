@@ -10,7 +10,7 @@ import { stateMapping } from '../../redux/stateMapping';
 import { deleteListItemFromFirestore, toggleCheckInFirestore } from '../../firebase/firebase.utils';
 
 import { Item } from '../../interfaces/item';
-import { List, ListAction, Lists } from '../../interfaces/list';
+import { List, ListAction } from '../../interfaces/list';
 
 import { formatName } from '../../utils';
 
@@ -19,10 +19,9 @@ interface IProps {
   userAuth: any;
   item: Item;
   selectedList: List;
-  lists: Lists;
 }
 
-const ListItem: FC<IProps> = ({ dispatch, userAuth, item, selectedList, lists }) => {
+const ListItem: FC<IProps> = ({ dispatch, userAuth, item, selectedList }) => {
   const navigate = useNavigate();
   const { itemName, id, check } = item;
 
@@ -87,7 +86,6 @@ const mapStateToProps = (state: any) => {
   return {
     userAuth: sm.userAuth,
     selectedList: sm.selectedList,
-    lists: sm.lists,
   };
 };
 

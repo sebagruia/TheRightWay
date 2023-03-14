@@ -1,4 +1,4 @@
-import { SET_USER } from './userActions';
+import {userActions} from "./userEnum";
 
 const initialState = {
   user: null,
@@ -6,7 +6,7 @@ const initialState = {
 
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_USER:
+    case userActions.SET_USER:
       return {
         ...state,
         user: action.payload,

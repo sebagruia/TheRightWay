@@ -4,7 +4,6 @@ export interface Item {
     check: boolean;
     quantity: string;
   }
-  
   export interface Items {
     [key: string]: Item;
   }

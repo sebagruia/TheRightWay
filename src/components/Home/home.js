@@ -7,7 +7,7 @@ import { addListNameToFirestore, deleteListFromFirestore } from '../../firebase/
 import { addNewListAction, deleteListAction } from '../../redux/list/listActions';
 import { formatName } from '../../utils';
 
-import List from '../List/ListOfItems';
+import ListOfItems from '../ListOfItems/ListOfItems';
 
 const Home = ({ dispatch, userAuth, lists }) => {
   const [listName, setListName] = useState('');
@@ -90,9 +90,9 @@ const Home = ({ dispatch, userAuth, lists }) => {
             <ul className={styles.listSummary}>
               {lists &&
                 Object.values(lists).map((list) => (
-                  <List key={`${list.id}`} list={list} deleteList={deleteListName} userAuth={userAuth}>
+                  <ListOfItems key={`${list.id}`} list={list} deleteList={deleteListName} userAuth={userAuth}>
                     {formatName(list.listName)}
-                  </List>
+                  </ListOfItems>
                 ))}
             </ul>
           </div>

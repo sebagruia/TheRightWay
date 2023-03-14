@@ -3,9 +3,8 @@ import { Items } from './item';
 
 export interface ListAction {
   type: listActions;
-  payload: any;
+  payload?: any;
 }
-
 export interface List {
   id: string;
   listName: string;

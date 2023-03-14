@@ -1,24 +1,31 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, Dispatch, FC, FormEvent, useState } from 'react';
 import styles from './Login.module.scss';
 
 import { connect } from 'react-redux';
+import { clearStateAction } from '../../redux/list/listActions';
+import { setUser } from '../../redux/user/userActions';
 
 import { useNavigate } from 'react-router-dom';
 
 import { createUserProfileDocument, signInWithGoogle, signInWithPassword } from '../../firebase/firebase.utils';
-import { clearStateAction } from '../../redux/list/listActions';
-import { setUser } from '../../redux/user/userActions';
+
+import { ListAction } from '../../interfaces/list';
+import { UserAction } from '../../interfaces/user';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-const Login = ({ dispatch }) => {
+interface IProps {
+  dispatch: Dispatch<ListAction | UserAction>;
+}
+
+const Login: FC<IProps> = ({ dispatch }) => {
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPass, setLoginPass] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
     dispatch(clearStateAction());
@@ -29,11 +36,11 @@ const Login = ({ dispatch }) => {
     setValidated(true);
   };
 
-  const onEmailChange = (event) => {
+  const onEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setLoginEmail(event.target.value);
   };
 
-  const onPassChange = (event) => {
+  const onPassChange = (event: ChangeEvent<HTMLInputElement>) => {
     setLoginPass(event.target.value);
   };
 
@@ -49,7 +56,7 @@ const Login = ({ dispatch }) => {
     if (userAuth) {
       if (userAuth.emailVerified) {
         const userRef = await createUserProfileDocument(userAuth);
-        userRef.onSnapshot((snapshot) => {
+        userRef?.onSnapshot((snapshot) => {
           dispatch(
             setUser({
               id: snapshot.id,
@@ -75,26 +82,44 @@ const Login = ({ dispatch }) => {
             validated={validated}
             onSubmit={handleSubmit}
           >
-            <Form.Group controlId="formBasicEmail" className='pb-2'>
+            <Form.Group controlId="formBasicEmail" className="pb-2">
               <Form.Label className={styles.label}>Email address</Form.Label>
-              <Form.Control className={styles.form_control_custom} type="email" placeholder="Enter email" required onChange={onEmailChange} />
+              <Form.Control
+                className={styles.form_control_custom}
+                type="email"
+                placeholder="Enter email"
+                required
+                onChange={onEmailChange}
+              />
               <Form.Control.Feedback type="invalid">Please type an email address</Form.Control.Feedback>
               <Form.Control.Feedback type="valid">Looks Good</Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group controlId="formBasicPassword" className='pb-2'>
+            <Form.Group controlId="formBasicPassword" className="pb-2">
               <Form.Label className={styles.label}>Password</Form.Label>
-              <Form.Control className={styles.form_control_custom} type="password" placeholder="Password" required onChange={onPassChange} />
+              <Form.Control
+                className={styles.form_control_custom}
+                type="password"
+                placeholder="Password"
+                required
+                onChange={onPassChange}
+              />
               <Form.Control.Feedback type="invalid">Please type your password</Form.Control.Feedback>
               <Form.Control.Feedback type="valid">Looks Good</Form.Control.Feedback>
             </Form.Group>
-            <Button className={`mt-3 ${styles.btn_primary_custom}`} onClick={logInWithPassword} variant="primary" type="submit" size="sm">
+            <Button
+              className={`mt-3 ${styles.btn_primary_custom}`}
+              onClick={logInWithPassword}
+              variant="primary"
+              type="submit"
+              size="sm"
+            >
               Log In
             </Button>
           </Form>
           <Button variant="light" onClick={logInWithGoogle}>
-            <span className="text-danger">Sign-In{" "}</span>
-            <span className="text-primary">with{" "}</span>
+            <span className="text-danger">Sign-In </span>
+            <span className="text-primary">with </span>
             <span className="text-success">Google</span>
           </Button>
         </div>
