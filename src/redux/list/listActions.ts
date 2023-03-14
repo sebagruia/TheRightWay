@@ -10,7 +10,7 @@ export const fetchUserLists = (userId: string) => async (dispatch: Dispatch<List
 
   try {
     userListsRef.onSnapshot((snapShot) => {
-      let listsObject = {} as Lists;
+      let listsObject = {};
       const lists = snapShot.docs.map((item) => item.data());
       lists.forEach((list) => {
         if (list.items) {
