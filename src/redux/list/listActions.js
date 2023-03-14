@@ -92,6 +92,7 @@ export const editItemName = (listId, itemId, inputValue) => {
 };
 
 export const toggleCheckStatus = (listId, itemId, status) => {
+console.log(listId, itemId, status);
   return {
     type: listActions.TOGGLE_CHECK_STATUS,
     payload: {

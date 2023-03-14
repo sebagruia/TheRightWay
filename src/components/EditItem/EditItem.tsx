@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, Dispatch, FC, useState } from 'react';
 import styles from './EditItem.module.scss';
 
 import { connect } from 'react-redux';
@@ -14,17 +14,27 @@ import { Link } from 'react-router-dom';
 import { changeQuantityInFirestore, updatingListItemNameToFirestore } from '../../firebase/firebase.utils';
 import { changeItemQuantity, editItemName } from '../../redux/list/listActions';
 
+import { Item } from '../../interfaces/item';
+import { List, ListAction } from '../../interfaces/list';
+
 import { foodCategories, formatName, units } from '../../utils';
 
 import backArrow from '../../assets/images/iconmonstr-arrow-59-48.png';
 
-const EditItem = ({ dispatch, userAuth, selectedList, selectedItemObject }) => {
+interface IProps {
+  dispatch: Dispatch<ListAction>;
+  userAuth: any;
+  selectedItemObject: Item;
+  selectedList: List;
+}
+
+const EditItem:FC<IProps> = ({ dispatch, userAuth, selectedList, selectedItemObject }) => {
   const [inputValue, setInputValue] = useState(
     selectedItemObject && selectedItemObject.itemName ? formatName(selectedItemObject.itemName) : ''
   );
-  const [quantity, setQuantity] = useState((selectedItemObject && selectedItemObject.quantity) || 1);
+  const [quantity, setQuantity] = useState((selectedItemObject && selectedItemObject.quantity) || "1");
 
-  const handleOnChange = (event) => {
+  const handleOnChange = (event:ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
   const saveEditedValue = () => {
@@ -35,7 +45,7 @@ const EditItem = ({ dispatch, userAuth, selectedList, selectedItemObject }) => {
     }
   };
 
-  const changeQuantity = (userId, listId, itemId, quantity) => {
+  const changeQuantity = (userId:string, listId:string, itemId:string, quantity:string) => {
     if (userAuth) {
       changeQuantityInFirestore(userId, listId, itemId, quantity);
     } else {
@@ -43,9 +53,9 @@ const EditItem = ({ dispatch, userAuth, selectedList, selectedItemObject }) => {
     }
   };
 
-  const onChangeQuantity = (event) => {
+  const onChangeQuantity = (event:ChangeEvent<HTMLInputElement>) => {
     if (event.target.value === '') {
-      setQuantity(1);
+      setQuantity("1");
       changeQuantity(userAuth?.id, selectedList.id, selectedItemObject.id, event.target.value);
     } else {
       setQuantity(event.target.value);
@@ -98,7 +108,7 @@ const EditItem = ({ dispatch, userAuth, selectedList, selectedItemObject }) => {
                     label="Units"
                   >
                     {units.map((item) => (
-                      <MenuItem key={item.id} eventkey={item.id}>{`${item.name} (${item.unit})`}</MenuItem>
+                      <MenuItem key={item.id}>{`${item.name} (${item.unit})`}</MenuItem>
                     ))}
                   </Select>
                 </FormControl>
@@ -136,7 +146,7 @@ const EditItem = ({ dispatch, userAuth, selectedList, selectedItemObject }) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state:any) => {
   const sm = stateMapping(state);
   return {
     userAuth: sm.userAuth,

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import styles from './listContent.module.scss';
+import React, { ChangeEvent, Dispatch, FC, FormEvent, useState } from 'react';
+import styles from './ListContent.module.scss';
 
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -9,15 +9,26 @@ import { addNewItemInList } from '../../redux/list/listActions';
 
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
-import ListItem from "../ListItem/ListItem"
+import ListItem from '../ListItem/ListItem';
 
 import backArrow from '../../assets/images/iconmonstr-arrow-59-48.png';
 import ascendingIcon from '../../assets/svg/sortAsc.svg';
 import descendingIcon from '../../assets/svg/sortDesc.svg';
 
+import { Item } from '../../interfaces/item';
+import { List, ListAction, Lists } from '../../interfaces/list';
+
 import { formatName, sortDescending } from '../../utils';
 
-const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
+interface IProps {
+  dispatch: Dispatch<ListAction>;
+  userAuth: any;
+  item: Item;
+  lists: Lists;
+  selectedList: List;
+}
+
+const ListContent: FC<IProps> = ({ dispatch, userAuth, lists, selectedList }) => {
   const [inputText, setInputText] = useState('');
   const [visible, setVisible] = useState(true);
   const [sort, setSort] = useState(true);
@@ -29,14 +40,14 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
     setVisible(!visible);
   };
 
-  const handleOnChange = (event) => {
+  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputText(event.target.value);
   };
   const handleSort = () => {
     setSort(!sort);
   };
 
-  const addNewItem = (event) => {
+  const addNewItem = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (inputText.length > 0) {
       const item = {
@@ -146,7 +157,7 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: any) => {
   return {
     userAuth: state.userReducer.user,
     lists: state.listReducer.lists,
