@@ -7,7 +7,7 @@ import { addListNameToFirestore, deleteListFromFirestore } from '../../firebase/
 import { addNewListAction, deleteListAction } from '../../redux/list/listActions';
 import { formatName } from '../../utils';
 
-import List from '../../components/List/List';
+import List from '../List/ListOfItems';
 
 const Home = ({ dispatch, userAuth, lists }) => {
   const [listName, setListName] = useState('');
