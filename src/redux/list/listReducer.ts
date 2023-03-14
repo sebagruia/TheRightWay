@@ -1,23 +1,12 @@
-import { Item, List, Lists } from '../../interfaces/utilsInterfaces';
+import { Item } from '../../interfaces/item';
+import { List, ListAction, Lists } from '../../interfaces/list';
 import { listActions } from './actionEnums';
-
-interface ListAction {
-  type: listActions;
-  payload: any;
-}
-
 interface InitialState {
   lists: Lists;
   selectedList: List;
-  // selectedItemId: Item;
   selectedItemObject: Item;
 }
 
-// const initialState = {
-//   lists: null,
-//   selectedList: "",
-//   selectedItemId: '',
-// };
 const initialState: InitialState = {
   lists: {},
   selectedList: {
@@ -25,19 +14,12 @@ const initialState: InitialState = {
     listName: '',
     items: {},
   },
-  // selectedItemId: {
-  //   id: '',
-  //   itemName: '',
-  //   check: false,
-  //   quantity: '',
-  // },
   selectedItemObject: {
     id: '',
     itemName: '',
     check: false,
     quantity: '',
   },
-
 };
 
 export const listReducer = (state = initialState, action: ListAction) => {
@@ -57,11 +39,11 @@ export const listReducer = (state = initialState, action: ListAction) => {
         lists: { ...state.lists, [action.payload.id]: action.payload },
       };
     case listActions.DELETE_LIST:
-        const { [action.payload]: remove, ...rest } = state.lists;
-        return {
-          ...state,
-          lists: { ...rest },
-        };
+      const { [action.payload]: remove, ...rest } = state.lists;
+      return {
+        ...state,
+        lists: { ...rest },
+      };
     case listActions.ADD_NEW_ITEM_IN_LIST:
       const listId = action.payload.listId;
       const item = action.payload.item;

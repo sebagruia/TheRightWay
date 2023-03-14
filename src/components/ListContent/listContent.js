@@ -8,7 +8,8 @@ import { addListItemToFirestore } from '../../firebase/firebase.utils';
 import { addNewItemInList } from '../../redux/list/listActions';
 
 import ProgressBar from 'react-bootstrap/ProgressBar';
-import Item from '../../components/Item/Item';
+
+import ListItem from "../ListItem/ListItem"
 
 import backArrow from '../../assets/images/iconmonstr-arrow-59-48.png';
 import ascendingIcon from '../../assets/svg/sortAsc.svg';
@@ -128,12 +129,12 @@ const ListContent = ({ dispatch, userAuth, lists, selectedList }) => {
                     ? Object.keys(listItems)
                         .sort(sortDescending)
                         .map((itemKey) => {
-                          return <Item key={listItems[itemKey].id} item={listItems[itemKey]} />;
+                          return <ListItem key={listItems[itemKey].id} item={listItems[itemKey]} />;
                         })
                     : Object.keys(listItems)
                         .sort()
                         .map((itemKey) => {
-                          return <Item key={listItems[itemKey].id} item={listItems[itemKey]} />;
+                          return <ListItem key={listItems[itemKey].id} item={listItems[itemKey]} />;
                         })}
                 </ul>
               )}

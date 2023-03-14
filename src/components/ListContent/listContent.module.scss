@@ -84,15 +84,6 @@
           justify-content: center;
           align-items: center;
           width: 80%;
-          // @media all and (max-width: 375px) {
-          //   width: 200px;
-          // }
-          // @media all and (min-width: 376px) and (max-width: 576px) {
-          //   width: 250px;
-          // }
-          // @media all and (max-width: 992px) {
-          //   width: 80%;
-          // }
           .form_control {
             height: calc(1.15em + 0.75rem + 2px);
             margin-right: -1px;
@@ -101,9 +92,6 @@
             border-color: #ffc107;
             border-radius: 5px 0 0 5px;
           }
-          // .addButton {
-          //   font-size: 1rem;
-          // }
         }
       }
 

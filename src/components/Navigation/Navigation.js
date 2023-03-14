@@ -14,20 +14,9 @@ import { signOutUser } from '../../firebase/firebase.utils';
 const Navigation = ({ dispatch, userAuth }) => {
   const navigate = useNavigate();
 
-  // const logOut = async () => {
-  //   dispatch(clearStateAction());
-  //  await signOut();
-
-  // };
-
   const logOut = async () => {
-    if (userAuth) {
-      dispatch(clearStateAction());
-      const response = await signOutUser();
-      navigate('/login');
-    } else {
-      navigate('/login');
-    }
+    dispatch(clearStateAction());
+    await signOutUser();
   };
 
   return (
@@ -49,12 +38,9 @@ const Navigation = ({ dispatch, userAuth }) => {
             <Nav className="mr-auto">
               <li className={`nav-item ${styles.item1} ${styles.nav_item_custom} ml-auto`}>
                 <h5 className={styles.welcome}>{userAuth ? `Welcome ${userAuth.displayName}` : ''}</h5>
-                {/* <Link to="/login" onClick={userAuth && logOut} className={`btn btn-outline-secondary ${styles.wraper}`}>
+                <Link to="/login" onClick={userAuth && logOut} className={`btn btn-outline-secondary ${styles.wraper}`}>
                   <span className="font-weight-light">{userAuth ? 'Log out' : 'Log in'}</span>
-                </Link> */}
-                <span className={`font-weight-light btn btn-outline-secondary ${styles.wraper}`} onClick={logOut}>
-                  {userAuth ? 'Log out' : 'Log in'}
-                </span>
+                </Link>
                 <Link to="/register" className={`btn btn-outline-secondary ${styles.wraper}`}>
                   <span className="font-weight-light">{userAuth ? 'Save' : 'Register'}</span>
                 </Link>
