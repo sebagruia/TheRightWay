@@ -1,21 +1,22 @@
-import React, { Dispatch, FC, ReactNode } from 'react';
+import React, { FC, ReactNode } from 'react';
 import styles from './ListOfItems.module.scss';
 
-import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
+import {useDispatch } from 'react-redux';
 import { selectListAction } from '../../redux/list/listActions';
 
-import { List, ListAction } from '../../interfaces/list';
+import { List } from '../../interfaces/list';
 
 interface IProps {
-  dispatch: Dispatch<ListAction>;
   children: ReactNode;
   userAuth: any;
   list: List;
   deleteList: (userId: string, listId: string) => void;
 }
 
-const ListOfItems: FC<IProps> = ({ dispatch, userAuth, children, list, deleteList }) => {
+const ListOfItems: FC<IProps> = ({ userAuth, children, list, deleteList }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   return (
@@ -40,4 +41,4 @@ const ListOfItems: FC<IProps> = ({ dispatch, userAuth, children, list, deleteLis
   );
 };
 
-export default connect()(ListOfItems);
+export default ListOfItems;

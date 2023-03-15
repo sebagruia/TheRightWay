@@ -1,27 +1,27 @@
-import React, { Dispatch, FC } from 'react';
+import React, { FC } from 'react';
 import styles from './ListItem.module.scss';
 
 import { useNavigate } from 'react-router-dom';
 
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { deleteListItem, selectingCurrentItem, toggleCheckStatus } from '../../redux/list/listActions';
 import { stateMapping } from '../../redux/stateMapping';
 
 import { deleteListItemFromFirestore, toggleCheckInFirestore } from '../../firebase/firebase.utils';
 
 import { Item } from '../../interfaces/item';
-import { List, ListAction } from '../../interfaces/list';
+import { List } from '../../interfaces/list';
 
 import { formatName } from '../../utils';
 
 interface IProps {
-  dispatch: Dispatch<ListAction>;
   userAuth: any;
   item: Item;
   selectedList: List;
 }
 
-const ListItem: FC<IProps> = ({ dispatch, userAuth, item, selectedList }) => {
+const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { itemName, id, check } = item;
 

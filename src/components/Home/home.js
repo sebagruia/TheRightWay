@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './home.module.scss';
+import styles from './Home.module.scss';
 
 import { connect } from 'react-redux';
 
@@ -27,7 +27,7 @@ const Home = ({ dispatch, userAuth, lists }) => {
       const listDetails = {
         id: `${listName}${Date.now()}`,
         listName: listName,
-        items: null,
+        items: {},
       };
 
       if (userAuth) {

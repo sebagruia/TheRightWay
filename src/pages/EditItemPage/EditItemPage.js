@@ -1,6 +1,6 @@
 import React from 'react';
-import Layout from '../../components/Layout/layout';
 import EditItem from '../../components/EditItem/EditItem';
+import Layout from '../../components/Layout/Layout';
 
 const EditItemPage = () => {
   return (
