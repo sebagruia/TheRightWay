@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
 import styles from './Home.module.scss';
 
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
+import { stateMapping } from '../../redux/stateMapping';
 
 import { addListNameToFirestore, deleteListFromFirestore } from '../../firebase/firebase.utils';
 import { addNewListAction, deleteListAction } from '../../redux/list/listActions';
-import { formatName } from '../../utils';
 
 import ListOfItems from '../ListOfItems/ListOfItems';
 
-const Home = ({ dispatch, userAuth, lists }) => {
+import { Lists } from '../../interfaces/list';
+
+import { formatName } from '../../utils';
+
+interface IProps {
+  userAuth: any;
+  lists: Lists;
+}
+
+const Home: FC<IProps> = ({ userAuth, lists }) => {
+  const dispatch = useDispatch();
   const [listName, setListName] = useState('');
   const [visible, setVisible] = useState(true);
 
@@ -17,11 +27,11 @@ const Home = ({ dispatch, userAuth, lists }) => {
     setVisible(!visible);
   };
 
-  const handleOnChange = (event) => {
+  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     setListName(event.target.value);
   };
 
-  const addNewList = (event) => {
+  const addNewList = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (listName.length > 0) {
       const listDetails = {
@@ -39,7 +49,7 @@ const Home = ({ dispatch, userAuth, lists }) => {
     }
   };
 
-  const deleteListName = (userId, listId) => {
+  const deleteListName = (userId: string, listId: string) => {
     if (userId) {
       deleteListFromFirestore(userId, listId);
     } else {
@@ -102,10 +112,11 @@ const Home = ({ dispatch, userAuth, lists }) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: any) => {
+  const sm = stateMapping(state);
   return {
-    userAuth: state.userReducer.user,
-    lists: state.listReducer.lists,
+    userAuth: sm.userAuth,
+    lists: sm.lists,
   };
 };
 

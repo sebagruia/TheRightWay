@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styles from './Register.module.scss';
 
+import {useDispatch} from "react-redux";
+
 import { useNavigate } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
@@ -9,6 +11,7 @@ import Form from 'react-bootstrap/Form';
 import { createUserProfileDocument, registerNewUser } from '../../firebase/firebase.utils';
 
 const Register = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [registerName, setLoginName] = useState('');
@@ -53,7 +56,7 @@ const Register = () => {
   const register = async () => {
     if (confirmPass === registerPass) {
       try {
-        const userAuth = await registerNewUser(registerEmail, registerPass);
+        const userAuth = await registerNewUser(registerEmail, registerPass, dispatch);
         if (userAuth.uid) {
           await createUserProfileDocument(userAuth, { displayName: registerName });
           navigate('/login');

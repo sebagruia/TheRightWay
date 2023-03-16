@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {FC} from 'react';
 
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { clearStateAction } from '../../redux/list/listActions';
+import { stateMapping } from '../../redux/stateMapping';
 
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -11,7 +12,12 @@ import styles from './Navigation.module.scss';
 
 import { signOutUser } from '../../firebase/firebase.utils';
 
-const Navigation = ({ dispatch, userAuth }) => {
+interface IProps {
+  userAuth: any;
+}
+
+const Navigation:FC<IProps> = ({ userAuth }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const logOut = async () => {
@@ -53,9 +59,10 @@ const Navigation = ({ dispatch, userAuth }) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state:any) => {
+  const sm  = stateMapping(state);
   return {
-    userAuth: state.userReducer.user,
+    userAuth: sm.userAuth,
   };
 };
 

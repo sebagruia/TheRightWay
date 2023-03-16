@@ -5,7 +5,7 @@ import Layout from '../../components/Layout/Layout';
 const EditItemPage = () => {
   return (
     <Layout>
-      <EditItem></EditItem>
+      <EditItem/>
     </Layout>
   );
 };

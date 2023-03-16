@@ -1,7 +1,7 @@
 import React, { ChangeEvent, Dispatch, FC, FormEvent, useState } from 'react';
 import styles from './ListContent.module.scss';
 
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addListItemToFirestore } from '../../firebase/firebase.utils';
@@ -21,14 +21,13 @@ import { List, ListAction, Lists } from '../../interfaces/list';
 import { formatName, sortDescending } from '../../utils';
 
 interface IProps {
-  dispatch: Dispatch<ListAction>;
   userAuth: any;
-  item: Item;
   lists: Lists;
   selectedList: List;
 }
 
-const ListContent: FC<IProps> = ({ dispatch, userAuth, lists, selectedList }) => {
+const ListContent: FC<IProps> = ({  userAuth, lists, selectedList }) => {
+  const dispatch = useDispatch();
   const [inputText, setInputText] = useState('');
   const [visible, setVisible] = useState(true);
   const [sort, setSort] = useState(true);

@@ -5,11 +5,18 @@ import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   signInWithPopup,
+  sendEmailVerification ,
   signOut,
+  User
 } from 'firebase/auth';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+
+import {setUserLogginError} from "../redux/user/userActions";
+
+import {Item} from "../interfaces/item";
+import {List} from "../interfaces/list";
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB6b4D40cLSubf_qDK7BzKMDnoH_l_2N1A',
@@ -32,7 +39,7 @@ export const firestore = firebase.firestore();
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' });
 
-export const createUserProfileDocument = async (userAuth, additionalData) => {
+export const createUserProfileDocument = async (userAuth:User, additionalData?:any) => {
   if (!userAuth) {
     return;
   }
@@ -50,54 +57,54 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
         createdAt,
         ...additionalData,
       });
-    } catch (error) {
+    } catch (error:any) {
       console.log('error creating user', error.message);
     }
   }
   return userRef;
 };
 
-export const signInWithGoogle = async () => {
+export const signInWithGoogle = async (dispatch:any) => {
   try {
     // const userCredential = await auth.signInWithPopup(provider);
     const userCredential = await signInWithPopup(auth, provider);
     const userAuth = userCredential.user;
     return userAuth;
-  } catch (error) {
+  } catch (error:any) {
     const errorCode = error.code;
-    const errorMessage = error.message;
-    alert(errorMessage);
+    dispatch(setUserLogginError(error.message));
     console.log(`There was an error signing in ${errorCode}`);
     return null;
   }
 };
 
-export const signInWithPassword = async (loginEmail, loginPass) => {
+export const signInWithPassword = async (loginEmail:string, loginPass:string, dispatch:any) => {
   try {
-    const userCredential = await signInWithEmailAndPassword(loginEmail, loginPass);
+    const userCredential = await signInWithEmailAndPassword(auth,loginEmail, loginPass);
     const userAuth = userCredential.user;
     return userAuth;
-  } catch (error) {
+  } catch (error:any) {
+    console.log(error);
     const errorCode = error.code;
-    const errorMessage = error.message;
-    alert(errorMessage);
+    dispatch(setUserLogginError(errorCode));
     console.log(`There was an error signing in ${errorCode}`);
     return null;
   }
 };
 
-export const registerNewUser = async (email, password) => {
+export const registerNewUser = async (email:string, password:string, dispatch:any) => {
   try {
-    const userCredential = await createUserWithEmailAndPassword(email, password);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const userAuth = userCredential.user;
     if (userAuth) {
-      await userAuth.sendEmailVerification();
+      if(auth.currentUser){
+        const response = await sendEmailVerification(auth.currentUser)
+      }
       return userAuth;
     }
-  } catch (error) {
+  } catch (error:any) {
     const errorCode = error.code;
-    const errorMessage = error.message;
-    alert(errorMessage);
+    dispatch(setUserLogginError(errorCode));
     console.log(`There was an error registering new user ${errorCode}`);
     return null;
   }
@@ -112,7 +119,7 @@ export const signOutUser = async () => {
   }
 };
 
-export const addListNameToFirestore = async (userId, listId, listDetails) => {
+export const addListNameToFirestore = async (userId:string, listId:string, listDetails:List) => {
   try {
     firestore.collection(`/users/${userId}/lists/`).doc(listId).set(listDetails);
   } catch (error) {
@@ -120,7 +127,7 @@ export const addListNameToFirestore = async (userId, listId, listDetails) => {
   }
 };
 
-export const deleteListFromFirestore = async (userId, listId) => {
+export const deleteListFromFirestore = async (userId:string, listId:string) => {
   // const listRef = firestore.doc(`/users/${userId}/lists/${listId}/items`);
   const itemsRef = firestore.collection(`/users/${userId}/lists/${listId}/items`);
 
@@ -133,8 +140,8 @@ export const deleteListFromFirestore = async (userId, listId) => {
   }
 };
 
-export const addListItemToFirestore = async (userId, listId, item) => {
-  const updatingObj = {};
+export const addListItemToFirestore = async (userId:string, listId:string, item:Item) => {
+  const updatingObj = {} as any;
   updatingObj[`items.${item.id}`] = item;
   try {
     firestore.doc(`/users/${userId}/lists/${listId}`).update(updatingObj);
@@ -144,8 +151,8 @@ export const addListItemToFirestore = async (userId, listId, item) => {
   }
 };
 
-export const deleteListItemFromFirestore = async (userId, listName, itemID) => {
-  const updatingObj = {};
+export const deleteListItemFromFirestore = async (userId:string, listName:string, itemID:string) => {
+  const updatingObj = {} as any;
   updatingObj[`items.${itemID}`] = firebase.firestore.FieldValue.delete();
   try {
     firestore.doc(`/users/${userId}/lists/${listName}`).update(updatingObj);
@@ -154,8 +161,8 @@ export const deleteListItemFromFirestore = async (userId, listName, itemID) => {
   }
 };
 
-export const toggleCheckInFirestore = async (userId, listId, item) => {
-  const updatingObj = {};
+export const toggleCheckInFirestore = async (userId:string, listId:string, item:Item) => {
+  const updatingObj = {} as any;
   updatingObj[`items.${item.id}.check`] = !item.check;
   try {
     firestore.doc(`/users/${userId}/lists/${listId}`).update(updatingObj);
@@ -164,8 +171,8 @@ export const toggleCheckInFirestore = async (userId, listId, item) => {
   }
 };
 
-export const changeQuantityInFirestore = async (userId, listId, itemId, quantity) => {
-  const updatingObj = {};
+export const changeQuantityInFirestore = async (userId:string, listId:string, itemId:string, quantity:string) => {
+  const updatingObj = {} as any;
   updatingObj[`items.${itemId}.quantity`] = quantity;
   try {
     await firestore.doc(`/users/${userId}/lists/${listId}`).update(updatingObj);
@@ -174,8 +181,8 @@ export const changeQuantityInFirestore = async (userId, listId, itemId, quantity
   }
 };
 
-export const updatingListItemNameToFirestore = async (userId, listId, itemId, itemName) => {
-  const updatingObj = {};
+export const updatingListItemNameToFirestore = async (userId:string, listId:string, itemId:string, itemName:string) => {
+  const updatingObj = {} as any;
   updatingObj[`items.${itemId}.itemName`] = itemName;
   try {
     firestore.doc(`/users/${userId}/lists/${listId}`).update(updatingObj);

@@ -1,5 +1,5 @@
 import React from 'react';
-import './ListContentPage.css';
+import './ListContentPage.module.scss';
 
 import Layout from '../../components/Layout/Layout';
 import ListContent from '../../components/ListContent/ListContent';
