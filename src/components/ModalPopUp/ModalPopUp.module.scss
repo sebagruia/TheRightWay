@@ -5,12 +5,7 @@
 .modal-dialog .modal-content {
   border: 0px;
 }
-.modal_header {
-  background-color: #ffc107;
-}
-
 .modalCancelButton {
-  // background-color: #2b3f5d;
   color: #2b3f5d !important;
   border-color: #2b3f5d !important;
   &:hover {
@@ -22,7 +17,6 @@
   font-size: 24px;
   font-family: "Yanone Kaffeesatz", sans-serif;
   // font-weight: 300;
-
 }
 
 .inputForModal {

@@ -3,20 +3,21 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   GoogleAuthProvider,
+  sendEmailVerification,
   signInWithEmailAndPassword,
   signInWithPopup,
-  sendEmailVerification ,
   signOut,
-  User
+  User,
 } from 'firebase/auth';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
-import {setUserLogginError} from "../redux/user/userActions";
+import { setUserModalMessage } from '../redux/user/userActions';
 
-import {Item} from "../interfaces/item";
-import {List} from "../interfaces/list";
+import { Item } from '../interfaces/item';
+import { List } from '../interfaces/list';
+import { ModalHeaderBackground } from '../interfaces/modal';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB6b4D40cLSubf_qDK7BzKMDnoH_l_2N1A',
@@ -39,7 +40,7 @@ export const firestore = firebase.firestore();
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' });
 
-export const createUserProfileDocument = async (userAuth:User, additionalData?:any) => {
+export const createUserProfileDocument = async (userAuth: User, additionalData?: any) => {
   if (!userAuth) {
     return;
   }
@@ -57,55 +58,72 @@ export const createUserProfileDocument = async (userAuth:User, additionalData?:a
         createdAt,
         ...additionalData,
       });
-    } catch (error:any) {
+    } catch (error: any) {
       console.log('error creating user', error.message);
     }
   }
   return userRef;
 };
 
-export const signInWithGoogle = async (dispatch:any) => {
+export const signInWithGoogle = async (dispatch: any) => {
   try {
     // const userCredential = await auth.signInWithPopup(provider);
     const userCredential = await signInWithPopup(auth, provider);
     const userAuth = userCredential.user;
     return userAuth;
-  } catch (error:any) {
+  } catch (error: any) {
     const errorCode = error.code;
-    dispatch(setUserLogginError(error.message));
-    console.log(`There was an error signing in ${errorCode}`);
+    dispatch(
+      setUserModalMessage({
+        title: 'Error',
+        content: `There was an error signing in: ${errorCode}`,
+        headerBackground: ModalHeaderBackground.error,
+      })
+    );
+    console.log(`There was an error signing in: ${errorCode}`);
     return null;
   }
 };
 
-export const signInWithPassword = async (loginEmail:string, loginPass:string, dispatch:any) => {
+export const signInWithPassword = async (loginEmail: string, loginPass: string, dispatch: any) => {
   try {
-    const userCredential = await signInWithEmailAndPassword(auth,loginEmail, loginPass);
+    const userCredential = await signInWithEmailAndPassword(auth, loginEmail, loginPass);
     const userAuth = userCredential.user;
     return userAuth;
-  } catch (error:any) {
-    console.log(error);
+  } catch (error: any) {
     const errorCode = error.code;
-    dispatch(setUserLogginError(errorCode));
-    console.log(`There was an error signing in ${errorCode}`);
+    dispatch(
+      setUserModalMessage({
+        title: 'Error',
+        content: `There was an error signing in: ${errorCode}`,
+        headerBackground: ModalHeaderBackground.error,
+      })
+    );
+    console.log(`There was an error signing in: ${errorCode}`);
     return null;
   }
 };
 
-export const registerNewUser = async (email:string, password:string, dispatch:any) => {
+export const registerNewUser = async (email: string, password: string, dispatch: any) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const userAuth = userCredential.user;
     if (userAuth) {
-      if(auth.currentUser){
-        const response = await sendEmailVerification(auth.currentUser)
+      if (auth.currentUser) {
+        await sendEmailVerification(auth.currentUser);
       }
       return userAuth;
     }
-  } catch (error:any) {
+  } catch (error: any) {
     const errorCode = error.code;
-    dispatch(setUserLogginError(errorCode));
-    console.log(`There was an error registering new user ${errorCode}`);
+    dispatch(
+      setUserModalMessage({
+        title: 'Error',
+        content: `There was an error registering new user: ${errorCode}`,
+        headerBackground: ModalHeaderBackground.error,
+      })
+    );
+    console.log(`There was an error registering new user: ${errorCode}`);
     return null;
   }
 };
@@ -119,7 +137,7 @@ export const signOutUser = async () => {
   }
 };
 
-export const addListNameToFirestore = async (userId:string, listId:string, listDetails:List) => {
+export const addListNameToFirestore = async (userId: string, listId: string, listDetails: List) => {
   try {
     firestore.collection(`/users/${userId}/lists/`).doc(listId).set(listDetails);
   } catch (error) {
@@ -127,7 +145,7 @@ export const addListNameToFirestore = async (userId:string, listId:string, listD
   }
 };
 
-export const deleteListFromFirestore = async (userId:string, listId:string) => {
+export const deleteListFromFirestore = async (userId: string, listId: string) => {
   // const listRef = firestore.doc(`/users/${userId}/lists/${listId}/items`);
   const itemsRef = firestore.collection(`/users/${userId}/lists/${listId}/items`);
 
@@ -140,7 +158,7 @@ export const deleteListFromFirestore = async (userId:string, listId:string) => {
   }
 };
 
-export const addListItemToFirestore = async (userId:string, listId:string, item:Item) => {
+export const addListItemToFirestore = async (userId: string, listId: string, item: Item) => {
   const updatingObj = {} as any;
   updatingObj[`items.${item.id}`] = item;
   try {
@@ -151,7 +169,7 @@ export const addListItemToFirestore = async (userId:string, listId:string, item:
   }
 };
 
-export const deleteListItemFromFirestore = async (userId:string, listName:string, itemID:string) => {
+export const deleteListItemFromFirestore = async (userId: string, listName: string, itemID: string) => {
   const updatingObj = {} as any;
   updatingObj[`items.${itemID}`] = firebase.firestore.FieldValue.delete();
   try {
@@ -161,7 +179,7 @@ export const deleteListItemFromFirestore = async (userId:string, listName:string
   }
 };
 
-export const toggleCheckInFirestore = async (userId:string, listId:string, item:Item) => {
+export const toggleCheckInFirestore = async (userId: string, listId: string, item: Item) => {
   const updatingObj = {} as any;
   updatingObj[`items.${item.id}.check`] = !item.check;
   try {
@@ -171,7 +189,7 @@ export const toggleCheckInFirestore = async (userId:string, listId:string, item:
   }
 };
 
-export const changeQuantityInFirestore = async (userId:string, listId:string, itemId:string, quantity:string) => {
+export const changeQuantityInFirestore = async (userId: string, listId: string, itemId: string, quantity: string) => {
   const updatingObj = {} as any;
   updatingObj[`items.${itemId}.quantity`] = quantity;
   try {
@@ -181,7 +199,12 @@ export const changeQuantityInFirestore = async (userId:string, listId:string, it
   }
 };
 
-export const updatingListItemNameToFirestore = async (userId:string, listId:string, itemId:string, itemName:string) => {
+export const updatingListItemNameToFirestore = async (
+  userId: string,
+  listId: string,
+  itemId: string,
+  itemName: string
+) => {
   const updatingObj = {} as any;
   updatingObj[`items.${itemId}.itemName`] = itemName;
   try {

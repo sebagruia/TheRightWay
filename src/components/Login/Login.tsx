@@ -3,20 +3,27 @@ import styles from './Login.module.scss';
 
 import { connect, useDispatch } from 'react-redux';
 import { clearStateAction } from '../../redux/list/listActions';
-import { setUserLogginError } from '../../redux/user/userActions';
+import { setUserModalMessage } from '../../redux/user/userActions';
 import { stateMapping } from '../../redux/stateMapping';
 import { setUser } from '../../redux/user/userActions';
 
 import { useNavigate } from 'react-router-dom';
 
+import {DocumentData} from "firebase/firestore";
+
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import { createUserProfileDocument, signInWithGoogle, signInWithPassword } from '../../firebase/firebase.utils';
 import ModalPopUp from '../ModalPopUp/ModalPopUp';
 
+import { ModalMessage, ModalHeaderBackground } from '../../interfaces/modal';
+
+import { createUserProfileDocument, signInWithGoogle, signInWithPassword } from '../../firebase/firebase.utils';
+
+
+
 interface IProps {
-  error: string;
+  error: ModalMessage;
 }
 
 const Login: FC<IProps> = ({ error }) => {
@@ -57,7 +64,7 @@ const Login: FC<IProps> = ({ error }) => {
     if (userAuth) {
       if (userAuth.emailVerified) {
         const userRef = await createUserProfileDocument(userAuth);
-        userRef?.onSnapshot((snapshot) => {
+        userRef?.onSnapshot((snapshot:DocumentData) => {
           dispatch(
             setUser({
               id: snapshot.id,
@@ -67,13 +74,13 @@ const Login: FC<IProps> = ({ error }) => {
         });
         navigate('/home');
       } else {
-        dispatch(setUserLogginError('You need to verify your email. Please check your Inbox and follow the link.'));
+        dispatch(setUserModalMessage({title:"Email Validation", content:'You need to verify your email. Please check your Inbox and follow the link.',  headerBackground:ModalHeaderBackground.warning}));
       }
     }
   };
 
   const closeModal = () => {
-    dispatch(setUserLogginError(""));
+    dispatch(setUserModalMessage({content:""}));
   };
 
   return (

@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import styles from './Register.module.scss';
 
-import {useDispatch} from "react-redux";
+import { useDispatch } from 'react-redux';
+import { setUserModalMessage } from '../../redux/user/userActions';
 
 import { useNavigate } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+
+import { ModalHeaderBackground } from '../../interfaces/modal';
 
 import { createUserProfileDocument, registerNewUser } from '../../firebase/firebase.utils';
 
@@ -16,10 +19,10 @@ const Register = () => {
   const [validated, setValidated] = useState(false);
   const [registerName, setLoginName] = useState('');
   const [registerEmail, setRegisterEmail] = useState('');
-  const [registerPass, setRegisterPass] = useState(undefined);
-  const [confirmPass, setConfirmPass] = useState(undefined);
+  const [registerPass, setRegisterPass] = useState('');
+  const [confirmPass, setConfirmPass] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -29,18 +32,18 @@ const Register = () => {
     setValidated(true);
   };
 
-  const onNameChange = (event) => {
+  const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setLoginName(event.target.value);
   };
 
-  const onEmailChange = (event) => {
+  const onEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setRegisterEmail(event.target.value);
   };
-  const onPassChange = (event) => {
+  const onPassChange = (event: ChangeEvent<HTMLInputElement>) => {
     setRegisterPass(event.target.value);
   };
 
-  const onConfirmPassChange = (event) => {
+  const onConfirmPassChange = (event: ChangeEvent<HTMLInputElement>) => {
     setConfirmPass(event.target.value);
   };
 
@@ -57,14 +60,21 @@ const Register = () => {
     if (confirmPass === registerPass) {
       try {
         const userAuth = await registerNewUser(registerEmail, registerPass, dispatch);
-        if (userAuth.uid) {
+        if (userAuth?.uid) {
           await createUserProfileDocument(userAuth, { displayName: registerName });
           navigate('/login');
+          dispatch(
+            setUserModalMessage({
+              title: 'Email Validation',
+              content: `A validation email was sent to ${userAuth.providerData[0].email}`,
+              headerBackground:ModalHeaderBackground.warning
+            })
+          );
         }
       } catch (error) {
         console.log(`Error registering new user ${error}`);
       }
-    } 
+    }
   };
 
   return (
@@ -77,7 +87,7 @@ const Register = () => {
             validated={validated}
             onSubmit={handleSubmit}
           >
-            <Form.Group controlId="formBasicName" className='pb-2'>
+            <Form.Group controlId="formBasicName" className="pb-2">
               <Form.Label className={styles.label}>Name</Form.Label>
               <Form.Control
                 className={styles.form_control_custom}
@@ -90,7 +100,7 @@ const Register = () => {
               <Form.Control.Feedback type="valid">Looks Good</Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group controlId="formBasicEmail" className='pb-2'>
+            <Form.Group controlId="formBasicEmail" className="pb-2">
               <Form.Label className={styles.label}>Email address</Form.Label>
               <Form.Control
                 className={styles.form_control_custom}
@@ -103,7 +113,7 @@ const Register = () => {
               <Form.Control.Feedback type="valid">Looks Good</Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group controlId="formBasicPassword" className='pb-2'>
+            <Form.Group controlId="formBasicPassword" className="pb-2">
               <Form.Label className={styles.label}>Password</Form.Label>
               <Form.Control
                 className={styles.form_control_custom}
@@ -116,7 +126,7 @@ const Register = () => {
               <Form.Control.Feedback type="valid">Looks Good</Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group controlId="formCheckBasicPassword" className='pb-2'>
+            <Form.Group controlId="formCheckBasicPassword" className="pb-2">
               <Form.Label className={styles.label}>Confirm Password</Form.Label>
               <Form.Control
                 className={styles.form_control_custom}

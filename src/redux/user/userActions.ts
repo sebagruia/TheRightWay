@@ -1,8 +1,11 @@
-import {userActions} from "./userEnum";
-
 import { createAction } from "@reduxjs/toolkit";
 
-export const setUser = createAction<any>(userActions.SET_USER);
-export const setUserLogginError = createAction<string>(userActions.SET_USER_LOGGIN_ERROR);
+import {userActions} from "./userEnum";
+import {LoggedUser} from "../../interfaces/user";
+import {ModalMessage} from "../../interfaces/modal";
+
+
+export const setUser = createAction<LoggedUser>(userActions.SET_USER);
+export const setUserModalMessage = createAction<ModalMessage>(userActions.SET_USER_MODAL_MESSAGE);
 
 
