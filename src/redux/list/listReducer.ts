@@ -41,7 +41,7 @@ export const listReducer = createReducer(initialState, (builder) => {
       state.lists = action.payload;
     })
     .addCase(clearStateAction, (state, action) => {
-      state = initialState;
+      state = {...initialState};
     })
     .addCase(addNewListAction, (state, action) => {
       state.lists[action.payload.id] = action.payload;

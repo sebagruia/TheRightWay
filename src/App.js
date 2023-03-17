@@ -16,7 +16,7 @@ import RegisterPage from './pages/RegisterPage/RegisterPage';
 import StartPage from './pages/StartPage/StartPage';
 import EditItemPage from './pages/EditItemPage/EditItemPage';
 
-const App = ({ getUserLists, setCurrentUser, clearState }) => {
+const App = ({ getUserLists, setCurrentUser}) => {
   const navigate = useNavigate();
   useEffect(() => {
     const unsubscribFromAuth = auth.onAuthStateChanged(async (userAuth) => {
@@ -37,7 +37,7 @@ const App = ({ getUserLists, setCurrentUser, clearState }) => {
         unsubscribFromAuth();
       };
     });
-  }, [navigate, getUserLists, setCurrentUser, clearState]);
+  }, [navigate, getUserLists, setCurrentUser]);
 
   return (
     <Routes>
@@ -55,7 +55,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setCurrentUser: (user) => dispatch(setUser(user)),
     getUserLists: (user) => dispatch(fetchUserLists(user)),
-    clearState: () => dispatch(clearStateAction()),
   };
 };
 
