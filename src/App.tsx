@@ -1,43 +1,53 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import './App.css';
+import React, { FC, useEffect} from 'react';
+
+import './App.scss';
 
 import { Route, Routes, useNavigate } from 'react-router-dom';
 
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
-
-import { clearStateAction, fetchUserLists } from './redux/list/listActions';
+import { connect, useDispatch } from 'react-redux';
+import { fetchUserLists } from './redux/list/listActions';
 import { setUser } from './redux/user/userActions';
 
+import EditItemPage from './pages/EditItemPage/EditItemPage';
 import HomePage from './pages/HomePage/HomePage';
 import ListContentPage from './pages/ListContentPage/ListContentPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import StartPage from './pages/StartPage/StartPage';
-import EditItemPage from './pages/EditItemPage/EditItemPage';
 
-const App = ({ getUserLists, setCurrentUser}) => {
+import { DocumentData } from 'firebase/firestore';
+
+import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+
+interface IProps {
+  getUserLists: (userId: string) => any;
+}
+
+const App:FC<IProps> = ({getUserLists}) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
     const unsubscribFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth && userAuth.emailVerified) {
         const userRef = await createUserProfileDocument(userAuth);
-        userRef.onSnapshot((snapshot) => {
-          setCurrentUser({
-            id: snapshot.id,
-            ...snapshot.data(),
+          userRef?.onSnapshot((snapshot: DocumentData) => {
+            dispatch(
+              setUser({
+                id: snapshot.id,
+                ...snapshot.data(),
+              })
+            );
+            getUserLists(userAuth.uid);
           });
-        });
-        getUserLists(userAuth.uid);
       } else {
-        setCurrentUser(null);
+        dispatch(setUser(null));
       }
 
       return () => {
         unsubscribFromAuth();
       };
     });
-  }, [navigate, getUserLists, setCurrentUser]);
+  }, [navigate, getUserLists]);
 
   return (
     <Routes>
@@ -51,11 +61,8 @@ const App = ({ getUserLists, setCurrentUser}) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setCurrentUser: (user) => dispatch(setUser(user)),
-    getUserLists: (user) => dispatch(fetchUserLists(user)),
-  };
-};
+const mapDispatchToProps = (dispatch:any)=> ({
+  getUserLists: (userId:string) => dispatch(fetchUserLists(userId)),
+});
 
 export default connect(null, mapDispatchToProps)(App);

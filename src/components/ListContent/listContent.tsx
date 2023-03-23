@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Dispatch, FC, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
 import styles from './ListContent.module.scss';
 
 import { connect, useDispatch } from 'react-redux';
@@ -15,8 +15,7 @@ import backArrow from '../../assets/images/iconmonstr-arrow-59-48.png';
 import ascendingIcon from '../../assets/svg/sortAsc.svg';
 import descendingIcon from '../../assets/svg/sortDesc.svg';
 
-import { Item } from '../../interfaces/item';
-import { List, ListAction, Lists } from '../../interfaces/list';
+import { List, Lists } from '../../interfaces/list';
 
 import { formatName, sortDescending } from '../../utils';
 
@@ -26,7 +25,7 @@ interface IProps {
   selectedList: List;
 }
 
-const ListContent: FC<IProps> = ({  userAuth, lists, selectedList }) => {
+const ListContent: FC<IProps> = ({ userAuth, lists, selectedList }) => {
   const dispatch = useDispatch();
   const [inputText, setInputText] = useState('');
   const [visible, setVisible] = useState(true);
@@ -54,6 +53,8 @@ const ListContent: FC<IProps> = ({  userAuth, lists, selectedList }) => {
         itemName: inputText,
         check: false,
         quantity: '1',
+        unit: '',
+        category: '',
       };
       if (userAuth) {
         addListItemToFirestore(userAuth.id, selectedList.id, item);

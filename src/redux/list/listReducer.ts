@@ -4,15 +4,15 @@ import { List, Lists } from '../../interfaces/list';
 import {
   addNewItemInList,
   addNewListAction,
+  changeItemQuantity,
   clearStateAction,
   deleteListAction,
   deleteListItem,
-  fetchUser,
+  editItem,
+  fetchUserList,
   selectingCurrentItem,
   selectListAction,
-  editItemName,
   toggleCheckStatus,
-  changeItemQuantity
 } from './listActions';
 interface InitialState {
   lists: Lists;
@@ -32,16 +32,18 @@ const initialState: InitialState = {
     itemName: '',
     check: false,
     quantity: '',
+    unit: '',
+    category: '',
   },
 };
 
 export const listReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(fetchUser, (state, action) => {
+    .addCase(fetchUserList, (state, action) => {
       state.lists = action.payload;
     })
     .addCase(clearStateAction, (state, action) => {
-      state = {...initialState};
+      state = { ...initialState };
     })
     .addCase(addNewListAction, (state, action) => {
       state.lists[action.payload.id] = action.payload;
@@ -62,11 +64,11 @@ export const listReducer = createReducer(initialState, (builder) => {
       const itemIdValue = action.payload.itemId;
       delete state.lists[listIdValue].items[itemIdValue];
     })
-    .addCase(editItemName, (state, action) => {
+    .addCase(editItem, (state, action) => {
       const idList = action.payload.listId;
       const idItem = action.payload.itemId;
-      const newValue = action.payload.inputValue;
-      state.lists[idList].items[idItem].itemName = newValue;
+      const newValue = action.payload.item;
+      state.lists[idList].items[idItem] = newValue;
     })
     .addCase(toggleCheckStatus, (state, action) => {
       const idList = action.payload.listId;
@@ -82,5 +84,5 @@ export const listReducer = createReducer(initialState, (builder) => {
     .addCase(selectingCurrentItem, (state, action) => {
       state.selectedItemObject = action.payload;
     })
-    .addDefaultCase((state, action) => state)
+    .addDefaultCase((state, action) => state);
 });

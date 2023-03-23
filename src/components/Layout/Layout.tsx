@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { FC, ReactNode } from 'react';
 import Navigation from '../Navigation/Navigation';
 import { Fragment } from 'react';
 
-const Layout = ({ children }) => {
+interface IProps {
+  children: ReactNode;
+}
+
+const Layout: FC<IProps> = ({ children }) => {
   return (
     <Fragment>
       <Navigation />

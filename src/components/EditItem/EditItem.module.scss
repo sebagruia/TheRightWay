@@ -1,19 +1,39 @@
-.cardContainer {
-  .cardTitle {
-    font-weight: 600;
-    color: #2b3f5d;
-    input{
-      
+@use '../../styles/variables.scss' as *;
+
+.customForm {
+  width: 100%;
+  .cardContainer {
+    width: 576px;
+    @media all and (max-width: 768px) {
+      width: 100%;
     }
-  }
-  .categoryDropDownMenu {
-    .categoryItem {
-      font-size: 24px;
+    .itemName {
+      font-size: 20px;
+      font-weight: 600;
+      color: #2b3f5d;
     }
-    span {
-      font-size: 18px;
-      font-family: 'Yanone Kaffeesatz', sans-serif;
-      font-weight: 300;
+    .itemName,
+    .quantity {
+      border-left: 0;
+    }
+    .dropDownCustom {
+      min-width: 120px;
+    }
+    .dropDownFull {
+      min-width: 100%;
+    }
+    #itemNameText,
+    #quantityText {
+      border-radius: 0.25rem 0 0 0.25rem;
+    }
+
+    .saveButton {
+      border-color: $primaryColor;
+      color: $primaryColor;
+      &:hover {
+        color: #fff;
+        background-color: $primaryColor;
+      }
     }
   }
 }

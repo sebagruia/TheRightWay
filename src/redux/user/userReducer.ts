@@ -1,9 +1,10 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { ModalMessage } from '../../interfaces/modal';
+import { LoggedUser } from '../../interfaces/user';
 import { setUser, setUserModalMessage } from './userActions';
 
 interface InitialState {
-  user: any;
+  user: LoggedUser | null;
   error: ModalMessage;
 }
 const initialState: InitialState = {

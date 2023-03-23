@@ -26,14 +26,14 @@ export const fetchUserLists = (userId: string) => async (dispatch: any) => {
           listsObject = { ...listsObject, [list.id]: list };
         }
       });
-      dispatch(fetchUser(listsObject));
+      dispatch(fetchUserList(listsObject));
     });
   } catch (error) {
     console.log(`Error on Fetching Data From Firestore ${error}`);
   }
 };
 
-export const fetchUser = createAction<Lists>(listActions.FETCH_USER_LISTS);
+export const fetchUserList = createAction<Lists>(listActions.FETCH_USER_LISTS);
 export const clearStateAction = createAction(listActions.CLEAR_STATE);
 export const addNewListAction = createAction<List>(listActions.ADD_NEW_LIST_NAME);
 export const deleteListAction = createAction<string>(listActions.DELETE_LIST);
@@ -51,13 +51,13 @@ export const deleteListItem = createAction(listActions.DELETE_LIST_ITEM, (listId
   },
 }));
 export const selectingCurrentItem = createAction<Item>(listActions.SELECT_CURRENT_ITEM_FOR_EDITING);
-export const editItemName = createAction(
-  listActions.EDIT_ITEM_NAME,
-  (listId: string, itemId: string, inputValue: string) => ({
+export const editItem = createAction(
+  listActions.EDIT_ITEM,
+  (listId: string, itemId: string, item: Item) => ({
     payload: {
       listId,
       itemId,
-      inputValue,
+      item,
     },
   })
 );

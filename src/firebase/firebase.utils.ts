@@ -199,14 +199,13 @@ export const changeQuantityInFirestore = async (userId: string, listId: string, 
   }
 };
 
-export const updatingListItemNameToFirestore = async (
+export const updatingListItemToFirestore = async (
   userId: string,
   listId: string,
   itemId: string,
-  itemName: string
-) => {
+item:Item) => {
   const updatingObj = {} as any;
-  updatingObj[`items.${itemId}.itemName`] = itemName;
+  updatingObj[`items.${itemId}`] = item;
   try {
     firestore.doc(`/users/${userId}/lists/${listId}`).update(updatingObj);
   } catch (error) {
