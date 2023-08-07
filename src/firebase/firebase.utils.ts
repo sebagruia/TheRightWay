@@ -75,7 +75,7 @@ export const signInWithGoogle = async (dispatch: any) => {
         title: 'Error',
         content: `There was an error signing in: ${errorCode}`,
         headerBackground: ModalHeaderBackground.error,
-      })
+      }),
     );
     console.log(`There was an error signing in: ${errorCode}`);
     return null;
@@ -94,7 +94,7 @@ export const signInWithPassword = async (loginEmail: string, loginPass: string, 
         title: 'Error',
         content: `There was an error signing in: ${errorCode}`,
         headerBackground: ModalHeaderBackground.error,
-      })
+      }),
     );
     console.log(`There was an error signing in: ${errorCode}`);
     return null;
@@ -118,7 +118,7 @@ export const registerNewUser = async (email: string, password: string, dispatch:
         title: 'Error',
         content: `There was an error registering new user: ${errorCode}`,
         headerBackground: ModalHeaderBackground.error,
-      })
+      }),
     );
     console.log(`There was an error registering new user: ${errorCode}`);
     return null;
@@ -143,7 +143,6 @@ export const addListNameToFirestore = async (userId: string, listId: string, lis
 };
 
 export const deleteListFromFirestore = async (userId: string, listId: string) => {
-  // const listRef = firestore.doc(`/users/${userId}/lists/${listId}/items`);
   const itemsRef = firestore.collection(`/users/${userId}/lists/${listId}/items`);
 
   try {
@@ -160,7 +159,6 @@ export const addListItemToFirestore = async (userId: string, listId: string, ite
   updatingObj[`items.${item.id}`] = item;
   try {
     firestore.doc(`/users/${userId}/lists/${listId}`).update(updatingObj);
-    // firestore.collection(`/users/${userId}/lists/${listId}/items`).add(item);
   } catch (error) {
     console.log(error);
   }
@@ -196,11 +194,7 @@ export const changeQuantityInFirestore = async (userId: string, listId: string, 
   }
 };
 
-export const updatingListItemToFirestore = async (
-  userId: string,
-  listId: string,
-  itemId: string,
-item:Item) => {
+export const updatingListItemToFirestore = async (userId: string, listId: string, itemId: string, item: Item) => {
   const updatingObj = {} as any;
   updatingObj[`items.${itemId}`] = item;
   try {

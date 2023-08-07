@@ -20,26 +20,28 @@ interface IProps {
 const Category: FC<IProps> = ({ lists, selectedList, sortType, categoryName }) => {
   const [unfold, setUnfold] = useState(false);
   const listItemsInCategory = Object.values(lists[selectedList.id].items).filter(
-    (item) => item.category === categoryName
+    (item) => item.category === categoryName,
   );
+
   const handleClick = () => {
     setUnfold(!unfold);
   };
-
   const generateListItemsInCategory = () => {
     switch (sortType) {
       case 'sortAscending':
-        return listItemsInCategory
-          .sort((a, b) => {
-            return parseInt(a.id) - parseInt(b.id);
-          })
-          .map((item) => {
-            return <ListItem key={item.id} item={item} />;
-          });
+        return listItemsInCategory.sort().map((item) => {
+          return <ListItem key={item.id} item={item} />;
+        });
       case 'sortDescending':
         return listItemsInCategory
           .sort((a, b) => {
-            return parseInt(b.id) - parseInt(a.id);
+            if (a.itemName.toLowerCase() > b.itemName.toLowerCase()) {
+              return -1;
+            }
+            if (a.itemName.toLowerCase() < b.itemName.toLowerCase()) {
+              return 1;
+            }
+            return 0;
           })
           .map((item) => {
             return <ListItem key={item.id} item={item} />;
