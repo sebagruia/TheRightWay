@@ -4,7 +4,7 @@ import { List, Lists } from '../../interfaces/list';
 import {
   addNewItemInList,
   addNewListAction,
-  changeItemQuantity,
+  // changeItemQuantity,
   clearStateAction,
   deleteListAction,
   deleteListItem,
@@ -12,12 +12,13 @@ import {
   fetchUserList,
   selectingCurrentItem,
   selectListAction,
-  toggleCheckStatus,
+  toggleSort,
 } from './listActions';
 interface InitialState {
   lists: Lists;
   selectedList: List;
   selectedItemObject: Item;
+  sortType: string | null;
 }
 
 const initialState: InitialState = {
@@ -28,13 +29,15 @@ const initialState: InitialState = {
     items: {},
   },
   selectedItemObject: {
-    id: '',
+    id: "",
     itemName: '',
     check: false,
     quantity: '',
     unit: '',
     category: '',
+    note: '',
   },
+  sortType: null,
 };
 
 export const listReducer = createReducer(initialState, (builder) => {
@@ -70,19 +73,22 @@ export const listReducer = createReducer(initialState, (builder) => {
       const newValue = action.payload.item;
       state.lists[idList].items[idItem] = newValue;
     })
-    .addCase(toggleCheckStatus, (state, action) => {
-      const idList = action.payload.listId;
-      const idItem = action.payload.itemId;
-      const status = action.payload.status;
-      state.lists[idList].items[idItem].check = status;
-    })
-    .addCase(changeItemQuantity, (state, action) => {
-      const idList = action.payload.listId;
-      const idItem = action.payload.itemId;
-      state.lists[idList].items[idItem].quantity = action.payload.quantity;
-    })
+    // .addCase(toggleCheckStatus, (state, action) => {
+    //   const idList = action.payload.listId;
+    //   const idItem = action.payload.itemId;
+    //   const status = action.payload.status;
+    //   state.lists[idList].items[idItem].check = status;
+    // })
+    // .addCase(changeItemQuantity, (state, action) => {
+    //   const idList = action.payload.listId;
+    //   const idItem = action.payload.itemId;
+    //   state.lists[idList].items[idItem].quantity = action.payload.quantity;
+    // })
     .addCase(selectingCurrentItem, (state, action) => {
       state.selectedItemObject = action.payload;
+    })
+    .addCase(toggleSort, (state, action) => {
+      state.sortType = action.payload;
     })
     .addDefaultCase((state, action) => state);
 });

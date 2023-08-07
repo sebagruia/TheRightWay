@@ -8,7 +8,6 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-around;
-    padding-left: 16px;
     @media all and (max-width: $screen-sm) {
       width: 100%;
     }
@@ -35,7 +34,7 @@
           text-align: left;
         }
         .buttonContainer {
-          padding-right: 40px;
+          padding-right: 20px;
           .addButton {
             font-size: 1rem;
           }
@@ -64,15 +63,20 @@
       flex-direction: column;
       align-items: flex-start;
       width: 100%;
+      height: 400px;
+      overflow-y: scroll;
       @media all and (max-width: 992px) {
         width: 100%;
+      }
+      @media screen and (max-width: 576px) {
+          height: 350px;
       }
       .addNewItemInput {
         width: 50%;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px 0px 0px 0px;
+        padding: 10px 0px 20px 0px;
         @media all and (max-width: 576px) {
           width: 100%;
         }
@@ -85,13 +89,17 @@
           align-items: center;
           width: 80%;
           .form_control {
-            height: calc(1.15em + 0.75rem + 2px);
+            height: calc(1.15em + 0.75rem + 1.1px);
             margin-right: -1px;
             font-size: 1.3rem;
             font-weight: 200;
             border-color: #ffc107;
             border-radius: 5px 0 0 5px;
           }
+          .inputAddButton{
+            border-radius: 0rem 0.25rem 0.25rem 0;
+          }
+
         }
       }
 

@@ -27,7 +27,7 @@ const ListOfItems: FC<IProps> = ({ userAuth, children, list, deleteList }) => {
           navigate('/listContent');
         }}
         type="button"
-        className="btn btn-outline-warning btn-lg btn-block capitalize button-color-orange"
+        className={`btn btn-outline-warning btn-lg btn-block capitalize button-color-orange ${styles.btn_custom}`}
       >
         {children}
       </button>

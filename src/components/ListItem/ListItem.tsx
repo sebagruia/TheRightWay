@@ -4,10 +4,14 @@ import styles from './ListItem.module.scss';
 import { useNavigate } from 'react-router-dom';
 
 import { connect, useDispatch } from 'react-redux';
-import { deleteListItem, selectingCurrentItem, toggleCheckStatus } from '../../redux/list/listActions';
+import { deleteListItem, selectingCurrentItem, editItem } from '../../redux/list/listActions';
 import { stateMapping } from '../../redux/stateMapping';
 
-import { deleteListItemFromFirestore, toggleCheckInFirestore } from '../../firebase/firebase.utils';
+import { deleteListItemFromFirestore, updatingListItemToFirestore } from '../../firebase/firebase.utils';
+
+import { CiTrash } from 'react-icons/ci';
+import { IoEllipsisVerticalOutline } from 'react-icons/io5';
+import { MdKeyboardArrowRight } from 'react-icons/md';
 
 import { Item } from '../../interfaces/item';
 import { List } from '../../interfaces/list';
@@ -23,7 +27,7 @@ interface IProps {
 const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { itemName, id, check } = item;
+  const { itemName, id, check, quantity, unit } = item;
 
   const deleteItem = (listId: string, itemID: string) => {
     if (userAuth) {
@@ -33,17 +37,18 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
     }
   };
 
-  const editItem = (item: Item) => {
+  const selectItemFroEdit = (item: Item) => {
     dispatch(selectingCurrentItem(item));
     navigate('/editItem');
   };
 
-  const toggleCheck = (selectedList: List, status: boolean, item: Item) => {
-    if (userAuth) {
-      toggleCheckInFirestore(userAuth.id, selectedList.id, item);
+  const updateItemCheckStatus = (selectedList: List, status: boolean, item: Item ) => {
+    if (userAuth && item) {
+      updatingListItemToFirestore(userAuth.id, selectedList.id, id,{ ...item, check:!status});
     } else {
-      dispatch(toggleCheckStatus(selectedList.id, item.id, !status));
+      dispatch(editItem(selectedList.id, id, { ...item, check:!status}));
     }
+    navigate('/listContent');
   };
 
   return (
@@ -51,11 +56,11 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
       <div className={`${styles.list_component} text-secondary`}>
         <div className={styles.check_list}>
           <i
-            className={`far pr-1 ${check ? 'fa-check-circle text-success' : 'fa-circle'} ${
+            className={`far pe-1 ${check ? 'fa-check-circle text-success' : 'fa-circle'} ${
               styles.fa_check_circle_custom
             }`}
             role="button"
-            onClick={() => toggleCheck(selectedList, check, item)}
+            onClick={() => updateItemCheckStatus(selectedList, check, item)}
             aria-hidden="true"
           ></i>
           <p className="p-text" style={check ? { textDecoration: 'line-through' } : { textDecoration: 'initial' }}>
@@ -63,18 +68,22 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
           </p>
         </div>
         <div className={styles.edit_list}>
-          <i
-            className={`${styles.garbage} fas fa-regular fa-trash pr-1`}
+          <p className={`m-0 ${styles.quantity}`}>{`${quantity} ${unit}`}</p>
+          <IoEllipsisVerticalOutline />
+          <CiTrash
+            className={`${styles.garbage} fas fa-regular fa-trash pe-1`}
             role="button"
+            size="24px"
             onClick={() => deleteItem(selectedList.id, id)}
             aria-hidden="true"
-          ></i>
-          <i
-            className={`${styles.edit} fas fa-solid fa-circle-chevron-right`}
+          />
+          <MdKeyboardArrowRight
+            className={`${styles.edit}`}
             role="button"
-            onClick={() => editItem(item)}
+            size="28px"
+            onClick={() => selectItemFroEdit(item)}
             aria-hidden="true"
-          ></i>
+          />
         </div>
       </div>
     </li>

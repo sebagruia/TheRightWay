@@ -32,11 +32,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export const analytics = getAnalytics();
-// export const auth = firebase.auth();
 export const auth = getAuth();
 export const firestore = firebase.firestore();
 
-// const provider = new firebase.auth.GoogleAuthProvider();
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' });
 
@@ -67,7 +65,6 @@ export const createUserProfileDocument = async (userAuth: User, additionalData?:
 
 export const signInWithGoogle = async (dispatch: any) => {
   try {
-    // const userCredential = await auth.signInWithPopup(provider);
     const userCredential = await signInWithPopup(auth, provider);
     const userAuth = userCredential.user;
     return userAuth;

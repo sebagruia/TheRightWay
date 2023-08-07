@@ -61,23 +61,24 @@ export const editItem = createAction(
     },
   })
 );
-export const toggleCheckStatus = createAction(
-  listActions.TOGGLE_CHECK_STATUS,
-  (listId: string, itemId: string, status: boolean) => ({
-    payload: {
-      listId,
-      itemId,
-      status,
-    },
-  })
-);
-export const changeItemQuantity = createAction(
-  listActions.CHANGE_ITEM_QUANTITY,
-  (listId: string, itemId: string, quantity: string) => ({
-    payload: {
-      listId,
-      itemId,
-      quantity,
-    },
-  })
-);
+export const toggleSort = createAction<string>(listActions.TOGGLE_SORT)
+// export const toggleCheckStatus = createAction(
+//   listActions.TOGGLE_CHECK_STATUS,
+//   (listId: string, itemId: string, status: boolean) => ({
+//     payload: {
+//       listId,
+//       itemId,
+//       status,
+//     },
+//   })
+// );
+// export const changeItemQuantity = createAction(
+//   listActions.CHANGE_ITEM_QUANTITY,
+//   (listId: string, itemId: string, quantity: string) => ({
+//     payload: {
+//       listId,
+//       itemId,
+//       quantity,
+//     },
+//   })
+// );

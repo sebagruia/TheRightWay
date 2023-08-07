@@ -5,6 +5,7 @@ export interface Item {
     quantity: string;
     unit:string;
     category:string;
+    note:string;
   }
   export interface Items {
     [key: string]: Item;

@@ -6,23 +6,22 @@ import { stateMapping } from '../../redux/stateMapping';
 
 import { editItem } from '../../redux/list/listActions';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import { Button, Card } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 
 import { updatingListItemToFirestore } from '../../firebase/firebase.utils';
 
+import BackArrow from '../BackArrow/BackArrow';
+
 import { Item } from '../../interfaces/item';
 import { List } from '../../interfaces/list';
 
 import { foodCategories, formatName, units } from '../../utils';
-
-import { CiShoppingBasket } from 'react-icons/ci';
-import backArrow from '../../assets/images/iconmonstr-arrow-59-48.png';
-
 interface IProps {
   userAuth: any;
   selectedItemObject: Item;
@@ -35,7 +34,7 @@ const EditItem: FC<IProps> = ({ userAuth, selectedList, selectedItemObject }) =>
   const [item, setItem] = useState(selectedItemObject || {});
 
   const onSelectUnit = (event: any) => {
-    setItem({ ...item, unit: event.unit });
+    setItem({ ...item, unit: event });
   };
   const onSelectCategory = (event: any) => {
     setItem({ ...item, category: event });
@@ -58,16 +57,12 @@ const EditItem: FC<IProps> = ({ userAuth, selectedList, selectedItemObject }) =>
     <div className="container">
       <div className="row">
         <div className="col d-flex align-items-start flex-column">
-          <Link to="/listContent" className="backArrow">
-            <img src={backArrow} alt="back arrow" />
-          </Link>
+          <BackArrow route="/listContent" />
           <Form className={styles.customForm} onSubmit={onSubmitEditedItem}>
             <Card className={styles.cardContainer}>
-              <Card.Img variant="top" src="holder.js/100px180" />
-              <CiShoppingBasket size="40px" />
               <Card.Body>
-                <div className="row mb-5">
-                  <div className="col-8 d-flex flex-column align-items-center">
+                <div className="row flex-column flex-sm-row pb-3">
+                  <div className="col col-sm-8 d-flex flex-column align-items-center">
                     <InputGroup className="mb-3">
                       <InputGroup.Text id={styles.itemNameText}>Item</InputGroup.Text>
                       <Form.Control
@@ -88,7 +83,7 @@ const EditItem: FC<IProps> = ({ userAuth, selectedList, selectedItemObject }) =>
                         {item.category || 'Category'}
                       </Dropdown.Toggle>
 
-                      <Dropdown.Menu>
+                      <Dropdown.Menu className={styles.dropDownMenu}>
                         {foodCategories.map((item) => (
                           <Dropdown.Item
                             className="d-flex justify-content-between align-items-center"
@@ -102,7 +97,7 @@ const EditItem: FC<IProps> = ({ userAuth, selectedList, selectedItemObject }) =>
                       </Dropdown.Menu>
                     </Dropdown>
                   </div>
-                  <div className="col-4 d-flex flex-column align-items-end">
+                  <div className="col col-sm-4 d-flex flex-column align-items-end justify-content-between pt-sm-0 pt-1">
                     <Dropdown onSelect={onSelectUnit} className={`mb-3 ${styles.dropDownFull}`} id="dropDownUnitMaster">
                       <Dropdown.Toggle
                         variant="outline-secondary"
@@ -112,7 +107,7 @@ const EditItem: FC<IProps> = ({ userAuth, selectedList, selectedItemObject }) =>
                         {item.unit || 'Unit'}
                       </Dropdown.Toggle>
 
-                      <Dropdown.Menu>
+                      <Dropdown.Menu className={styles.dropDownMenu}>
                         {units.map((item) => (
                           <Dropdown.Item
                             key={item.id}
@@ -127,7 +122,7 @@ const EditItem: FC<IProps> = ({ userAuth, selectedList, selectedItemObject }) =>
                       <Form.Control
                         type="number"
                         onChange={handleChangeItem}
-                        className={`${styles.quantity} mr-1`}
+                        className={`${styles.quantity} me-1`}
                         name="quantity"
                         min="1"
                         max="20"
@@ -136,7 +131,22 @@ const EditItem: FC<IProps> = ({ userAuth, selectedList, selectedItemObject }) =>
                     </InputGroup>
                   </div>
                 </div>
-                <div className="col d-flex justify-content-end">
+                <div className="row mb-4 ">
+                  <div className="col">
+                    <InputGroup>
+                      <InputGroup.Text id={styles.textInputArea}>Note</InputGroup.Text>
+                      <Form.Control
+                        className={styles.textArea}
+                        as="textarea"
+                        aria-label="With textarea"
+                        value={item.note || ''}
+                        onChange={handleChangeItem}
+                        name="note"
+                      />
+                    </InputGroup>
+                  </div>
+                </div>
+                <div className="col d-flex justify-content-end pe-0">
                   <Button type="submit" variant="outline-primary" className={styles.saveButton}>
                     Save
                   </Button>

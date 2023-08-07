@@ -13,7 +13,8 @@
       color: #2b3f5d;
     }
     .itemName,
-    .quantity {
+    .quantity,
+    .textArea {
       border-left: 0;
     }
     .dropDownCustom {
@@ -22,8 +23,12 @@
     .dropDownFull {
       min-width: 100%;
     }
+    .dropDownMenu {
+      width: 100%;
+    }
     #itemNameText,
-    #quantityText {
+    #quantityText,
+    #textInputArea {
       border-radius: 0.25rem 0 0 0.25rem;
     }
 

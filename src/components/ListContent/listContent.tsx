@@ -1,35 +1,34 @@
-import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 import styles from './ListContent.module.scss';
 
 import { connect, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { stateMapping } from '../../redux/stateMapping';
 
 import { addListItemToFirestore } from '../../firebase/firebase.utils';
 import { addNewItemInList } from '../../redux/list/listActions';
 
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
-import ListItem from '../ListItem/ListItem';
-
-import backArrow from '../../assets/images/iconmonstr-arrow-59-48.png';
-import ascendingIcon from '../../assets/svg/sortAsc.svg';
-import descendingIcon from '../../assets/svg/sortDesc.svg';
+import BackArrow from '../BackArrow/BackArrow';
+import Category from '../Category/Category';
+import SortType from '../SortType/SortType';
 
 import { List, Lists } from '../../interfaces/list';
 
-import { formatName, sortDescending } from '../../utils';
+import { FoodCategory } from '../../interfaces/utilsInterfaces';
+import { foodCategories, formatName, sortCategories } from '../../utils';
 
 interface IProps {
   userAuth: any;
   lists: Lists;
   selectedList: List;
+  sortType: string | null;
 }
 
-const ListContent: FC<IProps> = ({ userAuth, lists, selectedList }) => {
+const ListContent: FC<IProps> = ({ userAuth, lists, selectedList, sortType }) => {
   const dispatch = useDispatch();
   const [inputText, setInputText] = useState('');
-  const [visible, setVisible] = useState(true);
-  const [sort, setSort] = useState(true);
+  const [visible, setVisible] = useState(false);
   const listItems = lists[selectedList.id].items;
   const checkedItems = listItems && Object.values(listItems).filter((list) => list.check === true).length;
   const percentage = listItems && Math.floor((checkedItems / Object.values(listItems).length) * 100);
@@ -41,20 +40,18 @@ const ListContent: FC<IProps> = ({ userAuth, lists, selectedList }) => {
   const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputText(event.target.value);
   };
-  const handleSort = () => {
-    setSort(!sort);
-  };
 
   const addNewItem = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (inputText.length > 0) {
       const item = {
-        id: `${inputText}${Date.now()}`,
+        id: Math.floor(Math.random() * Date.now()).toString(),
         itemName: inputText,
         check: false,
         quantity: '1',
         unit: '',
         category: '',
+        note: '',
       };
       if (userAuth) {
         addListItemToFirestore(userAuth.id, selectedList.id, item);
@@ -65,21 +62,24 @@ const ListContent: FC<IProps> = ({ userAuth, lists, selectedList }) => {
     }
   };
 
+  useEffect(() => {
+    if (sortType === 'sortByCategory') {
+    }
+  }, [sortType]);
+
   return (
     <div className="container">
       <div className={`row ${styles.listContent_row}`}>
         <div className="col">
           <div className={styles.listContent_container}>
-            <Link to="/home" className="backArrow">
-              <img src={backArrow} alt="back arrow" />
-            </Link>
+            <BackArrow route="/home" />
 
             <div className={styles.titleContainer}>
               <div className={styles.addItemButtontAndTitle}>
                 <h1 className="m-0">
                   <span className={styles.bold}>{formatName(selectedList.listName)}</span>{' '}
                 </h1>
-                <div className={styles.buttonContainer}>
+                <div className={`${styles.buttonContainer} ${visible ? 'hide' : 'reveal'}`}>
                   <button
                     onClick={handleClick}
                     className={`btn btn-warning ${styles.addButton} `}
@@ -89,15 +89,7 @@ const ListContent: FC<IProps> = ({ userAuth, lists, selectedList }) => {
                     <span className={styles.buttonSign}>+</span>
                   </button>
                 </div>
-                {listItems && Object.keys(listItems).length > 1 && (
-                  <div className={styles.sortContainer} onClick={handleSort}>
-                    {sort ? (
-                      <img src={ascendingIcon} alt="ascendingIcon" />
-                    ) : (
-                      <img src={descendingIcon} alt="descendingIcon" />
-                    )}
-                  </div>
-                )}
+                {listItems && Object.keys(listItems).length > 1 && <SortType />}
               </div>
 
               {listItems && Object.keys(listItems).length > 0 && (
@@ -113,7 +105,10 @@ const ListContent: FC<IProps> = ({ userAuth, lists, selectedList }) => {
               )}
             </div>
             <div className={styles.addNewItemInput_container}>
-              <form onSubmit={addNewItem} className={`input-group ${styles.addNewItemInput}`}>
+              <form
+                onSubmit={addNewItem}
+                className={`input-group ${styles.addNewItemInput} ${visible ? 'reveal' : 'hide'}`}
+              >
                 <div className={styles.inputGroup}>
                   <input
                     onChange={handleOnChange}
@@ -121,34 +116,26 @@ const ListContent: FC<IProps> = ({ userAuth, lists, selectedList }) => {
                     value={inputText}
                     className={`form-control ${styles.form_control}`}
                     placeholder="New Item Name"
-                    aria-label="Example text with button addon"
-                    aria-describedby="button-addon1"
+                    aria-label="new item"
+                    aria-describedby="new item"
                   />
                   <button
                     onClick={handleClick}
-                    className={`btn btn-warning ${styles.addButton} `}
+                    className={`btn btn-warning ${styles.inputAddButton} `}
                     type="submit"
-                    id="button-addon1"
+                    id="inputAddButton"
                   >
                     +
                   </button>
                 </div>
               </form>
-              {listItems && Object.keys(listItems).length > 0 && (
-                <ul className={styles.todo_list}>
-                  {!sort
-                    ? Object.keys(listItems)
-                        .sort(sortDescending)
-                        .map((itemKey) => {
-                          return <ListItem key={listItems[itemKey].id} item={listItems[itemKey]} />;
-                        })
-                    : Object.keys(listItems)
-                        .sort()
-                        .map((itemKey) => {
-                          return <ListItem key={listItems[itemKey].id} item={listItems[itemKey]} />;
-                        })}
-                </ul>
-              )}
+              {sortType === 'sortByCategory'
+                ? foodCategories
+                    .sort(sortCategories)
+                    .map((category: FoodCategory) => <Category categoryName={category.name} key={category.id} />)
+                : foodCategories.map((category: FoodCategory) => (
+                    <Category categoryName={category.name} key={category.id} />
+                  ))}
             </div>
           </div>
         </div>
@@ -158,10 +145,12 @@ const ListContent: FC<IProps> = ({ userAuth, lists, selectedList }) => {
 };
 
 const mapStateToProps = (state: any) => {
+  const sm = stateMapping(state);
   return {
-    userAuth: state.userReducer.user,
-    lists: state.listReducer.lists,
-    selectedList: state.listReducer.selectedList,
+    userAuth: sm.userAuth,
+    lists: sm.lists,
+    selectedList: sm.selectedList,
+    sortType: sm.sortType,
   };
 };
 

@@ -4,4 +4,5 @@ export const stateMapping = (state:any) => ({
   lists: state.listReducer.lists,
   selectedList: state.listReducer.selectedList,
   selectedItemObject: state.listReducer.selectedItemObject,
+  sortType:state.listReducer.sortType
 });
