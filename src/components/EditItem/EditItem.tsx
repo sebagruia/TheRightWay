@@ -110,9 +110,13 @@ const EditItem: FC<IProps> = ({ userAuth, selectedList, selectedItemObject }) =>
                       <Dropdown.Menu className={styles.dropDownMenuUnit}>
                         {units.map((item) => (
                           <Dropdown.Item
+                            className={`${styles.dropDownUnitItem} d-flex justify-content-between align-items-center`}
                             key={item.id}
                             eventKey={item.unit}
-                          >{`${item.name} (${item.unit})`}</Dropdown.Item>
+                          >
+                            <span>{item.name}</span>
+                            <span>{item.unit}</span>
+                          </Dropdown.Item>
                         ))}
                       </Dropdown.Menu>
                     </Dropdown>
