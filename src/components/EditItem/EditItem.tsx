@@ -83,10 +83,10 @@ const EditItem: FC<IProps> = ({ userAuth, selectedList, selectedItemObject }) =>
                         {item.category || 'Category'}
                       </Dropdown.Toggle>
 
-                      <Dropdown.Menu className={styles.dropDownMenu}>
+                      <Dropdown.Menu className={`${styles.dropDownMenu} `}>
                         {foodCategories.map((item) => (
                           <Dropdown.Item
-                            className="d-flex justify-content-between align-items-center"
+                            className={`${styles.dropDownCategoryUnit} d-flex justify-content-between align-items-center`}
                             key={item.id}
                             eventKey={item.name}
                           >
@@ -107,7 +107,7 @@ const EditItem: FC<IProps> = ({ userAuth, selectedList, selectedItemObject }) =>
                         {item.unit || 'Unit'}
                       </Dropdown.Toggle>
 
-                      <Dropdown.Menu className={styles.dropDownMenu}>
+                      <Dropdown.Menu className={styles.dropDownMenuUnit}>
                         {units.map((item) => (
                           <Dropdown.Item
                             key={item.id}
@@ -122,7 +122,7 @@ const EditItem: FC<IProps> = ({ userAuth, selectedList, selectedItemObject }) =>
                       <Form.Control
                         type="number"
                         onChange={handleChangeItem}
-                        className={`${styles.quantity} me-1`}
+                        className={styles.quantity}
                         name="quantity"
                         min="1"
                         max="20"

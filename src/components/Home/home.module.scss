@@ -86,10 +86,10 @@
     width: 30%;
     height: 45vh;
     margin-top: 30px;
-    overflow-y: scroll;
+    overflow-y: auto;
     @media all and (max-width: 576px) {
       height: 350px;
-      overflow-y: scroll;
+      overflow-y: auto;
     }
     @media all and (min-width: 768px) and (max-width: 991px) {
       width: 50%;

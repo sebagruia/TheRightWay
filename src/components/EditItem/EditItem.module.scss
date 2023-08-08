@@ -17,14 +17,29 @@
     .textArea {
       border-left: 0;
     }
-    .dropDownCustom {
-      min-width: 120px;
-    }
     .dropDownFull {
       min-width: 100%;
     }
-    .dropDownMenu {
+    .dropDownMenu,
+    .dropDownMenuUnit {
       width: 100%;
+      padding: 20px;
+      border: 1px solid #a3a9ae;
+      overflow-y: auto;
+    }
+    .dropDownMenu {
+      height: 300px;
+      .dropDownCategoryUnit{
+        padding: 7px 0;
+        border-bottom: 1px solid #d2d2d2;
+        &:last-child{
+          border-bottom: none;
+        }
+        .categoryItem {
+          font-size: 20px;
+        }
+      }
+     
     }
     #itemNameText,
     #quantityText,
