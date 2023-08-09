@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
-import styles from './Home.module.scss';
+import styles from './home.module.scss';
 
 import { connect, useDispatch } from 'react-redux';
 import { stateMapping } from '../../redux/stateMapping';
