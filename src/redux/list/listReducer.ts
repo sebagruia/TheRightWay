@@ -73,17 +73,6 @@ export const listReducer = createReducer(initialState, (builder) => {
       const newValue = action.payload.item;
       state.lists[idList].items[idItem] = newValue;
     })
-    // .addCase(toggleCheckStatus, (state, action) => {
-    //   const idList = action.payload.listId;
-    //   const idItem = action.payload.itemId;
-    //   const status = action.payload.status;
-    //   state.lists[idList].items[idItem].check = status;
-    // })
-    // .addCase(changeItemQuantity, (state, action) => {
-    //   const idList = action.payload.listId;
-    //   const idItem = action.payload.itemId;
-    //   state.lists[idList].items[idItem].quantity = action.payload.quantity;
-    // })
     .addCase(selectingCurrentItem, (state, action) => {
       state.selectedItemObject = action.payload;
     })

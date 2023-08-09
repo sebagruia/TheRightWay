@@ -35,11 +35,10 @@ const Home: FC<IProps> = ({ userAuth, lists }) => {
     event.preventDefault();
     if (listName.length > 0) {
       const listDetails = {
-        id: `${listName}${Date.now()}`,
+        id: listName,
         listName: listName,
         items: {},
       };
-
       if (userAuth) {
         addListNameToFirestore(userAuth.id, listDetails.id, listDetails);
       } else {

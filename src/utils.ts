@@ -47,6 +47,7 @@ export const foodCategories: FoodCategory[] = [
   { id: 13, iconName: 'fa-solid fa-child-reaching', name: 'Copil' },
   { id: 15, iconName: 'fa-solid fa-bottle-droplet', name: 'Uleiuri' },
   { id: 16, iconName: 'fa-solid fa-drumstick-bite', name: 'Carne' },
+  { id: 17, iconName: 'fa-light fa-strawberry', name: '' },
 ];
 
 

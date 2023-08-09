@@ -45,7 +45,7 @@ const ListContent: FC<IProps> = ({ userAuth, lists, selectedList, sortType }) =>
     event.preventDefault();
     if (inputText.length > 0) {
       const item = {
-        id: `${inputText}${Math.floor(Math.random() * Date.now()).toString()}`,
+        id: inputText,
         itemName: inputText,
         check: false,
         quantity: '1',
