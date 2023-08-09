@@ -3,18 +3,11 @@
 .listContent_row {
   justify-content: center;
   .listContent_container {
-    width: 100%;
+    width: 80%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-around;
-
-    .backArrow {
-      align-self: flex-start;
-      margin-bottom: 40px;
-      padding-left: 16px;
-    }
-
     @media all and (max-width: $screen-sm) {
       width: 100%;
     }
@@ -30,95 +23,118 @@
     }
     .titleContainer {
       position: relative;
-      width: 50%;
-      padding-left: 20px;
-      @media screen and (max-width: 576px) {
-        width: 100%;
+      width: 100%;
+      .addItemButtontAndTitle {
+        display: flex;
+        align-items: center;
+        padding-bottom: 10px;
+        h1 {
+          padding-right: 10px;
+          font-weight: 300;
+          text-align: left;
+        }
+        .buttonContainer {
+          padding-right: 20px;
+          .addButton {
+            font-size: 1rem;
+          }
+        }
+        .sortContainer {
+          cursor:pointer;
+          img {
+            filter: invert(21%) sepia(8%) saturate(3882%) hue-rotate(177deg) brightness(87%) contrast(84%);
+          }
+        }
       }
-      @media screen and (min-width: 577px) and (max-width: 992px) {
-        width: 80%;
-      }
-      h1 {
-        font-weight: 300;
-        text-align: left;
-      }
+
       .progressContainer {
-        width: 30%;
+        width: 15%;
+        @media screen and (max-width: 991px) {
+          width: 35%;
+        }
         p {
           padding-top: 5px;
           font-family: 'Yanone Kaffeesatz', sans-serif;
         }
       }
     }
-    .addNewItemInput {
-      width: 50%;
+    .addNewItemInput_container {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 0px 0px 0px;
-      @media all and (max-width: 576px) {
-        width: 90%;
-      }
-      @media screen and (min-width: 577px) and (max-width: 992px) {
-        width: 80%;
-      }
-
-      .inputGroup {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 250px;
-        @media all and (max-width:375px) {
-          width: 200px;
-        }
-        .form_control {
-          height: calc(1.15em + 0.75rem + 2px);
-          margin-right: -1px;
-          font-size: 1.3rem;
-          font-weight: 200;
-          border-color: #ffc107;
-          border-radius: 5px 0 0 5px;
-        }
-        .addButton {
-          font-size: 1rem;
-        }
-      }
-      .sortContainer {
-        img {
-          filter: invert(21%) sepia(8%) saturate(3882%) hue-rotate(177deg) brightness(87%) contrast(84%);
-        }
-      }
-      
-    }
-
-    .todo_list {
-      margin-top: 5vh;
-      width: 50%;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
       height: 400px;
-      padding: 0 0 20px 0;
-      overflow-y: scroll;
-      @media screen and (max-width: 576px) {
+      overflow-y: auto;
+      @media all and (max-width: 992px) {
         width: 100%;
-        height: 250px;
       }
-      @media screen and (min-width: 577px) and (max-width: 992px) {
-        width: 80%;
-        height: 250px;
+      @media screen and (max-width: 576px) {
+          height: 350px;
       }
-      @media all and (min-height: 640px) {
-        height: 300px;
-      }
-      @media all and (min-height: 800px) {
-        height: 350px;
-      }
-      @media all and (min-height: 900px) {
-        height: 400px;
+      .addNewItemInput {
+        position: sticky;
+        top: 0;
+        width: 50%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0px 20px 0px;
+        background-color: $whiteColor;
+        @media all and (max-width: 576px) {
+          width: 100%;
+        }
+        @media screen and (min-width: 577px) and (max-width: 992px) {
+          width: 80%;
+        }
+        .inputGroup {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 80%;
+          .form_control {
+            height: calc(1.15em + 0.75rem + 1.1px);
+            margin-right: -1px;
+            font-size: 1.3rem;
+            font-weight: 200;
+            border-color: #ffc107;
+            border-radius: 5px 0 0 5px;
+          }
+          .inputAddButton{
+            border-radius: 0rem 0.25rem 0.25rem 0;
+          }
+
+        }
       }
 
-      li {
-        margin-bottom: 2vh;
-        color: #495057;
-        list-style: none;
+      .todo_list {
+        margin-top: 5vh;
+        width: 50%;
+        height: 400px;
+        padding: 0 0 20px 0;
+        overflow-y: scroll;
+        @media screen and (max-width: 576px) {
+          width: 100%;
+          height: 250px;
+        }
+        @media screen and (min-width: 577px) and (max-width: 992px) {
+          width: 80%;
+          height: 250px;
+        }
+        @media all and (min-height: 640px) {
+          height: 300px;
+        }
+        @media all and (min-height: 800px) {
+          height: 350px;
+        }
+        @media all and (min-height: 900px) {
+          height: 400px;
+        }
+
+        li {
+          margin-bottom: 2vh;
+          color: #495057;
+          list-style: none;
+        }
       }
     }
   }

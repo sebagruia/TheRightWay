@@ -48,6 +48,7 @@
     padding-top: 10px;
     .plusButton {
       z-index: 2;
+      border-radius: 5px!important;
     }
     .inputGroup {
       display: flex;
@@ -60,6 +61,9 @@
         font-weight: 200;
         border-color: #ffc107;
         border-radius: 5px 0 0 5px;
+      }
+      .addButton{
+        border-radius: 0 5px 5px 0;
       }
     }
     @media all and (max-width: 576px) {
@@ -82,10 +86,10 @@
     width: 30%;
     height: 45vh;
     margin-top: 30px;
-    overflow-y: scroll;
+    overflow-y: auto;
     @media all and (max-width: 576px) {
       height: 350px;
-      overflow-y: scroll;
+      overflow-y: auto;
     }
     @media all and (min-width: 768px) and (max-width: 991px) {
       width: 50%;
