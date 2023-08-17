@@ -1,0 +1,67 @@
+@use '../../styles/variables.scss' as *;
+
+.customForm {
+  width: 100%;
+  .cardContainer {
+    width: 576px;
+    @media all and (max-width: 768px) {
+      width: 100%;
+    }
+    .itemName {
+      font-size: 20px;
+      font-weight: 600;
+      color: #2b3f5d;
+    }
+    .itemName,
+    .quantity,
+    .textArea {
+      border-left: 0;
+    }
+    .dropDownFull {
+      min-width: 100%;
+    }
+    .dropDownMenu,
+    .dropDownMenuUnit {
+      width: 100%;
+      padding: 20px;
+      border: 1px solid #a3a9ae;
+      overflow-y: auto;
+    }
+    .dropDownMenu {
+      height: 300px;
+      .dropDownCategoryUnit {
+        padding: 7px 0;
+        border-bottom: 1px solid #d2d2d2;
+        &:last-child {
+          border-bottom: none;
+        }
+        .categoryItem {
+          font-size: 20px;
+        }
+      }
+    }
+    .dropDownMenuUnit {
+      .dropDownUnitItem {
+        padding: 7px 0;
+        border-bottom: 1px solid #d2d2d2;
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+    #itemNameText,
+    #quantityText,
+    #textInputArea {
+      border-radius: 0.25rem 0 0 0.25rem;
+    }
+
+    .saveButton {
+      border-color: $primaryColor;
+      color: $primaryColor;
+      &:hover {
+        color: #fff;
+        background-color: $primaryColor;
+      }
+    }
+  }
+}
