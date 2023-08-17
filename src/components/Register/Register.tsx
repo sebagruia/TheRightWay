@@ -3,7 +3,7 @@ import styles from './Register.module.scss';
 
 import { connect, useDispatch } from 'react-redux';
 import { stateMapping } from '../../redux/stateMapping';
-import { setUserModalMessage } from '../../redux/user/userActions';
+import { setModalMessage } from '../../redux/user/userActions';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -70,7 +70,7 @@ const Register: FC<IProps> = ({error}) => {
           await createUserProfileDocument(userAuth, { displayName: registerName });
           navigate('/login');
           dispatch(
-            setUserModalMessage({
+            setModalMessage({
               title: 'Email Validation',
               content: `A validation email was sent to ${userAuth.providerData[0].email}`,
               headerBackground: ModalHeaderBackground.warning,
@@ -84,7 +84,7 @@ const Register: FC<IProps> = ({error}) => {
   };
 
   const closeModal = () => {
-    dispatch(setUserModalMessage({content:""}));
+    dispatch(setModalMessage({content:""}));
   };
 
   return (

@@ -3,7 +3,7 @@ import styles from './Login.module.scss';
 
 import { connect, useDispatch } from 'react-redux';
 import { clearStateAction } from '../../redux/list/listActions';
-import { setUserModalMessage } from '../../redux/user/userActions';
+import { setModalMessage } from '../../redux/user/userActions';
 import { stateMapping } from '../../redux/stateMapping';
 import { setUser } from '../../redux/user/userActions';
 
@@ -74,13 +74,13 @@ const Login: FC<IProps> = ({ error }) => {
         });
         navigate('/home');
       } else {
-        dispatch(setUserModalMessage({title:"Email Validation", content:'You need to verify your email. Please check your Inbox and follow the link.',  headerBackground:ModalHeaderBackground.warning}));
+        dispatch(setModalMessage({title:"Email Validation", content:'You need to verify your email. Please check your Inbox and follow the link.',  headerBackground:ModalHeaderBackground.warning}));
       }
     }
   };
 
   const closeModal = () => {
-    dispatch(setUserModalMessage({content:""}));
+    dispatch(setModalMessage({content:""}));
   };
 
   return (

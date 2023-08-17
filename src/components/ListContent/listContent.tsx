@@ -4,34 +4,46 @@ import styles from './listContent.module.scss';
 import { connect, useDispatch } from 'react-redux';
 import { stateMapping } from '../../redux/stateMapping';
 
-import { addListItemToFirestore } from '../../firebase/firebase.utils';
+import { addListItemToFirestore, fetchListsItems } from '../../firebase/firebase.utils';
 import { addNewItemInList } from '../../redux/list/listActions';
+import { setModalMessage } from '../../redux/user/userActions';
 
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
 import BackArrow from '../BackArrow/BackArrow';
 import Category from '../Category/Category';
+import ModalPopUp from '../ModalPopUp/ModalPopUp';
 import SortType from '../SortType/SortType';
 
+import { Items } from '../../interfaces/item';
 import { List, Lists } from '../../interfaces/list';
-
+import { ModalMessage } from '../../interfaces/modal';
 import { FoodCategory } from '../../interfaces/utilsInterfaces';
+
 import { foodCategories, formatName, sortCategories } from '../../utils';
 
 interface IProps {
   userAuth: any;
   lists: Lists;
+  listItems: Items;
   selectedList: List;
   sortType: string | null;
+  error: ModalMessage;
+  getListItems: (userId: string, listId: string) => any;
 }
 
-const ListContent: FC<IProps> = ({ userAuth, lists, selectedList, sortType }) => {
+const ListContent: FC<IProps> = ({ userAuth, lists, listItems, selectedList, sortType, error, getListItems }) => {
   const dispatch = useDispatch();
   const [inputText, setInputText] = useState('');
   const [visible, setVisible] = useState(false);
-  const listItems = lists[selectedList.id].items;
   const checkedItems = listItems && Object.values(listItems).filter((list) => list.check === true).length;
   const percentage = listItems && Math.floor((checkedItems / Object.values(listItems).length) * 100);
+
+  useEffect(() => {
+    if (userAuth) {
+      getListItems(userAuth.id, selectedList.id);
+    }
+  },[selectedList.id]);
 
   const handleClick = () => {
     setVisible(!visible);
@@ -45,7 +57,7 @@ const ListContent: FC<IProps> = ({ userAuth, lists, selectedList, sortType }) =>
     event.preventDefault();
     if (inputText.length > 0) {
       const item = {
-        id: inputText,
+        id: formatName(inputText),
         itemName: inputText,
         check: false,
         quantity: '1',
@@ -54,7 +66,7 @@ const ListContent: FC<IProps> = ({ userAuth, lists, selectedList, sortType }) =>
         note: '',
       };
       if (userAuth) {
-        addListItemToFirestore(userAuth.id, selectedList.id, item);
+        addListItemToFirestore(userAuth.id, selectedList.id, item, dispatch);
       } else {
         dispatch(addNewItemInList(selectedList.id, item));
       }
@@ -62,13 +74,14 @@ const ListContent: FC<IProps> = ({ userAuth, lists, selectedList, sortType }) =>
     }
   };
 
-  useEffect(() => {
-    if (sortType === 'sortByCategory') {
-    }
-  }, [sortType]);
+  const closeModal = () => {
+    dispatch(setModalMessage({ content: '' }));
+  };
 
   return (
     <div className="container">
+      <ModalPopUp message={error} closeModal={closeModal} />
+
       <div className={`row ${styles.listContent_row}`}>
         <div className="col">
           <div className={styles.listContent_container}>
@@ -132,9 +145,9 @@ const ListContent: FC<IProps> = ({ userAuth, lists, selectedList, sortType }) =>
               {sortType === 'sortByCategory'
                 ? foodCategories
                     .sort(sortCategories)
-                    .map((category: FoodCategory) => <Category categoryName={category.name} key={category.id} />)
+                    .map((category: FoodCategory) => <Category categoryName={category.name} listItems={listItems} key={category.id} />)
                 : foodCategories.map((category: FoodCategory) => (
-                    <Category categoryName={category.name} key={category.id} />
+                    <Category categoryName={category.name} listItems={listItems} key={category.id} />
                   ))}
             </div>
           </div>
@@ -149,9 +162,15 @@ const mapStateToProps = (state: any) => {
   return {
     userAuth: sm.userAuth,
     lists: sm.lists,
+    listItems: sm.listItems,
     selectedList: sm.selectedList,
     sortType: sm.sortType,
+    error: sm.userError,
   };
 };
 
-export default connect(mapStateToProps)(ListContent);
+const mapDispatchToProps = (dispatch: any) => ({
+  getListItems: (userId: string, listId: string) => dispatch(fetchListsItems(userId, listId)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListContent);

@@ -13,11 +13,15 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
-import { setUserModalMessage } from '../redux/user/userActions';
+import { setModalMessage } from '../redux/user/userActions';
 
-import { Item } from '../interfaces/item';
+import 'firebase/firestore';
+
+import { Item, Items } from '../interfaces/item';
 import { List } from '../interfaces/list';
 import { ModalHeaderBackground } from '../interfaces/modal';
+
+import { fetchListItemsAction, fetchUserListAction } from '../redux/list/listActions';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB6b4D40cLSubf_qDK7BzKMDnoH_l_2N1A',
@@ -71,7 +75,7 @@ export const signInWithGoogle = async (dispatch: any) => {
   } catch (error: any) {
     const errorCode = error.code;
     dispatch(
-      setUserModalMessage({
+      setModalMessage({
         title: 'Error',
         content: `There was an error signing in: ${errorCode}`,
         headerBackground: ModalHeaderBackground.error,
@@ -90,7 +94,7 @@ export const signInWithPassword = async (loginEmail: string, loginPass: string, 
   } catch (error: any) {
     const errorCode = error.code;
     dispatch(
-      setUserModalMessage({
+      setModalMessage({
         title: 'Error',
         content: `There was an error signing in: ${errorCode}`,
         headerBackground: ModalHeaderBackground.error,
@@ -114,7 +118,7 @@ export const registerNewUser = async (email: string, password: string, dispatch:
   } catch (error: any) {
     const errorCode = error.code;
     dispatch(
-      setUserModalMessage({
+      setModalMessage({
         title: 'Error',
         content: `There was an error registering new user: ${errorCode}`,
         headerBackground: ModalHeaderBackground.error,
@@ -134,17 +138,69 @@ export const signOutUser = async () => {
   }
 };
 
-export const addListNameToFirestore = async (userId: string, listId: string, listDetails: List) => {
+export const fetchUserLists = (userId: string) => async (dispatch: any) => {
+  const userListsRef = firestore.collection(`/users/${userId}/lists/`);
   try {
-    firestore.collection(`/users/${userId}/lists/`).doc(listId).set(listDetails);
+    userListsRef.onSnapshot((snapShot) => {
+      let listsObject = {};
+      const lists = snapShot.docs.map((item) => item.data());
+      lists.forEach((list) => {
+        if (list.items) {
+          let listItems = {};
+          const itemsKeys = Object.keys(list.items).sort();
+          for (let key of itemsKeys) {
+            listItems = { ...listItems, [key]: list.items[key] };
+          }
+          listsObject = { ...listsObject, [list.id]: { ...list, items: { ...listItems } } };
+        } else {
+          listsObject = { ...listsObject, [list.id]: list };
+        }
+      });
+      dispatch(fetchUserListAction(listsObject));
+    });
   } catch (error) {
-    console.log(error);
+    console.log(`Error on Fetching Data From Firestore ${error}`);
+  }
+};
+
+export const fetchListsItems = (userId: string, listId: string) => async (dispatch: any) => {
+  const listItemsRef = firestore.collection(`/users/${userId}/lists/${listId}/items`);
+  try {
+    listItemsRef.onSnapshot((snapShot) => {
+      let listsItemsObject: Items = {};
+      const listItems = snapShot.docs.map((item) => item.data() as Item);
+      listItems.forEach((item) => {
+        listsItemsObject[item.id] = item;
+      });
+      dispatch(fetchListItemsAction(listsItemsObject));
+    });
+  } catch (error) {
+    console.log(`Error on Fetching List Items From Firestore ${error}`);
+  }
+};
+
+export const addListNameToFirestore = async (userId: string, listId: string, listDetails: List, dispatch: any) => {
+  const docRef = firestore.collection(`/users/${userId}/lists/`).doc(listId);
+  const snapShot = await docRef.get();
+  if (!snapShot.exists) {
+    try {
+      docRef.set(listDetails);
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    dispatch(
+      setModalMessage({
+        title: 'Error',
+        content: 'You have an item with the same name',
+        headerBackground: ModalHeaderBackground.error,
+      }),
+    );
   }
 };
 
 export const deleteListFromFirestore = async (userId: string, listId: string) => {
   const itemsRef = firestore.collection(`/users/${userId}/lists/${listId}/items`);
-
   try {
     const items = await itemsRef.get();
     items.docs.map((doc) => doc.ref.delete());
@@ -154,51 +210,37 @@ export const deleteListFromFirestore = async (userId: string, listId: string) =>
   }
 };
 
-export const addListItemToFirestore = async (userId: string, listId: string, item: Item) => {
-  const updatingObj = {} as any;
-  updatingObj[`items.${item.id}`] = item;
+export const addListItemToFirestore = async (userId: string, listId: string, item: Item, dispatch: any) => {
+  const itemRef = firestore.doc(`/users/${userId}/lists/${listId}/items/${item.id}`);
+  const itenSnapShot = await itemRef.get();
+  if (!itenSnapShot.exists) {
+    try {
+      itemRef.set(item);
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    dispatch(
+      setModalMessage({
+        title: 'Error',
+        content: 'You have an item with the same name',
+        headerBackground: ModalHeaderBackground.error,
+      }),
+    );
+  }
+};
+
+export const deleteListItemFromFirestore = async (userId: string, listId: string, itemID: string) => {
   try {
-    firestore.doc(`/users/${userId}/lists/${listId}`).update(updatingObj);
+    firestore.doc(`/users/${userId}/lists/${listId}/items/${itemID}`).delete();
   } catch (error) {
     console.log(error);
   }
 };
 
-export const deleteListItemFromFirestore = async (userId: string, listName: string, itemID: string) => {
-  const updatingObj = {} as any;
-  updatingObj[`items.${itemID}`] = firebase.firestore.FieldValue.delete();
+export const updatingListItemToFirestore = async (userId: string, listId: string, item: Item) => {
   try {
-    firestore.doc(`/users/${userId}/lists/${listName}`).update(updatingObj);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const toggleCheckInFirestore = async (userId: string, listId: string, item: Item) => {
-  const updatingObj = {} as any;
-  updatingObj[`items.${item.id}.check`] = !item.check;
-  try {
-    firestore.doc(`/users/${userId}/lists/${listId}`).update(updatingObj);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const changeQuantityInFirestore = async (userId: string, listId: string, itemId: string, quantity: string) => {
-  const updatingObj = {} as any;
-  updatingObj[`items.${itemId}.quantity`] = quantity;
-  try {
-    await firestore.doc(`/users/${userId}/lists/${listId}`).update(updatingObj);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const updatingListItemToFirestore = async (userId: string, listId: string, itemId: string, item: Item) => {
-  const updatingObj = {} as any;
-  updatingObj[`items.${itemId}`] = item;
-  try {
-    firestore.doc(`/users/${userId}/lists/${listId}`).update(updatingObj);
+    firestore.collection(`/users/${userId}/lists/${listId}/items`).doc(item.id).set(item);
   } catch (error) {
     console.log(error);
   }

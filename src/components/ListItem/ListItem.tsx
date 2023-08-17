@@ -17,7 +17,6 @@ import { Item } from '../../interfaces/item';
 import { List } from '../../interfaces/list';
 
 import { formatName } from '../../utils';
-
 interface IProps {
   userAuth: any;
   item: Item;
@@ -37,16 +36,16 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
     }
   };
 
-  const selectItemFroEdit = (item: Item) => {
+  const selectItemForEdit = (item: Item) => {
     dispatch(selectingCurrentItem(item));
     navigate('/editItem');
   };
 
   const updateItemCheckStatus = (selectedList: List, status: boolean, item: Item ) => {
     if (userAuth && item) {
-      updatingListItemToFirestore(userAuth.id, selectedList.id, id,{ ...item, check:!status});
+      updatingListItemToFirestore(userAuth.id, selectedList.id,{ ...item, check:!status});
     } else {
-      dispatch(editItem(selectedList.id, id, { ...item, check:!status}));
+      dispatch(editItem(selectedList.id, { ...item, check:!status}));
     }
     navigate('/listContent');
   };
@@ -64,7 +63,7 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
             aria-hidden="true"
           ></i>
           <p className="p-text" style={check ? { textDecoration: 'line-through' } : { textDecoration: 'initial' }}>
-            {formatName(itemName)}
+            {formatName(id)}
           </p>
         </div>
         <div className={styles.edit_list}>
@@ -81,7 +80,7 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
             className={`${styles.edit}`}
             role="button"
             size="28px"
-            onClick={() => selectItemFroEdit(item)}
+            onClick={() => selectItemForEdit(item)}
             aria-hidden="true"
           />
         </div>
@@ -94,7 +93,7 @@ const mapStateToProps = (state: any) => {
   const sm = stateMapping(state);
   return {
     userAuth: sm.userAuth,
-    selectedList: sm.selectedList,
+    selectedList: sm.selectedList,    
   };
 };
 

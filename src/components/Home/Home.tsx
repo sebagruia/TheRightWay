@@ -5,20 +5,24 @@ import { connect, useDispatch } from 'react-redux';
 import { stateMapping } from '../../redux/stateMapping';
 
 import { addListNameToFirestore, deleteListFromFirestore } from '../../firebase/firebase.utils';
-import { addNewListAction, deleteListAction } from '../../redux/list/listActions';
+import { addNewListAction,  deleteListAction} from '../../redux/list/listActions';
+import {setModalMessage} from '../../redux/user/userActions';
 
 import ListOfItems from '../ListOfItems/ListOfItems';
+import ModalPopUp from '../ModalPopUp/ModalPopUp';
 
 import { Lists } from '../../interfaces/list';
+import { ModalMessage} from '../../interfaces/modal';
 
 import { formatName } from '../../utils';
 
 interface IProps {
   userAuth: any;
   lists: Lists;
+  error: ModalMessage;
 }
 
-const Home: FC<IProps> = ({ userAuth, lists }) => {
+const Home: FC<IProps> = ({ userAuth, lists, error }) => {
   const dispatch = useDispatch();
   const [listName, setListName] = useState('');
   const [visible, setVisible] = useState(true);
@@ -35,12 +39,11 @@ const Home: FC<IProps> = ({ userAuth, lists }) => {
     event.preventDefault();
     if (listName.length > 0) {
       const listDetails = {
-        id: listName,
+        id: formatName(listName),
         listName: listName,
-        items: {},
       };
       if (userAuth) {
-        addListNameToFirestore(userAuth.id, listDetails.id, listDetails);
+        addListNameToFirestore(userAuth.id, listDetails.id, listDetails, dispatch);
       } else {
         dispatch(addNewListAction(listDetails));
       }
@@ -55,9 +58,13 @@ const Home: FC<IProps> = ({ userAuth, lists }) => {
       dispatch(deleteListAction(listId));
     }
   };
+  const closeModal = () => {
+    dispatch(setModalMessage({content:""}));
+  };
 
   return (
     <div className="container">
+      <ModalPopUp message={error} closeModal={closeModal} />
       <div className={`row ${styles.addNewListInput_row}`}>
         <div className="col">
           <div className={styles.addNewListInput_container}>
@@ -116,6 +123,7 @@ const mapStateToProps = (state: any) => {
   return {
     userAuth: sm.userAuth,
     lists: sm.lists,
+    error: sm.userError,
   };
 };
 

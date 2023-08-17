@@ -1,11 +1,10 @@
-import React, { FC, useEffect} from 'react';
+import React, { FC, useEffect } from 'react';
 
 import './App.scss';
 
 import { Route, Routes, useNavigate } from 'react-router-dom';
 
 import { connect, useDispatch } from 'react-redux';
-import { fetchUserLists } from './redux/list/listActions';
 import { setUser } from './redux/user/userActions';
 
 import EditItemPage from './pages/EditItemPage/EditItemPage';
@@ -17,28 +16,28 @@ import StartPage from './pages/StartPage/StartPage';
 
 import { DocumentData } from 'firebase/firestore';
 
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+import { auth, createUserProfileDocument, fetchUserLists } from './firebase/firebase.utils';
 
 interface IProps {
   getUserLists: (userId: string) => any;
 }
 
-const App:FC<IProps> = ({getUserLists}) => {
+const App: FC<IProps> = ({ getUserLists }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
     const unsubscribFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth && userAuth.emailVerified) {
         const userRef = await createUserProfileDocument(userAuth);
-          userRef?.onSnapshot((snapshot: DocumentData) => {
-            dispatch(
-              setUser({
-                id: snapshot.id,
-                ...snapshot.data(),
-              })
-            );
-            getUserLists(userAuth.uid);
-          });
+        userRef?.onSnapshot((snapshot: DocumentData) => {
+          dispatch(
+            setUser({
+              id: snapshot.id,
+              ...snapshot.data(),
+            }),
+          );
+          getUserLists(userAuth.uid);
+        });
       } else {
         dispatch(setUser(null));
       }
@@ -61,8 +60,8 @@ const App:FC<IProps> = ({getUserLists}) => {
   );
 };
 
-const mapDispatchToProps = (dispatch:any)=> ({
-  getUserLists: (userId:string) => dispatch(fetchUserLists(userId)),
+const mapDispatchToProps = (dispatch: any) => ({
+  getUserLists: (userId: string) => dispatch(fetchUserLists(userId)),
 });
 
 export default connect(null, mapDispatchToProps)(App);

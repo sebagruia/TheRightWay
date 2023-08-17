@@ -1,4 +1,6 @@
-export interface Item {
+import { DocumentData } from "firebase/firestore";
+
+export interface Item extends DocumentData{
     id: string;
     itemName: string;
     check: boolean;

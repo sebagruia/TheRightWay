@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { ModalMessage } from '../../interfaces/modal';
 import { LoggedUser } from '../../interfaces/user';
-import { setUser, setUserModalMessage } from './userActions';
+import { setUser, setModalMessage } from './userActions';
 
 interface InitialState {
   user: LoggedUser | null;
@@ -20,7 +20,7 @@ export const userReducer = createReducer(initialState, (builder) => {
     .addCase(setUser, (state, action) => {
       state.user = action.payload;
     })
-    .addCase(setUserModalMessage, (state, action) => {
+    .addCase(setModalMessage, (state, action) => {
       state.error = action.payload;
     })
     .addDefaultCase((state, action) => state);

@@ -7,22 +7,23 @@ import { stateMapping } from '../../redux/stateMapping';
 import ListItem from '../ListItem/ListItem';
 
 import { List, Lists } from '../../interfaces/list';
+import { Items } from '../../interfaces/item';
 
 import { TbArrowBadgeDown, TbArrowBadgeRight } from 'react-icons/tb';
 
 interface IProps {
   lists: Lists;
+  listItems:Items;
   selectedList: List;
   sortType: string | null;
   categoryName: string;
 }
 
-const Category: FC<IProps> = ({ lists, selectedList, sortType, categoryName }) => {
+const Category: FC<IProps> = ({ lists, listItems, selectedList, sortType, categoryName }) => {
   const [unfold, setUnfold] = useState(false);
-  const listItemsInCategory = Object.values(lists[selectedList.id].items).filter(
+  const listItemsInCategory = listItems && Object.values(listItems).filter(
     (item) => item.category === categoryName,
   );
-
   const handleClick = () => {
     setUnfold(!unfold);
   };
@@ -55,7 +56,7 @@ const Category: FC<IProps> = ({ lists, selectedList, sortType, categoryName }) =
 
   return (
     <Fragment>
-      {listItemsInCategory.length > 0 && (
+      {listItemsInCategory && listItemsInCategory.length > 0 && (
         <ul className={styles.todo_list}>
           <div
             onClick={handleClick}

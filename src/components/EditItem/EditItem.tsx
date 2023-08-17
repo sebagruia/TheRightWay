@@ -43,12 +43,15 @@ const EditItem: FC<IProps> = ({ userAuth, selectedList, selectedItemObject }) =>
   const handleChangeItem = (event: ChangeEvent<HTMLInputElement>) => {
     setItem({ ...item, [event.target.name]: event.target.value });
   };
+  const handleChangeItemNameAndId = (event: ChangeEvent<HTMLInputElement>) => {
+    setItem({ ...item, id: event.target.value, itemName: event.target.value });
+  };
 
   const onSubmitEditedItem = () => {
     if (userAuth && selectedItemObject) {
-      updatingListItemToFirestore(userAuth.id, selectedList.id, selectedItemObject.id, item);
+      updatingListItemToFirestore(userAuth.id, selectedList.id, item);
     } else {
-      dispatch(editItem(selectedList.id, selectedItemObject.id, item));
+      dispatch(editItem(selectedList.id, item));
     }
     navigate('/listContent');
   };
@@ -69,8 +72,8 @@ const EditItem: FC<IProps> = ({ userAuth, selectedList, selectedItemObject }) =>
                         type="text"
                         name="itemName"
                         placeholder="Update item name"
-                        onChange={handleChangeItem}
-                        value={formatName(item.itemName)}
+                        onChange={handleChangeItemNameAndId}
+                        value={formatName(item.id)}
                         className={`form-control inputForModal ${styles.itemName}`}
                       />
                     </InputGroup>
