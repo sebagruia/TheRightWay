@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/TheRightWay/static/css/main.dc69130f.css",
-    "main.js": "/TheRightWay/static/js/main.42ae6dc2.js",
+    "main.css": "/TheRightWay/static/css/main.da29c2a2.css",
+    "main.js": "/TheRightWay/static/js/main.f5cb9df7.js",
     "static/js/496.7aada8db.chunk.js": "/TheRightWay/static/js/496.7aada8db.chunk.js",
     "service-worker.js": "/TheRightWay/service-worker.js",
     "static/media/YanoneKaffeesatz-Medium.woff": "/TheRightWay/static/media/YanoneKaffeesatz-Medium.6975062f603be1050aec.woff",
@@ -17,12 +17,12 @@
     "static/media/YanoneKaffeesatz-Bold.woff2": "/TheRightWay/static/media/YanoneKaffeesatz-Bold.baf4fe229a41ffdb52fe.woff2",
     "static/media/YanoneKaffeesatz-ExtraLight.woff2": "/TheRightWay/static/media/YanoneKaffeesatz-ExtraLight.14f2d90d114c8b4a518d.woff2",
     "index.html": "/TheRightWay/index.html",
-    "main.dc69130f.css.map": "/TheRightWay/static/css/main.dc69130f.css.map",
-    "main.42ae6dc2.js.map": "/TheRightWay/static/js/main.42ae6dc2.js.map",
+    "main.da29c2a2.css.map": "/TheRightWay/static/css/main.da29c2a2.css.map",
+    "main.f5cb9df7.js.map": "/TheRightWay/static/js/main.f5cb9df7.js.map",
     "496.7aada8db.chunk.js.map": "/TheRightWay/static/js/496.7aada8db.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.dc69130f.css",
-    "static/js/main.42ae6dc2.js"
+    "static/css/main.da29c2a2.css",
+    "static/js/main.f5cb9df7.js"
   ]
 }
