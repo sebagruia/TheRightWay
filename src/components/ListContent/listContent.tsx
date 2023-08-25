@@ -43,7 +43,7 @@ const ListContent: FC<IProps> = ({ userAuth, lists, listItems, selectedList, sor
     if (userAuth) {
       getListItems(userAuth.id, selectedList.id);
     }
-  },[selectedList.id]);
+  }, [selectedList.id]);
 
   const handleClick = () => {
     setVisible(!visible);
@@ -79,7 +79,7 @@ const ListContent: FC<IProps> = ({ userAuth, lists, listItems, selectedList, sor
   };
 
   return (
-    <div className="container">
+    <div className={`container ${styles.containerCustom}`}>
       <ModalPopUp message={error} closeModal={closeModal} />
 
       <div className={`row ${styles.listContent_row}`}>
@@ -142,13 +142,17 @@ const ListContent: FC<IProps> = ({ userAuth, lists, listItems, selectedList, sor
                   </button>
                 </div>
               </form>
-              {sortType === 'sortByCategory'
-                ? foodCategories
-                    .sort(sortCategories)
-                    .map((category: FoodCategory) => <Category categoryName={category.name} listItems={listItems} key={category.id} />)
-                : foodCategories.map((category: FoodCategory) => (
-                    <Category categoryName={category.name} listItems={listItems} key={category.id} />
-                  ))}
+              <div className={styles.categorieList_container}>
+                {sortType === 'sortByCategory'
+                  ? foodCategories
+                      .sort(sortCategories)
+                      .map((category: FoodCategory) => (
+                        <Category categoryName={category.name} listItems={listItems} key={category.id} />
+                      ))
+                  : foodCategories.map((category: FoodCategory) => (
+                      <Category categoryName={category.name} listItems={listItems} key={category.id} />
+                    ))}
+              </div>
             </div>
           </div>
         </div>
