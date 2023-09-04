@@ -6,33 +6,40 @@ import { stateMapping } from '../../redux/stateMapping';
 
 import ListItem from '../ListItem/ListItem';
 
+import { Items, ItemsOfflineMode } from '../../interfaces/item';
 import { List, Lists } from '../../interfaces/list';
-import { Items } from '../../interfaces/item';
 
 import { TbArrowBadgeDown, TbArrowBadgeRight } from 'react-icons/tb';
 
 interface IProps {
   lists: Lists;
-  listItems:Items;
+  listItemsOnline: Items;
+  listItemsForOfflineMode: ItemsOfflineMode;
   selectedList: List;
   sortType: string | null;
   categoryName: string;
 }
 
-const Category: FC<IProps> = ({ lists, listItems, selectedList, sortType, categoryName }) => {
+const Category: FC<IProps> = ({ lists, listItemsOnline, listItemsForOfflineMode, selectedList, sortType, categoryName }) => {
   const [unfold, setUnfold] = useState(false);
-  const listItemsInCategory = listItems && Object.values(listItems).filter(
-    (item) => item.category === categoryName,
-  );
+  const listItemsInCategory =
+  listItemsOnline && Object.values(listItemsOnline).length
+      ? Object.values(listItemsOnline).filter((item) => item.category === categoryName)
+      : listItemsForOfflineMode && Object.values(listItemsForOfflineMode).length
+      ? listItemsForOfflineMode[selectedList.id] && Object.values(listItemsForOfflineMode[selectedList.id]).filter((item) => item.category === categoryName)
+      : [];
+
   const handleClick = () => {
     setUnfold(!unfold);
   };
   const generateListItemsInCategory = () => {
     switch (sortType) {
       case 'sortAscending':
-        return listItemsInCategory.sort().map((item) => {
-          return <ListItem key={item.id} item={item} />;
-        });
+        return listItemsInCategory
+          .sort()
+          .map((item) => {
+            return <ListItem key={item.id} item={item} />;
+          });
       case 'sortDescending':
         return listItemsInCategory
           .sort((a, b) => {

@@ -21,7 +21,7 @@ import { Item, Items } from '../interfaces/item';
 import { List } from '../interfaces/list';
 import { ModalHeaderBackground } from '../interfaces/modal';
 
-import { fetchListItemsAction, fetchUserListAction } from '../redux/list/listActions';
+import { fetchListItemsAction, fetchUserListAction} from '../redux/list/listActions';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB6b4D40cLSubf_qDK7BzKMDnoH_l_2N1A',

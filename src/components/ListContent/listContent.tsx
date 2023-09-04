@@ -15,7 +15,7 @@ import Category from '../Category/Category';
 import ModalPopUp from '../ModalPopUp/ModalPopUp';
 import SortType from '../SortType/SortType';
 
-import { Items } from '../../interfaces/item';
+import { Items, ItemsOfflineMode } from '../../interfaces/item';
 import { List, Lists } from '../../interfaces/list';
 import { ModalMessage } from '../../interfaces/modal';
 import { FoodCategory } from '../../interfaces/utilsInterfaces';
@@ -25,19 +25,54 @@ import { foodCategories, formatName, sortCategories } from '../../utils';
 interface IProps {
   userAuth: any;
   lists: Lists;
-  listItems: Items;
+  listItemsForOfflineMode: ItemsOfflineMode;
+  listItemsOnline: Items;
   selectedList: List;
   sortType: string | null;
   error: ModalMessage;
   getListItems: (userId: string, listId: string) => any;
 }
 
-const ListContent: FC<IProps> = ({ userAuth, lists, listItems, selectedList, sortType, error, getListItems }) => {
+const ListContent: FC<IProps> = ({
+  userAuth,
+  listItemsOnline,
+  listItemsForOfflineMode,
+  selectedList,
+  sortType,
+  error,
+  getListItems,
+}) => {
   const dispatch = useDispatch();
   const [inputText, setInputText] = useState('');
   const [visible, setVisible] = useState(false);
-  const checkedItems = listItems && Object.values(listItems).filter((list) => list.check === true).length;
-  const percentage = listItems && Math.floor((checkedItems / Object.values(listItems).length) * 100);
+
+  const checkedItems = () => {
+    if (listItemsOnline && Object.values(listItemsOnline).length) {
+      return Object.values(listItemsOnline).filter((list) => list.check === true).length;
+    } else if (
+      listItemsForOfflineMode &&
+      Object.values(listItemsForOfflineMode).length &&
+      listItemsForOfflineMode[selectedList.id]
+    ) {
+      return Object.values(listItemsForOfflineMode[selectedList.id]).filter((list) => list.check === true).length;
+    } else {
+      return 0;
+    }
+  };
+
+  const percentage = () => {
+    if (listItemsOnline && Object.values(listItemsOnline).length) {
+      return listItemsOnline && Math.floor((checkedItems() / Object.values(listItemsOnline).length) * 100);
+    } else if (
+      listItemsForOfflineMode &&
+      Object.values(listItemsForOfflineMode).length &&
+      listItemsForOfflineMode[selectedList.id]
+    ) {
+      return Math.floor((checkedItems() / Object.values(listItemsForOfflineMode[selectedList.id]).length) * 100);
+    } else {
+      return 0;
+    }
+  };
 
   useEffect(() => {
     if (userAuth) {
@@ -102,18 +137,26 @@ const ListContent: FC<IProps> = ({ userAuth, lists, listItems, selectedList, sor
                     <span className={styles.buttonSign}>+</span>
                   </button>
                 </div>
-                {listItems && Object.keys(listItems).length > 1 && <SortType />}
+                {((listItemsOnline && Object.keys(listItemsOnline).length > 1) ||
+                  (listItemsForOfflineMode && Object.keys(listItemsForOfflineMode).length > 1)) && <SortType />}
               </div>
 
-              {listItems && Object.keys(listItems).length > 0 && (
+              {((listItemsOnline && Object.keys(listItemsOnline).length > 0) ||
+                (listItemsForOfflineMode && Object.keys(listItemsForOfflineMode).length > 1)) && (
                 <div className={styles.progressContainer}>
                   <ProgressBar
                     animated
                     variant="warning"
-                    now={percentage}
-                    label={`${!isNaN(percentage) ? percentage : 0}%`}
+                    now={percentage()}
+                    label={`${!isNaN(percentage()) ? percentage() : 0}%`}
                   />
-                  <p>{`${checkedItems} of ${Object.keys(listItems).length} tasks`}</p>
+                  <p>{`${checkedItems()} of ${
+                    Object.keys(
+                      userAuth
+                        ? listItemsOnline
+                        : listItemsForOfflineMode[selectedList.id] && listItemsForOfflineMode[selectedList.id],
+                    ).length
+                  } tasks`}</p>
                 </div>
               )}
             </div>
@@ -147,10 +190,20 @@ const ListContent: FC<IProps> = ({ userAuth, lists, listItems, selectedList, sor
                   ? foodCategories
                       .sort(sortCategories)
                       .map((category: FoodCategory) => (
-                        <Category categoryName={category.name} listItems={listItems} key={category.id} />
+                        <Category
+                          categoryName={category.name}
+                          listItemsOnline={listItemsOnline}
+                          listItemsForOfflineMode={listItemsForOfflineMode}
+                          key={category.id}
+                        />
                       ))
                   : foodCategories.map((category: FoodCategory) => (
-                      <Category categoryName={category.name} listItems={listItems} key={category.id} />
+                      <Category
+                        categoryName={category.name}
+                        listItemsOnline={listItemsOnline}
+                        listItemsForOfflineMode={listItemsForOfflineMode}
+                        key={category.id}
+                      />
                     ))}
               </div>
             </div>
@@ -166,7 +219,8 @@ const mapStateToProps = (state: any) => {
   return {
     userAuth: sm.userAuth,
     lists: sm.lists,
-    listItems: sm.listItems,
+    listItemsOnline: sm.listItemsOnline,
+    listItemsForOfflineMode: sm.listItemsForOfflineMode,
     selectedList: sm.selectedList,
     sortType: sm.sortType,
     error: sm.userError,

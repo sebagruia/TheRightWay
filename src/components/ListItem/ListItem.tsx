@@ -26,7 +26,7 @@ interface IProps {
 const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { itemName, id, check, quantity, unit } = item;
+  const { id, check, quantity, unit } = item;
 
   const deleteItem = (listId: string, itemID: string) => {
     if (userAuth) {
@@ -47,7 +47,6 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
     } else {
       dispatch(editItem(selectedList.id, { ...item, check:!status}));
     }
-    navigate('/listContent');
   };
 
   return (
