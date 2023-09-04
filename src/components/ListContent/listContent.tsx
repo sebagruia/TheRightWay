@@ -142,7 +142,7 @@ const ListContent: FC<IProps> = ({
               </div>
 
               {((listItemsOnline && Object.keys(listItemsOnline).length > 0) ||
-                (listItemsForOfflineMode && Object.keys(listItemsForOfflineMode).length > 1)) && (
+                (listItemsForOfflineMode && Object.keys(listItemsForOfflineMode).length > 0)) && (
                 <div className={styles.progressContainer}>
                   <ProgressBar
                     animated
@@ -154,7 +154,9 @@ const ListContent: FC<IProps> = ({
                     Object.keys(
                       userAuth
                         ? listItemsOnline
-                        : listItemsForOfflineMode[selectedList.id] && listItemsForOfflineMode[selectedList.id],
+                        : listItemsForOfflineMode[selectedList.id]
+                        ? listItemsForOfflineMode[selectedList.id]
+                        : {},
                     ).length
                   } tasks`}</p>
                 </div>

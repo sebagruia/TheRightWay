@@ -70,7 +70,7 @@ const Category: FC<IProps> = ({ lists, listItemsOnline, listItemsForOfflineMode,
             className={`${styles.categoryTitleContainer} d-flex align-items-center justify-content-between px-3 mb-3`}
           >
             <p className={`${styles.categoryTitle} p-text m-0 py-1`}>
-              {categoryName === '' ? 'Categorie' : categoryName}
+              {categoryName === '' ? 'Generale' : categoryName}
             </p>
             {!unfold ? <TbArrowBadgeRight size="20px" /> : <TbArrowBadgeDown size="20px" />}
           </div>
