@@ -115,7 +115,7 @@ const ListContent: FC<IProps> = ({
 
   return (
     <div className={`container ${styles.containerCustom}`}>
-      <ModalPopUp message={error} closeModal={closeModal} />
+      <ModalPopUp message={error} closeModal={closeModal} closeText='Close'/>
 
       <div className={`row ${styles.listContent_row}`}>
         <div className="col">

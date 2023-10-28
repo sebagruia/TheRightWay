@@ -89,7 +89,7 @@ const Register: FC<IProps> = ({error}) => {
 
   return (
     <Fragment>
-      <ModalPopUp message={error} closeModal={closeModal} />
+      <ModalPopUp message={error} closeModal={closeModal} closeText='Close'/>
       <div className="container">
         <div className="row">
           <div className="col-sm-6 offset-sm-3">
