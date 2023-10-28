@@ -5,14 +5,14 @@ import { connect, useDispatch } from 'react-redux';
 import { stateMapping } from '../../redux/stateMapping';
 
 import { addListNameToFirestore, deleteListFromFirestore } from '../../firebase/firebase.utils';
-import { addNewListAction,  deleteListAction} from '../../redux/list/listActions';
-import {setModalMessage} from '../../redux/user/userActions';
+import { addNewListAction, deleteListAction } from '../../redux/list/listActions';
+import { setModalMessage } from '../../redux/user/userActions';
 
 import ListOfItems from '../ListOfItems/ListOfItems';
 import ModalPopUp from '../ModalPopUp/ModalPopUp';
 
 import { Lists } from '../../interfaces/list';
-import { ModalMessage} from '../../interfaces/modal';
+import { ModalMessage } from '../../interfaces/modal';
 
 import { formatName } from '../../utils';
 
@@ -59,12 +59,12 @@ const Home: FC<IProps> = ({ userAuth, lists, error }) => {
     }
   };
   const closeModal = () => {
-    dispatch(setModalMessage({content:""}));
+    dispatch(setModalMessage({ content: '' }));
   };
 
   return (
     <div className="container">
-      <ModalPopUp message={error} closeModal={closeModal} />
+      <ModalPopUp message={error} closeModal={closeModal} closeText='Close' />
       <div className={`row ${styles.addNewListInput_row}`}>
         <div className="col">
           <div className={styles.addNewListInput_container}>

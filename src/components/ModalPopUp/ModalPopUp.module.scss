@@ -13,10 +13,17 @@
     color: #fff !important;
   }
 }
+.modalOkButton {
+  color:  #ffc107 !important;
+  border-color:  #ffc107 !important;
+  &:hover {
+    background-color:  #ffc107;
+    color: #fff !important;
+  }
+}
 .modalBodyText{
   font-size: 24px;
   font-family: "Yanone Kaffeesatz", sans-serif;
-  // font-weight: 300;
 }
 
 .inputForModal {

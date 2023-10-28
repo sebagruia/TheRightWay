@@ -1,10 +1,12 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC, Fragment, ReactNode, useEffect, useState } from 'react';
 import styles from './ListOfItems.module.scss';
 
 import { useNavigate } from 'react-router-dom';
 
-import {useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { selectListAction } from '../../redux/list/listActions';
+
+import ModalPopUp from '../ModalPopUp/ModalPopUp';
 
 import { List } from '../../interfaces/list';
 
@@ -18,26 +20,56 @@ interface IProps {
 const ListOfItems: FC<IProps> = ({ userAuth, children, list, deleteList }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [deleteMessage, setDeleteMessage] = useState({ content: '' });
+
+  const closeModal = () => {
+    setDeleteMessage({ content: '' });
+  };
+
+  const openModal = () => {
+    setDeleteMessage({ content: 'Are you Sure?' });
+  };
+
+  const confirmDeletion = () => {
+    setDeleteMessage({ content: '' });
+    setDeleteConfirmation(true);
+  };
+
+  useEffect(() => {
+    if (deleteConfirmation) {
+      deleteList(userAuth && userAuth.id, list.id);
+    }
+  }, [deleteConfirmation]);
 
   return (
-    <li className={styles.newListLi}>
-      <button
-        onClick={() => {
-          dispatch(selectListAction(list));
-          navigate('/listContent');
-        }}
-        type="button"
-        className={`btn btn-outline-warning btn-lg btn-block capitalize button-color-orange ${styles.btn_custom}`}
-      >
-        {children}
-      </button>
-      <i
-        onClick={() => deleteList(userAuth && userAuth.id, list.id)}
-        className={`far fa-times-circle  ${styles.fa_times_circle}`}
-        role="button"
-        aria-hidden="true"
-      ></i>
-    </li>
+    <Fragment>
+      <ModalPopUp
+        message={deleteMessage}
+        closeModal={closeModal}
+        confirm={confirmDeletion}
+        closeText="Cancel"
+        saveText="Ok"
+      />
+      <li className={styles.newListLi}>
+        <button
+          onClick={() => {
+            dispatch(selectListAction(list));
+            navigate('/listContent');
+          }}
+          type="button"
+          className={`btn btn-outline-warning btn-lg btn-block capitalize button-color-orange ${styles.btn_custom}`}
+        >
+          {children}
+        </button>
+        <i
+          onClick={openModal}
+          className={`far fa-times-circle  ${styles.fa_times_circle}`}
+          role="button"
+          aria-hidden="true"
+        ></i>
+      </li>
+    </Fragment>
   );
 };
 

@@ -3,12 +3,15 @@ import React, {FC} from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { clearStateAction } from '../../redux/list/listActions';
 import { stateMapping } from '../../redux/stateMapping';
+import {initialState} from "../../redux/list/listReducer"
+import {persistor} from "../../redux/store";
 
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link, useNavigate } from 'react-router-dom';
 
 import styles from './Navigation.module.scss';
+
 
 import { signOutUser } from '../../firebase/firebase.utils';
 
@@ -19,9 +22,11 @@ interface IProps {
 const Navigation:FC<IProps> = ({ userAuth }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+ 
 
   const logOut = async () => {
-    dispatch(clearStateAction());
+    await persistor.purge();
+    dispatch(clearStateAction(initialState));
     await signOutUser();
   };
 

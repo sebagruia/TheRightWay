@@ -2,10 +2,12 @@ import React, { ChangeEvent, FC, FormEvent, Fragment, useState } from 'react';
 import styles from './Login.module.scss';
 
 import { connect, useDispatch } from 'react-redux';
+import {persistor} from "../../redux/store";
 import { clearStateAction } from '../../redux/list/listActions';
 import { setModalMessage } from '../../redux/user/userActions';
 import { stateMapping } from '../../redux/stateMapping';
 import { setUser } from '../../redux/user/userActions';
+import {initialState} from "../../redux/list/listReducer"
 
 import { useNavigate } from 'react-router-dom';
 
@@ -36,7 +38,8 @@ const Login: FC<IProps> = ({ error }) => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
-    dispatch(clearStateAction());
+  
+    dispatch(clearStateAction(initialState));
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
@@ -53,6 +56,7 @@ const Login: FC<IProps> = ({ error }) => {
   };
 
   const logInWithGoogle = async () => {
+    await persistor.purge();
     const userAuth = await signInWithGoogle(dispatch);
     if (userAuth) {
       navigate('/home');
@@ -85,7 +89,7 @@ const Login: FC<IProps> = ({ error }) => {
 
   return (
     <Fragment>
-      <ModalPopUp message={error} closeModal={closeModal} />
+      <ModalPopUp message={error} closeModal={closeModal} closeText='Close'/>
       <div className="container">
         <div className={`row ${styles.login_row}`}>
           <div className={`col-sm-6 ${styles.login_col}`}>

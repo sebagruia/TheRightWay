@@ -9,6 +9,9 @@ export interface Item extends DocumentData{
     category:string;
     note:string;
   }
-  export interface Items {
+  export interface ItemsOfflineMode {
+    [key: string]: Items;
+  }
+  export interface Items{
     [key: string]: Item;
   }
