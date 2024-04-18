@@ -49,5 +49,6 @@ export const itemsCategory: ItemsCategory[] = [
   { id: 16, iconName: 'fa-solid fa-drumstick-bite', name: 'Carne' },
   { id: 17, iconName: 'fa-solid fa-person-swimming', name: 'Activitati Sportive' },
   { id: 18, iconName: 'fa-brands fa-xbox', name: 'Jocuri' },
+  { id: 18, iconName: 'fa-solid fa-infinity', name: '' },
 ];
 

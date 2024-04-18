@@ -20,13 +20,21 @@ interface IProps {
   categoryName: string;
 }
 
-const Category: FC<IProps> = ({ lists, listItemsOnline, listItemsForOfflineMode, selectedList, sortType, categoryName }) => {
+const Category: FC<IProps> = ({
+  lists,
+  listItemsOnline,
+  listItemsForOfflineMode,
+  selectedList,
+  sortType,
+  categoryName,
+}) => {
   const [unfold, setUnfold] = useState(false);
   const listItemsInCategory =
-  listItemsOnline && Object.values(listItemsOnline).length
+    listItemsOnline && Object.values(listItemsOnline).length
       ? Object.values(listItemsOnline).filter((item) => item.category === categoryName)
       : listItemsForOfflineMode && Object.values(listItemsForOfflineMode).length
-      ? listItemsForOfflineMode[selectedList.id] && Object.values(listItemsForOfflineMode[selectedList.id]).filter((item) => item.category === categoryName)
+      ? listItemsForOfflineMode[selectedList.id] &&
+        Object.values(listItemsForOfflineMode[selectedList.id]).filter((item) => item.category === categoryName)
       : [];
 
   const handleClick = () => {
@@ -35,11 +43,9 @@ const Category: FC<IProps> = ({ lists, listItemsOnline, listItemsForOfflineMode,
   const generateListItemsInCategory = () => {
     switch (sortType) {
       case 'sortAscending':
-        return listItemsInCategory
-          .sort()
-          .map((item) => {
-            return <ListItem key={item.id} item={item} />;
-          });
+        return listItemsInCategory.sort().map((item) => {
+          return <ListItem key={item.id} item={item} />;
+        });
       case 'sortDescending':
         return listItemsInCategory
           .sort((a, b) => {
