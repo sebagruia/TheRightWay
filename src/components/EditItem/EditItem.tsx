@@ -21,7 +21,7 @@ import BackArrow from '../BackArrow/BackArrow';
 import { Item } from '../../interfaces/item';
 import { List } from '../../interfaces/list';
 
-import { foodCategories, formatName, units } from '../../utils';
+import { itemsCategory, formatName, units } from '../../utils';
 interface IProps {
   userAuth: any;
   selectedItemObject: Item;
@@ -87,7 +87,7 @@ const EditItem: FC<IProps> = ({ userAuth, selectedList, selectedItemObject }) =>
                       </Dropdown.Toggle>
 
                       <Dropdown.Menu className={`${styles.dropDownMenu} `}>
-                        {foodCategories.map((item) => (
+                        {itemsCategory.map((item) => (
                           <Dropdown.Item
                             className={`${styles.dropDownCategoryUnit} d-flex justify-content-between align-items-center`}
                             key={item.id}
