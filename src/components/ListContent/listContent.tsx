@@ -120,7 +120,7 @@ const ListContent: FC<IProps> = ({
       <div className={`row ${styles.listContent_row}`}>
         <div className="col">
           <div className={styles.listContent_container}>
-            <BackArrow route="/home" />
+            <BackArrow route="/lists" />
 
             <div className={styles.titleContainer}>
               <div className={styles.addItemButtontAndTitle}>

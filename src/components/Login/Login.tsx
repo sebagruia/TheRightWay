@@ -59,7 +59,7 @@ const Login: FC<IProps> = ({ error }) => {
     await persistor.purge();
     const userAuth = await signInWithGoogle(dispatch);
     if (userAuth) {
-      navigate('/home');
+      navigate('/');
     }
   };
 
@@ -76,7 +76,7 @@ const Login: FC<IProps> = ({ error }) => {
             })
           );
         });
-        navigate('/home');
+        navigate('/');
       } else {
         dispatch(setModalMessage({title:"Email Validation", content:'You need to verify your email. Please check your Inbox and follow the link.',  headerBackground:ModalHeaderBackground.warning}));
       }
