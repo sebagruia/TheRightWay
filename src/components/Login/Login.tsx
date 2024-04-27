@@ -1,28 +1,26 @@
-import React, { ChangeEvent, FC, FormEvent, Fragment, useState } from 'react';
+import React, { ChangeEvent, FC, FormEvent, Fragment, useState, useCallback } from 'react';
 import styles from './Login.module.scss';
 
 import { connect, useDispatch } from 'react-redux';
-import {persistor} from "../../redux/store";
 import { clearStateAction } from '../../redux/list/listActions';
-import { setModalMessage } from '../../redux/user/userActions';
+import { initialState } from '../../redux/list/listReducer';
 import { stateMapping } from '../../redux/stateMapping';
-import { setUser } from '../../redux/user/userActions';
-import {initialState} from "../../redux/list/listReducer"
+import { persistor } from '../../redux/store';
+import { setModalMessage, setUser } from '../../redux/user/userActions';
 
 import { useNavigate } from 'react-router-dom';
 
-import {DocumentData} from "firebase/firestore";
+import { DocumentData } from 'firebase/firestore';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
+import EmailInput from '../FormComponets/EmailInput';
 import ModalPopUp from '../ModalPopUp/ModalPopUp';
 
-import { ModalMessage, ModalHeaderBackground } from '../../interfaces/modal';
+import { ModalHeaderBackground, ModalMessage } from '../../interfaces/modal';
 
 import { createUserProfileDocument, signInWithGoogle, signInWithPassword } from '../../firebase/firebase.utils';
-
-
 
 interface IProps {
   error: ModalMessage;
@@ -38,17 +36,13 @@ const Login: FC<IProps> = ({ error }) => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
-  
+
     dispatch(clearStateAction(initialState));
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     }
     setValidated(true);
-  };
-
-  const onEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setLoginEmail(event.target.value);
   };
 
   const onPassChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -68,28 +62,34 @@ const Login: FC<IProps> = ({ error }) => {
     if (userAuth) {
       if (userAuth.emailVerified) {
         const userRef = await createUserProfileDocument(userAuth);
-        userRef?.onSnapshot((snapshot:DocumentData) => {
+        userRef?.onSnapshot((snapshot: DocumentData) => {
           dispatch(
             setUser({
               id: snapshot.id,
               ...snapshot.data(),
-            })
+            }),
           );
         });
         navigate('/');
       } else {
-        dispatch(setModalMessage({title:"Email Validation", content:'You need to verify your email. Please check your Inbox and follow the link.',  headerBackground:ModalHeaderBackground.warning}));
+        dispatch(
+          setModalMessage({
+            title: 'Email Validation',
+            content: 'You need to verify your email. Please check your Inbox and follow the link.',
+            headerBackground: ModalHeaderBackground.warning,
+          }),
+        );
       }
     }
   };
 
   const closeModal = () => {
-    dispatch(setModalMessage({content:""}));
+    dispatch(setModalMessage({ content: '' }));
   };
 
   return (
     <Fragment>
-      <ModalPopUp message={error} closeModal={closeModal} closeText='Close'/>
+      <ModalPopUp message={error} closeModal={closeModal} closeText="Close" />
       <div className="container">
         <div className={`row ${styles.login_row}`}>
           <div className={`col-sm-6 ${styles.login_col}`}>
@@ -99,7 +99,7 @@ const Login: FC<IProps> = ({ error }) => {
               validated={validated}
               onSubmit={handleSubmit}
             >
-              <Form.Group controlId="formBasicEmail" className="pb-2">
+              {/* <Form.Group controlId="formBasicEmail" className="pb-2">
                 <Form.Label className={styles.label}>Email address</Form.Label>
                 <Form.Control
                   className={styles.form_control_custom}
@@ -110,7 +110,13 @@ const Login: FC<IProps> = ({ error }) => {
                 />
                 <Form.Control.Feedback type="invalid">Please type an email address</Form.Control.Feedback>
                 <Form.Control.Feedback type="valid">Looks Good</Form.Control.Feedback>
-              </Form.Group>
+              </Form.Group> */}
+
+              <EmailInput
+                setLoginEmail={setLoginEmail}
+                validationMessage={{ valid: 'Looks Good', invalid: 'Please type an email address' }}
+                label="Email address"
+              />
 
               <Form.Group controlId="formBasicPassword" className="pb-2">
                 <Form.Label className={styles.label}>Password</Form.Label>
@@ -134,10 +140,8 @@ const Login: FC<IProps> = ({ error }) => {
                 Log In
               </Button>
             </Form>
-            <Button variant="light" onClick={logInWithGoogle}>
-              <span className="text-danger">Sign-In </span>
-              <span className="text-primary">with </span>
-              <span className="text-success">Google</span>
+            <Button variant="outline-warning" onClick={logInWithGoogle}>
+              <span>Sign in with Google</span>
             </Button>
           </div>
         </div>
