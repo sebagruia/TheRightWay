@@ -59,7 +59,7 @@ const Login: FC<IProps> = ({ error }) => {
     await persistor.purge();
     const userAuth = await signInWithGoogle(dispatch);
     if (userAuth) {
-      navigate('/');
+      navigate('/lists');
     }
   };
 

@@ -66,7 +66,7 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
           </p>
         </div>
         <div className={styles.edit_list}>
-          <p className={`m-0 ${styles.quantity}`}>{`${quantity} ${unit}`}</p>
+          <p className={`m-0 pt-1 ${styles.quantity}`}>{`${quantity} ${unit}`}</p>
           <IoEllipsisVerticalOutline />
           <CiTrash
             className={`${styles.garbage} fas fa-regular fa-trash pe-1`}
