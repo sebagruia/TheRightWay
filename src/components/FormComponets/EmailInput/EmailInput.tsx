@@ -3,11 +3,13 @@ import styles from './EmailInput.module.scss';
 
 import Form from 'react-bootstrap/esm/Form';
 
-import { EmailValidationMessages } from '../../interfaces/forms';
+import { ValidationMessages } from '../../../interfaces/forms';
+
+import {emailValidationMessages} from '../../../utils';
 
 interface IProps {
   setLoginEmail: (email: string) => void;
-  validationMessage: EmailValidationMessages;
+  validationMessage: ValidationMessages;
   label: string;
 }
 

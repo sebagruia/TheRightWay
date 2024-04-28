@@ -52,3 +52,6 @@ export const itemsCategory: ItemsCategory[] = [
   { id: 19, iconName: 'fa-solid fa-plug', name: 'Electrocasnice' },
   { id: 20, iconName: 'fa-solid fa-infinity', name: '' },
 ];
+
+export const emailValidationMessages = { valid: 'Looks Good', invalid: 'Please type an email address' };
+export const passwordValidationMessages = { valid: 'Looks Good', invalid: 'Please type your password' };
