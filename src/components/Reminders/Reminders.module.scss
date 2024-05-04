@@ -1,0 +1,42 @@
+@use "../../styles/variables.scss" as *;
+
+.addNewReminder_container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .bold,
+  .light {
+    color: $primaryColor;
+  }
+  .bold {
+    font-weight: 600;
+  }
+  .light {
+    font-weight: 300;
+  } 
+  .titleContainer {
+    position: relative;
+    width: 400px;
+    .h1container {
+      width: 300px;
+      margin: 0 auto;
+      z-index: 999;
+      background-color: $whiteColor;
+      overflow: hidden;
+      h1 {
+        font-weight: 300;
+        text-align: center;
+      }
+    }
+
+    hr {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      margin: 0;
+      z-index: -1;
+    }
+  }
+}

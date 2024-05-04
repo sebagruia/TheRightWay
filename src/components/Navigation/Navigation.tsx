@@ -50,7 +50,7 @@ const Navigation: FC<IProps> = ({ userAuth }) => {
               navigate('/');
             }}
           >
-            <h1 className="navbar-brand ps-3">
+            <h1 className="navbar-brand ps-3 pt-1">
               <span className={styles.changedStyle}>Do things</span> The Right Way
             </h1>
           </Navbar.Brand>
