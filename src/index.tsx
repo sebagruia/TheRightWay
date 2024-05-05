@@ -10,8 +10,9 @@ import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import './styles/fonts.scss';
 import './styles/global.scss';
+import './styles/typography.scss';
 
-const container = document.getElementById('root');
+const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
 
 root.render(

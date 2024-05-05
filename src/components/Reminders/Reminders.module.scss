@@ -1,6 +1,6 @@
-@use "../../styles/variables.scss" as *;
+@use '../../styles/variables.scss' as *;
 
-.addNewReminder_container{
+.addNewReminder_container {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -14,7 +14,7 @@
   }
   .light {
     font-weight: 300;
-  } 
+  }
   .titleContainer {
     position: relative;
     width: 400px;
@@ -37,6 +37,73 @@
       width: 100%;
       margin: 0;
       z-index: -1;
+    }
+  }
+  .addNewReminderInput {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    .plusButton {
+      z-index: 2;
+      border-radius: 5px !important;
+    }
+    .inputGroup {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .form_control {
+        height: calc(1.15em + 0.75rem + 2px);
+        margin-right: -1px;
+        font-size: 1.3rem;
+        font-weight: 200;
+        border-color: #ffc107;
+        border-radius: 5px 0 0 5px;
+      }
+      .addButton {
+        border-radius: 0 5px 5px 0;
+      }
+    }
+    @media all and (max-width: 576px) {
+      padding-top: 10px;
+    }
+    @media all and (max-width: 767px) {
+      width: 100%;
+    }
+    @media all and (max-width: 992px) {
+      width: 70%;
+    }
+    .plusButton,
+    .addButton {
+      font-size: 1rem;
+    }
+  }
+  .listSummary {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    height: 45vh;
+    margin-top: 30px;
+    overflow-y: auto;
+    @media all and (max-width: 576px) {
+      height: 350px;
+      overflow-y: auto;
+    }
+    @media all and (min-width: 768px) and (max-width: 991px) {
+      width: 50%;
+    }
+    @media all and (max-width: 767px) {
+      width: 100%;
+    }
+
+    @media all and (min-width: 992px) {
+      width: 30%;
+    }
+    .reminderSummary {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding-left: 50px;
     }
   }
 }

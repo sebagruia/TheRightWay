@@ -1,0 +1,38 @@
+@use '../../styles/variables.scss' as *;
+
+.newReminder {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-top: 10px;
+  font-weight: 200;
+  &:hover {
+    .fa_times_circle {
+      color: #b33939;
+      opacity: 1;
+      cursor: pointer;
+    }
+  }
+  .btn_custom {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    .elipsis {
+      svg {
+        width: 25px;
+        height: 25px;
+      }
+    }
+  }
+  .fa_times_circle {
+    position: absolute;
+    top: 45%;
+    left: 24px;
+    font-size: 1.2rem;
+    color: #ced4da;
+    order: 1;
+  }
+}
