@@ -3,13 +3,14 @@ import styles from './ReminderButton.module.scss';
 
 import ModalPopUp from '../ModalPopUp/ModalPopUp';
 
-import { IoEllipsisHorizontalOutline } from 'react-icons/io5';
+import { IoNotificationsOffOutline, IoNotificationsOutline } from 'react-icons/io5';
 
 interface IProps {
   children: ReactNode;
+  notificationEnabled?: boolean;
 }
 
-const ReminderButton: FC<IProps> = ({ children }) => {
+const ReminderButton: FC<IProps> = ({ children, notificationEnabled }) => {
   const [deleteReminder, setDeleteReminder] = useState({ content: '' });
 
   const closeModal = () => {
@@ -41,7 +42,7 @@ const ReminderButton: FC<IProps> = ({ children }) => {
         >
           {children}
           <div className={styles.elipsis}>
-            <IoEllipsisHorizontalOutline />
+            {notificationEnabled ? <IoNotificationsOutline /> : <IoNotificationsOffOutline />}
           </div>
         </button>
         <i
