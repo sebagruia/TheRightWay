@@ -38,7 +38,7 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
 
   const selectItemForEdit = (item: Item) => {
     dispatch(selectingCurrentItem(item));
-    navigate('/editItem');
+    navigate(`/editItem/${id}`);
   };
 
   const updateItemCheckStatus = (selectedList: List, status: boolean, item: Item ) => {
