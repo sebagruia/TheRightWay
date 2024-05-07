@@ -1,3 +1,4 @@
+@use '../../styles/variables.scss' as *;
 .newListLi {
   position: relative;
   width: 100%;
@@ -8,9 +9,7 @@
   font-weight: 200;
   &:hover {
     .fa_times_circle {
-      color: #b33939;
-      opacity: 1;
-      cursor: pointer;
+      color: $primaryColor;
     }
   }
   .btn_custom {
@@ -23,5 +22,11 @@
     font-size: 1.2rem;
     color: #ced4da;
     order: 1;
+    z-index: 2;
+    &:hover {
+      color: $danger;
+      opacity: 1;
+      cursor: pointer;
+    }
   }
 }
