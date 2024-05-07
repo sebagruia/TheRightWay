@@ -55,7 +55,7 @@ const App: FC<IProps> = ({ getUserLists }) => {
       <Route path="/lists" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path="/listContent" element={<ListContentPage />} />
+      <Route path="/listContent/:listId" element={<ListContentPage />} />
       <Route path="/editItem" element={<EditItemPage />} />
       <Route path="/reminders" element={<RemindersPage />} />
     </Routes>
