@@ -50,7 +50,7 @@ export const itemsCategory: ItemsCategory[] = [
   { id: 17, iconName: 'fa-solid fa-person-swimming', name: 'Activitati Sportive' },
   { id: 18, iconName: 'fa-brands fa-xbox', name: 'Jocuri' },
   { id: 19, iconName: 'fa-solid fa-plug', name: 'Electrocasnice' },
-  { id: 20, iconName: 'fa-solid fa-infinity', name: '' },
+  { id: 20, iconName: 'fa-solid fa-infinity', name: 'Generale' },
 ];
 
 export const emailValidationMessages = { valid: 'Looks Good', invalid: 'Please type an email address' };

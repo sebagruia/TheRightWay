@@ -97,7 +97,7 @@ const ListContent: FC<IProps> = ({
         check: false,
         quantity: '1',
         unit: '',
-        category: '',
+        category: 'Generale',
         note: '',
       };
       if (userAuth) {

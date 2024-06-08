@@ -33,9 +33,9 @@ const Category: FC<IProps> = ({
     listItemsOnline && Object.values(listItemsOnline).length
       ? Object.values(listItemsOnline).filter((item) => item.category === categoryName)
       : listItemsForOfflineMode && Object.values(listItemsForOfflineMode).length
-      ? listItemsForOfflineMode[selectedList.id] &&
-        Object.values(listItemsForOfflineMode[selectedList.id]).filter((item) => item.category === categoryName)
-      : [];
+        ? listItemsForOfflineMode[selectedList.id] &&
+          Object.values(listItemsForOfflineMode[selectedList.id]).filter((item) => item.category === categoryName)
+        : [];
 
   const handleClick = () => {
     setUnfold(!unfold);
@@ -75,9 +75,7 @@ const Category: FC<IProps> = ({
             onClick={handleClick}
             className={`${styles.categoryTitleContainer} d-flex align-items-center justify-content-between px-3 mb-3`}
           >
-            <p className={`${styles.categoryTitle} p-text m-0 py-1`}>
-              {categoryName === '' ? 'Generale' : categoryName}
-            </p>
+            <p className={`${styles.categoryTitle} p-text m-0 py-1`}>{categoryName}</p>
             {!unfold ? <TbArrowBadgeRight size="20px" /> : <TbArrowBadgeDown size="20px" />}
           </div>
           <div className={`${unfold ? 'reveal' : 'hide'} px-3`}>
