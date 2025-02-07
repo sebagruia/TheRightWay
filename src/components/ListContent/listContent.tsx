@@ -20,7 +20,7 @@ import { List, Lists } from '../../interfaces/list';
 import { ModalMessage } from '../../interfaces/modal';
 import { ItemsCategory } from '../../interfaces/utilsInterfaces';
 
-import { itemsCategory, formatName, sortCategories } from '../../utils';
+import { formatName, itemsCategory, sortCategories } from '../../utils';
 
 interface IProps {
   userAuth: any;
@@ -97,7 +97,7 @@ const ListContent: FC<IProps> = ({
         check: false,
         quantity: '1',
         unit: '',
-        category: '',
+        category: 'Generale',
         note: '',
       };
       if (userAuth) {
@@ -115,12 +115,12 @@ const ListContent: FC<IProps> = ({
 
   return (
     <div className={`container ${styles.containerCustom}`}>
-      <ModalPopUp message={error} closeModal={closeModal} closeText='Close'/>
+      <ModalPopUp message={error} closeModal={closeModal} closeText="Close" />
 
       <div className={`row ${styles.listContent_row}`}>
         <div className="col">
           <div className={styles.listContent_container}>
-            <BackArrow route="/home" />
+            <BackArrow route="/lists" />
 
             <div className={styles.titleContainer}>
               <div className={styles.addItemButtontAndTitle}>
@@ -155,8 +155,8 @@ const ListContent: FC<IProps> = ({
                       userAuth
                         ? listItemsOnline
                         : listItemsForOfflineMode[selectedList.id]
-                        ? listItemsForOfflineMode[selectedList.id]
-                        : {},
+                          ? listItemsForOfflineMode[selectedList.id]
+                          : {},
                     ).length
                   } tasks`}</p>
                 </div>

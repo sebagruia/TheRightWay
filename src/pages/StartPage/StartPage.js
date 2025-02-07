@@ -10,7 +10,7 @@ const StartPage = () => {
   const [visibility, setVisibility] = useState('');
 
   const fireTransitionAndVisibility = () => {
-    navigate('/home');
+    navigate('/lists');
     setTransitionClass('transitionForColFullWidth');
     setVisibility('hidden');
   };

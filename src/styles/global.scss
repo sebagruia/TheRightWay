@@ -1,4 +1,4 @@
-
+@use '../styles/variables.scss' as *;
 ul,
 ol {
   padding: 0;
@@ -38,7 +38,7 @@ nav {
 }
 
 .navbar-brand {
-  font-family: 'Merriweather', serif;
+  // font-family: 'Merriweather', serif;
   font-size: 1.6rem !important;
   color: #fff !important;
   cursor: pointer;
@@ -46,6 +46,8 @@ nav {
 .navbar-nav {
   width: 100%;
 }
+
+
 
 @media screen and (min-width: 320px) {
   .navbar-brand {

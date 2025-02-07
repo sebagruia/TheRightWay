@@ -88,7 +88,7 @@ const Home: FC<IProps> = ({ userAuth, lists, error }) => {
                   type="text"
                   value={listName}
                   className={`form-control ${styles.form_control}`}
-                  placeholder="New List Name"
+                  placeholder="New List"
                   aria-label="Example text with button addon"
                   aria-describedby="button-addon1"
                 />

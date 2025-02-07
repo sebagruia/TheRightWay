@@ -53,14 +53,14 @@ const EditItem: FC<IProps> = ({ userAuth, selectedList, selectedItemObject }) =>
     } else {
       dispatch(editItem(selectedList.id, item));
     }
-    navigate('/listContent');
+    navigate(`/lists/${selectedList.id}`);
   };
 
   return (
     <div className="container">
       <div className="row">
         <div className="col d-flex align-items-start flex-column">
-          <BackArrow route="/listContent" />
+          <BackArrow route={`/lists//${selectedList.id}`} />
           <Form className={styles.customForm} onSubmit={onSubmitEditedItem}>
             <Card className={styles.cardContainer}>
               <Card.Body>
