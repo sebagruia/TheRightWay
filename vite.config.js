@@ -9,7 +9,6 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
-        src: '/manifest.webmanifest', // Explicitly reference the manifest file
         scope: '/',
         id: '/',
         name: 'The Right Way',
@@ -66,7 +65,6 @@ export default defineConfig({
       },
     }),
   ],
-  // base: '/TheRightWay',
   optimizeDeps: {
     esbuildOptions: {
       loader: {

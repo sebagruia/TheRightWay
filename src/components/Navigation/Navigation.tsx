@@ -55,7 +55,11 @@ const Navigation: FC<IProps> = ({ userAuth }) => {
             </h1>
           </Navbar.Brand>
 
-          <Navbar.Toggle aria-controls="basic-navbar-nav" className="me-3 offcanvasNavbar-expand"  onClick={handleClickMenu}/>
+          <Navbar.Toggle
+            aria-controls="basic-navbar-nav"
+            className="me-3 offcanvasNavbar-expand"
+            onClick={handleClickMenu}
+          />
           <Navbar.Offcanvas
             id="offcanvasNavbar-expand"
             className={styles.offCanvas}
@@ -63,7 +67,12 @@ const Navigation: FC<IProps> = ({ userAuth }) => {
             placement="start"
             show={showMenu}
           >
-            <Offcanvas.Header className={styles.offCanvasHeader} closeButton closeVariant="white" onClick={handleClickMenu} >
+            <Offcanvas.Header
+              className={styles.offCanvasHeader}
+              closeButton
+              closeVariant="white"
+              onClick={handleClickMenu}
+            >
               <Offcanvas.Title
                 id="offcanvasNavbarLabel-expand"
                 onClick={() => {
@@ -108,29 +117,6 @@ const Navigation: FC<IProps> = ({ userAuth }) => {
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>
-          {/* <Navbar.Collapse id="basic-navbar-nav" className="me-3">
-            <Nav className="me-auto ps-3 d-flex flex-column row-gap-3 ">
-              <li className={`nav-item pb-3 ${styles.nav_item_custom}`}>
-                <h5 className={styles.welcome}>{userAuth ? `Welcome ${userAuth.displayName}` : ''}</h5>
-              </li>
-              <Link to="/reminders" className={`nav-item column-gap-2  ${styles.nav_item_custom}`}>
-                <BsBell />
-                <h5>Reminders</h5>
-              </Link>
-              <li className={`nav-item column-gap-2  ${styles.nav_item_custom}`}>
-                <BsCardChecklist />
-                <h5>Favorite Lists</h5>
-              </li>
-              <li className={`nav-item ${styles.item1} ${styles.nav_item_custom}`}>
-                <Link to="/login" onClick={userAuth && logOut} className={`btn btn-outline-secondary ${styles.wraper}`}>
-                  <span className="font-weight-light">{userAuth ? 'Log out' : 'Log in'}</span>
-                </Link>
-                <Link to="/register" className={`btn btn-outline-secondary ${styles.wraper}`}>
-                  <span className="font-weight-light">{userAuth ? 'Save' : 'Register'}</span>
-                </Link>
-              </li>
-            </Nav>
-          </Navbar.Collapse> */}
         </Navbar>
       </header>
     </div>
