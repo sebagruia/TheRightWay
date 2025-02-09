@@ -16,13 +16,13 @@
       "type": "image/x-icon"
     },
     {
-      "src": "TheRightWaylogo512.png",
+      "src": "/TheRightWaylogo512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "TheRightWaylogo192.png",
+      "src": "/TheRightWaylogo192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
@@ -30,7 +30,7 @@
   ],
   "screenshots": [
     {
-      "src": "TheRightWayscreenshot.png",
+      "src": "/TheRightWayscreenshot.png",
       "sizes": "2560x1431",
       "type": "image/png",
       "description": "A screenshot of the home page"
