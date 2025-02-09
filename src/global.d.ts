@@ -36,6 +36,3 @@ declare module '*.jpg' {
   export default '' as string;
 }
 
-// declare module 'virtual:pwa-register/react' {
-//   export function registerSW(options?: { immediate?: boolean }): () => void;
-// }
