@@ -72,6 +72,10 @@ export default defineConfig({
       },
     },
   },
+  base: '/TheRightWay',
+  build: {
+    outDir: 'dist',
+  },
   server: {
     port: 3000,
     open: true,
