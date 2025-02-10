@@ -72,7 +72,7 @@ export default defineConfig({
       },
     },
   },
-  base: '/TheRightWay',
+  base: '/TheRightWay/',
   build: {
     outDir: 'dist',
   },
