@@ -1,32 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRegisterSW } from 'virtual:pwa-register/react';
 import styles from './PwaUpdatePrompt.module.scss';
 
-import { useRegisterSW } from 'virtual:pwa-register/react';
-
-import Alert from 'react-bootstrap/Alert';
-
 export const PWAUpdatePrompt = () => {
-  const [isUpdateAvailable, setIsUpdateAvailable] = useState(false);
-
-  const { updateServiceWorker } = useRegisterSW({
-    onRegisteredSW(swUrl) {
-      console.info(`Service Worker registered at ${swUrl}`);
+  const {
+    offlineReady: [offlineReady, setOfflineReady],
+    needRefresh: [needRefresh, setNeedRefresh],
+    updateServiceWorker,
+  } = useRegisterSW({
+    onRegistered(r) {
+      // eslint-disable-next-line prefer-template
+      console.log('SW Registered: ' + r);
     },
     onRegisterError(error) {
-      console.error('Service Worker registration error:', error);
-    },
-    onNeedRefresh() {
-      console.info('New update detected. Updating...');
-      setIsUpdateAvailable(true);
-      updateServiceWorker?.();
+      console.log('SW registration error', error);
     },
   });
 
-  if (!isUpdateAvailable) return null;
+  const close = () => {
+    setOfflineReady(false);
+    setNeedRefresh(false);
+  };
 
   return (
-    <div className={styles.alertContainer}>
-      <Alert variant="warning">Aplication Updated!</Alert>
+    <div className={styles.reloadPromptContainer}>
+      {(offlineReady || needRefresh) && (
+        <div className={styles.reloadPromptToast}>
+          <div className={styles.reloadPromptToastMessage}>
+            {offlineReady ? (
+              <span>App ready to work offline</span>
+            ) : (
+              <span>New content available, click on reload button to update.</span>
+            )}
+          </div>
+          {needRefresh && (
+            <button className={styles.reloadPromptToastButton} onClick={() => updateServiceWorker(true)}>
+              Reload
+            </button>
+          )}
+          <button className={styles.reloadPromptToastButton} onClick={() => close()}>
+            Close
+          </button>
+        </div>
+      )}
     </div>
   );
 };
