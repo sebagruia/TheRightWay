@@ -7,7 +7,7 @@ import App from './App';
 import './index.css';
 import { persistor, store } from './redux/store';
 import reportWebVitals from './reportWebVitals';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import { PWAUpdatePrompt } from './components/PwaUpdatePrompt/PwaUpdatePrompt';
 import './styles/fonts.scss';
 import './styles/global.scss';
 import './styles/typography.scss';
@@ -18,9 +18,10 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <PersistGate loading={null} persistor={persistor}>
           <App />
+          <PWAUpdatePrompt />
         </PersistGate>
       </BrowserRouter>
     </Provider>
@@ -31,4 +32,3 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
-serviceWorkerRegistration.register();

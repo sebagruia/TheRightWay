@@ -5,9 +5,9 @@ import persistedReducer from './rootReducer';
 
 export const store = configureStore({
   reducer: persistedReducer,
-  devTools: process.env.NODE_ENV !== 'production',
+  devTools: import.meta.env.MODE !== 'production',
   middleware: (getDefaultMiddleware) => {
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.MODE === 'development') {
       return getDefaultMiddleware().concat(logger);
     } else {
       return getDefaultMiddleware();
