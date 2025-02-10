@@ -10,7 +10,6 @@
   .check_list p {
     display: inline;
     font-size: 1.1em;
-    font-family: 'Yanone Kaffeesatz', sans-serif;
     font-weight: 300;
   }
   .edit_list {
@@ -20,9 +19,7 @@
     i {
       cursor: pointer;
     }
-    .quantity {
-      padding-bottom: 1px;
-    }
+    
     .edit {
       font-size: 18px;
       &:hover {

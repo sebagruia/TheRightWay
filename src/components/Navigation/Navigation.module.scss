@@ -1,39 +1,50 @@
+@use '../../styles/variables.scss' as *;
+
 .header_container {
   margin: 0;
   padding: 0;
-  font-family: 'Yanone Kaffeesatz';
-  header {
-    background-color: #2b3f5d;
+  .header {
+    background-color: $primaryColor;
     border-bottom: 10px solid #ffc107;
     margin-bottom: 16px;
-    .changedStyle {
-      font-size: 0.8rem !important;
+  }
+}
+.offCanvas {
+  background-color: $primaryColor;
+  .offCanvasHeader {
+    border-bottom: 10px solid #ffc107;
+    margin-bottom: 16px;
+  }
+  .nav_item_custom {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: $whiteColor;
+    h5 {
+      margin-bottom: 0;
+      line-height: 10px;
+      font-weight: 200;
     }
-    .nav_item_custom {
-      display: flex;
-      align-items: center;
-      h5 {
-        margin-bottom: 0;
-        display: inline-block;
-        font-family: 'Yanone Kaffeesatz', sans-serif;
-        line-height: 10px;
+    a {
+      &:last-child {
+        margin-right: 0px;
       }
-      a {
-        &:last-child {
-          margin-right: 0px;
-        }
-      }
-      .wraper {
-        color: #fff;
-        cursor: pointer;
-        margin-right: 5px;
-      }
-      .saveExitButton {
-        color: #ffc107;
-      }
-      .welcome {
-        margin-right: 10px;
-      }
+    }
+    .wraper {
+      color: #fff;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+    .saveExitButton {
+      color: #ffc107;
+    }
+    .welcome {
+      margin-right: 10px;
     }
   }
+}
+
+.changedStyle {
+  font-size: 1rem !important;
+  font-weight:200;
 }

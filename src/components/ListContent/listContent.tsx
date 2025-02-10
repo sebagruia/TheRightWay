@@ -18,9 +18,9 @@ import SortType from '../SortType/SortType';
 import { Items, ItemsOfflineMode } from '../../interfaces/item';
 import { List, Lists } from '../../interfaces/list';
 import { ModalMessage } from '../../interfaces/modal';
-import { FoodCategory } from '../../interfaces/utilsInterfaces';
+import { ItemsCategory } from '../../interfaces/utilsInterfaces';
 
-import { foodCategories, formatName, sortCategories } from '../../utils';
+import { formatName, itemsCategory, sortCategories } from '../../utils';
 
 interface IProps {
   userAuth: any;
@@ -97,7 +97,7 @@ const ListContent: FC<IProps> = ({
         check: false,
         quantity: '1',
         unit: '',
-        category: '',
+        category: 'Generale',
         note: '',
       };
       if (userAuth) {
@@ -115,12 +115,12 @@ const ListContent: FC<IProps> = ({
 
   return (
     <div className={`container ${styles.containerCustom}`}>
-      <ModalPopUp message={error} closeModal={closeModal} closeText='Close'/>
+      <ModalPopUp message={error} closeModal={closeModal} closeText="Close" />
 
       <div className={`row ${styles.listContent_row}`}>
         <div className="col">
           <div className={styles.listContent_container}>
-            <BackArrow route="/home" />
+            <BackArrow route="/lists" />
 
             <div className={styles.titleContainer}>
               <div className={styles.addItemButtontAndTitle}>
@@ -155,8 +155,8 @@ const ListContent: FC<IProps> = ({
                       userAuth
                         ? listItemsOnline
                         : listItemsForOfflineMode[selectedList.id]
-                        ? listItemsForOfflineMode[selectedList.id]
-                        : {},
+                          ? listItemsForOfflineMode[selectedList.id]
+                          : {},
                     ).length
                   } tasks`}</p>
                 </div>
@@ -189,9 +189,9 @@ const ListContent: FC<IProps> = ({
               </form>
               <div className={styles.categorieList_container}>
                 {sortType === 'sortByCategory'
-                  ? foodCategories
+                  ? itemsCategory
                       .sort(sortCategories)
-                      .map((category: FoodCategory) => (
+                      .map((category: ItemsCategory) => (
                         <Category
                           categoryName={category.name}
                           listItemsOnline={listItemsOnline}
@@ -199,7 +199,7 @@ const ListContent: FC<IProps> = ({
                           key={category.id}
                         />
                       ))
-                  : foodCategories.map((category: FoodCategory) => (
+                  : itemsCategory.map((category: ItemsCategory) => (
                       <Category
                         categoryName={category.name}
                         listItemsOnline={listItemsOnline}

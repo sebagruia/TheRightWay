@@ -3,7 +3,7 @@ export interface Unit {
   name: string;
   unit: string;
 }
-export interface FoodCategory {
+export interface ItemsCategory {
   id: number;
   iconName: string;
   name: string;

@@ -13,6 +13,7 @@ import ListContentPage from './pages/ListContentPage/ListContentPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import StartPage from './pages/StartPage/StartPage';
+import RemindersPage from './pages/RemindersPage/RemindersPage';
 
 import { DocumentData } from 'firebase/firestore';
 
@@ -51,11 +52,13 @@ const App: FC<IProps> = ({ getUserLists }) => {
   return (
     <Routes>
       <Route path="/" element={<StartPage />} />
-      <Route path="/home" element={<HomePage />} />
+      <Route path="/lists" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path="/listContent" element={<ListContentPage />} />
-      <Route path="/editItem" element={<EditItemPage />} />
+      <Route path="/lists/:listId" element={<ListContentPage />} />
+      <Route path="/editItem/:itemId" element={<EditItemPage />} />
+      <Route path="/reminders" element={<RemindersPage />} />
+      <Route path="/reminders/:reminderId" element={<RemindersPage />} />
     </Routes>
   );
 };

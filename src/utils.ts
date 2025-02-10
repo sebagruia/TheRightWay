@@ -1,4 +1,4 @@
-import { FoodCategory, Unit } from './interfaces/utilsInterfaces';
+import { ItemsCategory, Unit } from './interfaces/utilsInterfaces';
 
 export const formatName = (name: string) => {
   const splitString = name.split('');
@@ -31,7 +31,7 @@ export const units: Unit[] = [
   { id: 7, name: 'sticla', unit: 'st' },
 ];
 
-export const foodCategories: FoodCategory[] = [
+export const itemsCategory: ItemsCategory[] = [
   { id: 1, iconName: 'fa-solid fa-lemon', name: 'Fructe' },
   { id: 2, iconName: 'fa-solid fa-pepper-hot', name: 'Legume' },
   { id: 3, iconName: 'fa-solid fa-martini-glass-citrus', name: 'Alcool' },
@@ -47,8 +47,11 @@ export const foodCategories: FoodCategory[] = [
   { id: 13, iconName: 'fa-solid fa-child-reaching', name: 'Copil' },
   { id: 15, iconName: 'fa-solid fa-bottle-droplet', name: 'Uleiuri' },
   { id: 16, iconName: 'fa-solid fa-drumstick-bite', name: 'Carne' },
-  { id: 17, iconName: 'fa-light fa-strawberry', name: '' },
+  { id: 17, iconName: 'fa-solid fa-person-swimming', name: 'Activitati Sportive' },
+  { id: 18, iconName: 'fa-brands fa-xbox', name: 'Jocuri' },
+  { id: 19, iconName: 'fa-solid fa-plug', name: 'Electrocasnice' },
+  { id: 20, iconName: 'fa-solid fa-infinity', name: 'Generale' },
 ];
 
-
-
+export const emailValidationMessages = { valid: 'Looks Good', invalid: 'Please type an email address' };
+export const passwordValidationMessages = { valid: 'Looks Good', invalid: 'Please type your password' };

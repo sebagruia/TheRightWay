@@ -55,7 +55,7 @@ const ListOfItems: FC<IProps> = ({ userAuth, children, list, deleteList }) => {
         <button
           onClick={() => {
             dispatch(selectListAction(list));
-            navigate('/listContent');
+            navigate(`/lists/${list.id}`);
           }}
           type="button"
           className={`btn btn-outline-warning btn-lg btn-block capitalize button-color-orange ${styles.btn_custom}`}
