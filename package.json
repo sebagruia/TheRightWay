@@ -50,6 +50,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "build:preview": "npm run build && npm run preview",
     "prettier:check": "npx prettier --check \"src/**/*{.js,.html,.css}\"",
     "prettier:fix": "npx prettier --write \"src/**/*{.js,.html,.css}\""
   },
