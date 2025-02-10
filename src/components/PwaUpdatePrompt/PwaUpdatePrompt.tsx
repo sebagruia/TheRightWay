@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 import styles from './PwaUpdatePrompt.module.scss';
 
@@ -10,10 +10,10 @@ export const PWAUpdatePrompt = () => {
   } = useRegisterSW({
     onRegistered(r) {
       // eslint-disable-next-line prefer-template
-      console.log('SW Registered: ' + r);
+      console.info('SW Registered: ' + r);
     },
     onRegisterError(error) {
-      console.log('SW registration error', error);
+      console.info('SW registration error', error);
     },
   });
 
