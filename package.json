@@ -5,7 +5,7 @@
   "homepage": "https://sebagruia.github.io/TheRightWay/",
   "dependencies": {
     "@redux-devtools/extension": "^3.3.0",
-    "@reduxjs/toolkit": "^2.2.3",
+    "@reduxjs/toolkit": "^2.5.1",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^15.0.2",
     "@testing-library/user-event": "^14.5.2",
