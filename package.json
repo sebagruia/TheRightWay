@@ -52,7 +52,9 @@
     "preview": "vite preview",
     "build:preview": "npm run build && npm run preview",
     "prettier:check": "npx prettier --check \"src/**/*{.js,.html,.css}\"",
-    "prettier:fix": "npx prettier --write \"src/**/*{.js,.html,.css}\""
+    "prettier:fix": "npx prettier --write \"src/**/*{.js,.html,.css}\"",
+    "gitflow-release-start": "git flow release start $npm_config_version",
+    "gitflow-release-finish": "git flow release finish \"$npm_config_version\" && git push origin v$npm_config_version"
   },
   "eslintConfig": {
     "extends": [
