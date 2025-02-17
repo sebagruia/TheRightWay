@@ -47,8 +47,6 @@ const Login: FC<IProps> = ({ error }) => {
     setValidated(true);
   };
 
-  
-
   const logInWithGoogle = async () => {
     await persistor.purge();
     const userAuth = await signInWithGoogle(dispatch);

@@ -20,13 +20,7 @@ interface IProps {
   categoryName: string;
 }
 
-const Category: FC<IProps> = ({
-  listItemsOnline,
-  listItemsForOfflineMode,
-  selectedList,
-  sortType,
-  categoryName,
-}) => {
+const Category: FC<IProps> = ({ listItemsOnline, listItemsForOfflineMode, selectedList, sortType, categoryName }) => {
   const [unfold, setUnfold] = useState(false);
   const listItemsInCategory =
     listItemsOnline && Object.values(listItemsOnline).length
