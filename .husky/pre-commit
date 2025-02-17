@@ -1,2 +1,2 @@
 
-npm prettier:fix
+npm run prettier:fix
