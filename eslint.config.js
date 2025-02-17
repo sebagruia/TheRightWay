@@ -14,5 +14,13 @@ export default [
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
     },
+    settings: {
+      react: {
+        version: 'detect', // Automatically detects the React version
+      },
+    },
+    plugins:{
+      react: pluginReact, // Reference the actual plugin object
+    },
   },
 ];
