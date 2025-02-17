@@ -9,7 +9,7 @@ interface IProps {
   route: string;
 }
 
-       const BackArrow: FC<IProps> = ({ route }) => {
+const BackArrow: FC<IProps> = ({ route }) => {
   return (
     <Link to={route} className={styles.backArrow}>
       <BsBoxArrowInLeft size="32px" />

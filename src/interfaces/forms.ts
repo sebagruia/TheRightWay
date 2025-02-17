@@ -1,4 +1,4 @@
-export interface ValidationMessages{
-    valid: string;
-    invalid: string;
+export interface ValidationMessages {
+  valid: string;
+  invalid: string;
 }

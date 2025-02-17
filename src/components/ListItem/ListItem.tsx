@@ -41,11 +41,11 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
     navigate(`/editItem/${id}`);
   };
 
-  const updateItemCheckStatus = (selectedList: List, status: boolean, item: Item ) => {
+  const updateItemCheckStatus = (selectedList: List, status: boolean, item: Item) => {
     if (userAuth && item) {
-      updatingListItemToFirestore(userAuth.id, selectedList.id,{ ...item, check:!status});
+      updatingListItemToFirestore(userAuth.id, selectedList.id, { ...item, check: !status });
     } else {
-      dispatch(editItem(selectedList.id, { ...item, check:!status}));
+      dispatch(editItem(selectedList.id, { ...item, check: !status }));
     }
   };
 
@@ -92,7 +92,7 @@ const mapStateToProps = (state: any) => {
   const sm = stateMapping(state);
   return {
     userAuth: sm.userAuth,
-    selectedList: sm.selectedList,    
+    selectedList: sm.selectedList,
   };
 };
 

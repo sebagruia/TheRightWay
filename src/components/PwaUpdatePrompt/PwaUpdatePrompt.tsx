@@ -9,7 +9,6 @@ export const PWAUpdatePrompt = () => {
     updateServiceWorker,
   } = useRegisterSW({
     onRegistered(r) {
-      // eslint-disable-next-line prefer-template
       console.info('SW Registered: ' + r);
     },
     onRegisterError(error) {

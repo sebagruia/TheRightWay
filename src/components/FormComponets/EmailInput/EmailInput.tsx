@@ -5,8 +5,6 @@ import Form from 'react-bootstrap/esm/Form';
 
 import { ValidationMessages } from '../../../interfaces/forms';
 
-import {emailValidationMessages} from '../../../utils';
-
 interface IProps {
   setLoginEmail: (email: string) => void;
   validationMessage: ValidationMessages;

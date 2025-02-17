@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, FormEvent, Fragment, useState } from 'react';
+import React, { FC, FormEvent, Fragment, useState } from 'react';
 import styles from './Login.module.scss';
 
 import { connect, useDispatch } from 'react-redux';
@@ -24,7 +24,6 @@ import { ModalHeaderBackground, ModalMessage } from '../../interfaces/modal';
 
 import { emailValidationMessages, passwordValidationMessages } from '../../utils';
 
-
 interface IProps {
   error: ModalMessage;
 }
@@ -48,9 +47,7 @@ const Login: FC<IProps> = ({ error }) => {
     setValidated(true);
   };
 
-  const onPassChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setLoginPass(event.target.value);
-  };
+  
 
   const logInWithGoogle = async () => {
     await persistor.purge();
@@ -107,10 +104,12 @@ const Login: FC<IProps> = ({ error }) => {
                 validationMessage={emailValidationMessages}
                 label="Email address"
               />
-              
-              <PassWordInput  setLoginPass={setLoginPass}
+
+              <PassWordInput
+                setLoginPass={setLoginPass}
                 validationMessage={passwordValidationMessages}
-                label="Password"/>
+                label="Password"
+              />
 
               <Button
                 className={`mt-3 ${styles.btn_primary_custom}`}

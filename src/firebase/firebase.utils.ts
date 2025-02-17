@@ -21,7 +21,7 @@ import { Item, Items } from '../interfaces/item';
 import { List } from '../interfaces/list';
 import { ModalHeaderBackground } from '../interfaces/modal';
 
-import { fetchListItemsAction, fetchUserListAction} from '../redux/list/listActions';
+import { fetchListItemsAction, fetchUserListAction } from '../redux/list/listActions';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB6b4D40cLSubf_qDK7BzKMDnoH_l_2N1A',
@@ -148,7 +148,7 @@ export const fetchUserLists = (userId: string) => async (dispatch: any) => {
         if (list.items) {
           let listItems = {};
           const itemsKeys = Object.keys(list.items).sort();
-          for (let key of itemsKeys) {
+          for (const key of itemsKeys) {
             listItems = { ...listItems, [key]: list.items[key] };
           }
           listsObject = { ...listsObject, [list.id]: { ...list, items: { ...listItems } } };
@@ -167,7 +167,7 @@ export const fetchListsItems = (userId: string, listId: string) => async (dispat
   const listItemsRef = firestore.collection(`/users/${userId}/lists/${listId}/items`);
   try {
     listItemsRef.onSnapshot((snapShot) => {
-      let listsItemsObject: Items = {};
+      const listsItemsObject: Items = {};
       const listItems = snapShot.docs.map((item) => item.data() as Item);
       listItems.forEach((item) => {
         listsItemsObject[item.id] = item;

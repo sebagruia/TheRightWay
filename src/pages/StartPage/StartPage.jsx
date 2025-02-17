@@ -25,7 +25,7 @@ const StartPage = () => {
           <div className="form-group-1">
             <div
               className={`newList btn-outline-warning ${visibility}`}
-              roll="button"
+              role="button"
               onClick={fireTransitionAndVisibility}
             >
               <i className="fas fa-th-list"></i>

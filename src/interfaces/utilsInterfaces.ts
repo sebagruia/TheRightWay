@@ -8,6 +8,3 @@ export interface ItemsCategory {
   iconName: string;
   name: string;
 }
-
-
-

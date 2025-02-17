@@ -10,4 +10,3 @@ export interface UserAction {
   type: userActions;
   payload?: any;
 }
-

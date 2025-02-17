@@ -19,7 +19,7 @@ const SortType = () => {
   };
 
   const chooseSortType = (event: MouseEvent<HTMLDivElement>) => {
-    dispatch(toggleSort(event.currentTarget.id))
+    dispatch(toggleSort(event.currentTarget.id));
     setSortType(event.currentTarget.id);
     toggleToast();
   };

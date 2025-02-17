@@ -35,4 +35,3 @@ declare module '*.jpeg' {
 declare module '*.jpg' {
   export default '' as string;
 }
-

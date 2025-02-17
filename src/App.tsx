@@ -20,7 +20,7 @@ import { DocumentData } from 'firebase/firestore';
 import { auth, createUserProfileDocument, fetchUserLists } from './firebase/firebase.utils';
 
 interface IProps {
-  getUserLists: (userId: string) => any;
+  getUserLists: (userId: string) => Promise<void>;
 }
 
 const App: FC<IProps> = ({ getUserLists }) => {

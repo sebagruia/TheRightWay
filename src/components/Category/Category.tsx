@@ -21,7 +21,6 @@ interface IProps {
 }
 
 const Category: FC<IProps> = ({
-  lists,
   listItemsOnline,
   listItemsForOfflineMode,
   selectedList,
