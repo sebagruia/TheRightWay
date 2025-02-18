@@ -28,7 +28,7 @@ jobs:
         cache: 'npm'
         cache-dependency-path: package-lock.json
 
-    - name: Create .env.production file
+    - name: Create .env file
       run: |
           echo "VITE_API_KEY=${{ secrets.API_KEY }}" >> .env
           echo "VITE_AUTH_DOMAIN=${{ secrets.AUTH_DOMAIN }}" >> .env
