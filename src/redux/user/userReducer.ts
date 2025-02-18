@@ -23,5 +23,5 @@ export const userReducer = createReducer(initialState, (builder) => {
     .addCase(setModalMessage, (state, action) => {
       state.error = action.payload;
     })
-    .addDefaultCase((state, action) => state);
+    .addDefaultCase((state) => state);
 });

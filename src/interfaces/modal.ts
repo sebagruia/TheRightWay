@@ -6,7 +6,7 @@ export interface ModalMessage {
 
 export enum ModalHeaderBackground {
   warning = 'warning',
-  error = 'error'
-//   warning = '#ffc107',
-//   error = '#de4701',
+  error = 'error',
+  //   warning = '#ffc107',
+  //   error = '#de4701',
 }

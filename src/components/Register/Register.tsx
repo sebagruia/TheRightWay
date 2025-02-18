@@ -19,7 +19,7 @@ interface IProps {
   error: ModalMessage;
 }
 
-const Register: FC<IProps> = ({error}) => {
+const Register: FC<IProps> = ({ error }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
@@ -74,7 +74,7 @@ const Register: FC<IProps> = ({error}) => {
               title: 'Email Validation',
               content: `A validation email was sent to ${userAuth.providerData[0].email}`,
               headerBackground: ModalHeaderBackground.warning,
-            })
+            }),
           );
         }
       } catch (error) {
@@ -84,12 +84,12 @@ const Register: FC<IProps> = ({error}) => {
   };
 
   const closeModal = () => {
-    dispatch(setModalMessage({content:""}));
+    dispatch(setModalMessage({ content: '' }));
   };
 
   return (
     <Fragment>
-      <ModalPopUp message={error} closeModal={closeModal} closeText='Close'/>
+      <ModalPopUp message={error} closeModal={closeModal} closeText="Close" />
       <div className="container">
         <div className="row">
           <div className="col-sm-6 offset-sm-3">

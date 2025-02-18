@@ -1,21 +1,20 @@
-import React, {FC, ChangeEvent} from 'react';
+import React, { FC, ChangeEvent } from 'react';
 import styles from './PassWordInput.module.scss';
 
 import Form from 'react-bootstrap/esm/Form';
 
 import { ValidationMessages } from '../../../interfaces/forms';
 
-
 interface IProps {
-    setLoginPass: (email: string) => void;
-    validationMessage: ValidationMessages;
-    label: string;
-  }
+  setLoginPass: (email: string) => void;
+  validationMessage: ValidationMessages;
+  label: string;
+}
 
-const PassWordInput:FC<IProps> = ({setLoginPass, validationMessage, label}) => {
-    const onPassChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setLoginPass(event.target.value);
-      };
+const PassWordInput: FC<IProps> = ({ setLoginPass, validationMessage, label }) => {
+  const onPassChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setLoginPass(event.target.value);
+  };
   return (
     <Form.Group controlId="formBasicPassword" className=" passWordInput pb-2">
       <Form.Label className={styles.label}>{label}</Form.Label>

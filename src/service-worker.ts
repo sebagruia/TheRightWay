@@ -23,7 +23,7 @@ registerRoute(
 );
 
 // Listen for messages to force an update
-(self as any).addEventListener('message', (event:any) => {
+(self as any).addEventListener('message', (event: any) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     (self as any).skipWaiting();
   }

@@ -20,7 +20,7 @@ import {
 export const initialState: InitialState = {
   lists: {},
   listItemsOnline: {},
-  listItemsForOfflineMode:{},
+  listItemsForOfflineMode: {},
   selectedList: {
     id: '',
     listName: '',
@@ -72,7 +72,7 @@ export const listReducer = createReducer(initialState, (builder) => {
       const idList = action.payload.listId;
       const idItem = action.payload.itemId;
       const newValue = action.payload.item;
-      state.listItemsForOfflineMode[idList][idItem] =  newValue ;
+      state.listItemsForOfflineMode[idList][idItem] = newValue;
     })
     .addCase(selectingCurrentItem, (state, action) => {
       state.selectedItemObject = action.payload;
@@ -81,5 +81,5 @@ export const listReducer = createReducer(initialState, (builder) => {
       state.sortType = action.payload;
     })
     .addCase(PURGE, () => initialState)
-    .addDefaultCase((state, action) => state);
+    .addDefaultCase((state) => state);
 });

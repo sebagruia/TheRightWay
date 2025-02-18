@@ -21,16 +21,16 @@ import { Item, Items } from '../interfaces/item';
 import { List } from '../interfaces/list';
 import { ModalHeaderBackground } from '../interfaces/modal';
 
-import { fetchListItemsAction, fetchUserListAction} from '../redux/list/listActions';
+import { fetchListItemsAction, fetchUserListAction } from '../redux/list/listActions';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyB6b4D40cLSubf_qDK7BzKMDnoH_l_2N1A',
-  authDomain: 'therightway-e6f15.firebaseapp.com',
-  projectId: 'therightway-e6f15',
-  storageBucket: 'therightway-e6f15.appspot.com',
-  messagingSenderId: '590591734476',
-  appId: '1:590591734476:web:36a7e413a992f663df4869',
-  measurementId: 'G-G7G582CTJS',
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN_FIREBASE,
+  projectId: import.meta.env.VITE_PROJECT_ID_FIREBASE,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET_FIREBASE,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID_FIREBASE,
+  appId: import.meta.env.VITE_APP_ID_FIREBASE,
+  measurementId: import.meta.env.VITE_MEASUREMENT_ID_FIREBASE,
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -148,7 +148,7 @@ export const fetchUserLists = (userId: string) => async (dispatch: any) => {
         if (list.items) {
           let listItems = {};
           const itemsKeys = Object.keys(list.items).sort();
-          for (let key of itemsKeys) {
+          for (const key of itemsKeys) {
             listItems = { ...listItems, [key]: list.items[key] };
           }
           listsObject = { ...listsObject, [list.id]: { ...list, items: { ...listItems } } };
@@ -167,7 +167,7 @@ export const fetchListsItems = (userId: string, listId: string) => async (dispat
   const listItemsRef = firestore.collection(`/users/${userId}/lists/${listId}/items`);
   try {
     listItemsRef.onSnapshot((snapShot) => {
-      let listsItemsObject: Items = {};
+      const listsItemsObject: Items = {};
       const listItems = snapShot.docs.map((item) => item.data() as Item);
       listItems.forEach((item) => {
         listsItemsObject[item.id] = item;

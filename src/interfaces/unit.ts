@@ -1,4 +1,4 @@
-export interface Unit{
-    name:string,
-    unit:string
+export interface Unit {
+  name: string;
+  unit: string;
 }
