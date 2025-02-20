@@ -47,6 +47,6 @@ jobs:
       if: matrix.node-version == '20.x'  # Only deploy from Node 20.x to prevent conflicts
       run: |
         git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-        npm run deploy -- -u "github-actions-bot <support+actions@github.com>"
+        npm run deploy -- -u "github-actions-bot <support+actions@github.com>" -f
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
