@@ -6,6 +6,8 @@ name: Node.js CI
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+      branches: [ "main" ]
 
 jobs:
   build:
@@ -50,8 +52,13 @@ jobs:
 
     - name: Debug GitHub Secrets
       run: |
-          echo "API_KEY=${{ secrets.API_KEY }}" | sed 's/./& /g'
-          echo "PROJECT_ID_FIREBASE=${{ secrets.PROJECT_ID_FIREBASE }}" | sed 's/./& /g'
+        echo "API_KEY=${{ secrets.API_KEY }}"
+        echo "PROJECT_ID_FIREBASE=${{ secrets.PROJECT_ID_FIREBASE }}"
+        echo "AUTH_DOMAIN_FIREBASE=${{ secrets.AUTH_DOMAIN_FIREBASE }}"
+        echo "STORAGE_BUCKET_FIREBASE=${{ secrets.STORAGE_BUCKET_FIREBASE }}"
+        echo "MESSAGING_SENDER_ID_FIREBASE=${{ secrets.MESSAGING_SENDER_ID_FIREBASE }}"
+        echo "APP_ID_FIREBASE=${{ secrets.APP_ID_FIREBASE }}"
+        echo "MEASUREMENT_ID_FIREBASE=${{ secrets.MEASUREMENT_ID_FIREBASE }}"
 
 
     - run: npm ci
