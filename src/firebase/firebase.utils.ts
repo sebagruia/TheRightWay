@@ -33,8 +33,6 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_MEASUREMENT_ID_FIREBASE,
 };
 
-// comment
-
 firebase.initializeApp(firebaseConfig);
 
 export const analytics = getAnalytics();
