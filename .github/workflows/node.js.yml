@@ -61,7 +61,11 @@ jobs:
         echo "MEASUREMENT_ID_FIREBASE=${{ secrets.MEASUREMENT_ID_FIREBASE }}"
 
 
-    - run: npm ci
+    - name: Clear npm cache and rebuild
+      run: |
+          npm cache clean --force
+          npm ci
+          
     - run: npm run build --if-present
     - run: npm test
 
