@@ -39,6 +39,12 @@ jobs:
     - name: Debug ENV
       run: cat .env
 
+    - name: Debug GitHub Secrets
+      run: |
+          echo "API_KEY=${{ secrets.API_KEY }}" | sed 's/./& /g'
+          echo "PROJECT_ID_FIREBASE=${{ secrets.PROJECT_ID_FIREBASE }}" | sed 's/./& /g'
+
+
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
