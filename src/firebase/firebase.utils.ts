@@ -32,6 +32,7 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_ID_FIREBASE,
   measurementId: import.meta.env.VITE_MEASUREMENT_ID_FIREBASE,
 };
+// adding this just fro triggering deplpoymnet
 
 firebase.initializeApp(firebaseConfig);
 
