@@ -1,26 +1,29 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
+# This workflow installs dependencies, builds, runs tests, and deploys to GitHub Pages
 name: Node.js CI
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
-      branches: [ "main" ]
+    branches: [ "main" ]
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        # Supported Node.js versions
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
@@ -30,13 +33,13 @@ jobs:
 
     - name: Create .env file
       run: |
-          echo "VITE_API_KEY=${{ secrets.API_KEY }}" >> .env
-          echo "VITE_AUTH_DOMAIN_FIREBASE=${{ secrets.AUTH_DOMAIN_FIREBASE }}" >> .env
-          echo "VITE_PROJECT_ID_FIREBASE=${{ secrets.PROJECT_ID_FIREBASE }}" >> .env
-          echo "VITE_STORAGE_BUCKET_FIREBASE=${{ secrets.STORAGE_BUCKET_FIREBASE }}" >> .env
-          echo "VITE_MESSAGING_SENDER_ID_FIREBASE=${{ secrets.MESSAGING_SENDER_ID_FIREBASE }}" >> .env
-          echo "VITE_APP_ID_FIREBASE=${{ secrets.APP_ID_FIREBASE}}" >> .env
-          echo "VITE_MEASUREMENT_ID_FIREBASE=${{ secrets.MEASUREMENT_ID_FIREBASE }}" >> .env
+        echo "VITE_API_KEY=${{ secrets.API_KEY }}" >> .env
+        echo "VITE_AUTH_DOMAIN_FIREBASE=${{ secrets.AUTH_DOMAIN_FIREBASE }}" >> .env
+        echo "VITE_PROJECT_ID_FIREBASE=${{ secrets.PROJECT_ID_FIREBASE }}" >> .env
+        echo "VITE_STORAGE_BUCKET_FIREBASE=${{ secrets.STORAGE_BUCKET_FIREBASE }}" >> .env
+        echo "VITE_MESSAGING_SENDER_ID_FIREBASE=${{ secrets.MESSAGING_SENDER_ID_FIREBASE }}" >> .env
+        echo "VITE_APP_ID_FIREBASE=${{ secrets.APP_ID_FIREBASE }}" >> .env
+        echo "VITE_MEASUREMENT_ID_FIREBASE=${{ secrets.MEASUREMENT_ID_FIREBASE }}" >> .env
       shell: bash
       env:
         API_KEY: ${{ secrets.API_KEY }}
@@ -46,11 +49,11 @@ jobs:
         MESSAGING_SENDER_ID_FIREBASE: ${{ secrets.MESSAGING_SENDER_ID_FIREBASE }}
         APP_ID_FIREBASE: ${{ secrets.APP_ID_FIREBASE }}
         MEASUREMENT_ID_FIREBASE: ${{ secrets.MEASUREMENT_ID_FIREBASE }}
-          
-    - name: Debug ENV
+
+    - name: Debug Environment Variables
       run: cat .env
 
-    - name: Debug GitHub Secrets
+    - name: Debug GitHub Secrets (Ensure they exist)
       run: |
         echo "API_KEY=${{ secrets.API_KEY }}"
         echo "PROJECT_ID_FIREBASE=${{ secrets.PROJECT_ID_FIREBASE }}"
@@ -60,19 +63,20 @@ jobs:
         echo "APP_ID_FIREBASE=${{ secrets.APP_ID_FIREBASE }}"
         echo "MEASUREMENT_ID_FIREBASE=${{ secrets.MEASUREMENT_ID_FIREBASE }}"
 
-
-    - name: Clear npm cache and rebuild
+    - name: Clear npm cache and install dependencies
       run: |
-          npm cache clean --force
-          npm ci
-          
-    - run: npm run build --if-present
-    - run: npm test
+        npm cache clean --force
+        npm ci
 
-    - name: Deploy with gh-pages
-      if: matrix.node-version == '20.x'  # Only deploy from Node 20.x to prevent conflicts
+    - name: Build and Test
       run: |
-        git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+        npm run build --if-present
+        npm test
+
+    - name: Deploy with GitHub Pages
+      if: matrix.node-version == '20.x'  # Only deploy from Node 20.x
+      run: |
+        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
         npm run deploy -- -u "github-actions-bot <support+actions@github.com>" -f
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
