@@ -22,18 +22,26 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
       
-      - name: Create .env file
-        run: |
-          echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}" >> .env
-          echo "VITE_AUTH_DOMAIN_FIREBASE=${{ secrets.VITE_AUTH_DOMAIN_FIREBASE }}" >> .env
-          echo "VITE_PROJECT_ID_FIREBASE=${{ secrets.VITE_PROJECT_ID_FIREBASE }}" >> .env
-          echo "VITE_STORAGE_BUCKET_FIREBASE=${{ secrets.VITE_STORAGE_BUCKET_FIREBASE }}" >> .env
-          echo "VITE_MESSAGING_SENDER_ID_FIREBASE=${{ secrets.VITE_MESSAGING_SENDER_ID_FIREBASE }}" >> .env
-          echo "VITE_APP_ID_FIREBASE=${{ secrets.VITE_APP_ID_FIREBASE }}" >> .env
-          echo "VITE_MEASUREMENT_ID_FIREBASE=${{ secrets.VITE_MEASUREMENT_ID_FIREBASE }}" >> .env
+      - name: Set up environment variables
+        run: echo "Environment variables have been set."
+        env:
+          VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+          VITE_AUTH_DOMAIN_FIREBASE: ${{ secrets.VITE_AUTH_DOMAIN_FIREBASE }}
+          VITE_PROJECT_ID_FIREBASE: ${{ secrets.VITE_PROJECT_ID_FIREBASE }}
+          VITE_STORAGE_BUCKET_FIREBASE: ${{ secrets.VITE_STORAGE_BUCKET_FIREBASE }}
+          VITE_MESSAGING_SENDER_ID_FIREBASE: ${{ secrets.VITE_MESSAGING_SENDER_ID_FIREBASE }}
+          VITE_APP_ID_FIREBASE: ${{ secrets.VITE_APP_ID_FIREBASE }}
+          VITE_MEASUREMENT_ID_FIREBASE: ${{ secrets.VITE_MEASUREMENT_ID_FIREBASE }}
       
       - name: Debug ENV
-        run: cat .env
+        run: |
+          echo "VITE_API_KEY: $VITE_API_KEY"
+          echo "VITE_AUTH_DOMAIN_FIREBASE: $VITE_AUTH_DOMAIN_FIREBASE"
+          echo "VITE_PROJECT_ID_FIREBASE: $VITE_PROJECT_ID_FIREBASE"
+          echo "VITE_STORAGE_BUCKET_FIREBASE: $VITE_STORAGE_BUCKET_FIREBASE"
+          echo "VITE_MESSAGING_SENDER_ID_FIREBASE: $VITE_MESSAGING_SENDER_ID_FIREBASE"
+          echo "VITE_APP_ID_FIREBASE: $VITE_APP_ID_FIREBASE"
+          echo "VITE_MEASUREMENT_ID_FIREBASE: $VITE_MEASUREMENT_ID_FIREBASE"
       
       - name: Install dependencies
         run: |
