@@ -22,8 +22,12 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
       
-      - name: Set up environment variables
-        run: echo "Environment variables have been set."
+      - name: Install dependencies
+        run: |
+          npm cache clean --force
+          npm ci
+      
+      - run: npm run build --if-present
         env:
           VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
           VITE_AUTH_DOMAIN_FIREBASE: ${{ secrets.VITE_AUTH_DOMAIN_FIREBASE }}
@@ -32,23 +36,7 @@ jobs:
           VITE_MESSAGING_SENDER_ID_FIREBASE: ${{ secrets.VITE_MESSAGING_SENDER_ID_FIREBASE }}
           VITE_APP_ID_FIREBASE: ${{ secrets.VITE_APP_ID_FIREBASE }}
           VITE_MEASUREMENT_ID_FIREBASE: ${{ secrets.VITE_MEASUREMENT_ID_FIREBASE }}
-      
-      - name: Debug ENV
-        run: |
-          echo "VITE_API_KEY: $VITE_API_KEY"
-          echo "VITE_AUTH_DOMAIN_FIREBASE: $VITE_AUTH_DOMAIN_FIREBASE"
-          echo "VITE_PROJECT_ID_FIREBASE: $VITE_PROJECT_ID_FIREBASE"
-          echo "VITE_STORAGE_BUCKET_FIREBASE: $VITE_STORAGE_BUCKET_FIREBASE"
-          echo "VITE_MESSAGING_SENDER_ID_FIREBASE: $VITE_MESSAGING_SENDER_ID_FIREBASE"
-          echo "VITE_APP_ID_FIREBASE: $VITE_APP_ID_FIREBASE"
-          echo "VITE_MEASUREMENT_ID_FIREBASE: $VITE_MEASUREMENT_ID_FIREBASE"
-      
-      - name: Install dependencies
-        run: |
-          npm cache clean --force
-          npm ci
-      
-      - run: npm run build --if-present
+
       - run: npm test
 
       - name: Deploy with gh-pages
