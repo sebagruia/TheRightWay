@@ -1,3 +1,4 @@
+# This workflow installs dependencies, builds, runs tests, and deploys to GitHub Pages
 name: Node.js CI
 
 on:
@@ -9,25 +10,33 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
-        node-version: [20.x]
-    
+        node-version: [18.x, 20.x, 22.x]
+        # Supported Node.js versions
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
           cache-dependency-path: package-lock.json
-      
-      - name: Install dependencies
+
+      - name: Create .env file
         run: |
-          npm cache clean --force
-          npm ci
-      
-      - run: npm run build --if-present
+          echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}" >> .env
+          echo "VITE_AUTH_DOMAIN_FIREBASE=${{ secrets.VITE_AUTH_DOMAIN_FIREBASE }}" >> .env
+          echo "VITE_PROJECT_ID_FIREBASE=${{ secrets.VITE_PROJECT_ID_FIREBASE }}" >> .env
+          echo "VITE_STORAGE_BUCKET_FIREBASE=${{ secrets.VITE_STORAGE_BUCKET_FIREBASE }}" >> .env
+          echo "VITE_MESSAGING_SENDER_ID_FIREBASE=${{ secrets.VITE_MESSAGING_SENDER_ID_FIREBASE }}" >> .env
+          echo "VITE_APP_ID_FIREBASE=${{ secrets.VITE_APP_ID_FIREBASE }}" >> .env
+          echo "VITE_MEASUREMENT_ID_FIREBASE=${{ secrets.VITE_MEASUREMENT_ID_FIREBASE }}" >> .env
+        shell: bash
         env:
           VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
           VITE_AUTH_DOMAIN_FIREBASE: ${{ secrets.VITE_AUTH_DOMAIN_FIREBASE }}
@@ -37,12 +46,32 @@ jobs:
           VITE_APP_ID_FIREBASE: ${{ secrets.VITE_APP_ID_FIREBASE }}
           VITE_MEASUREMENT_ID_FIREBASE: ${{ secrets.VITE_MEASUREMENT_ID_FIREBASE }}
 
-      - run: npm test
+      - name: Debug Environment Variables
+        run: cat .env
 
-      - name: Deploy with gh-pages
+      - name: Debug GitHub Secrets (Ensure they exist)
         run: |
-          git config --global user.email "github-actions@github.com"
-          git config --global user.name "github-actions-bot"
+          echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}"
+          echo "VITE_PROJECT_ID_FIREBASE=${{ secrets.VITE_PROJECT_ID_FIREBASE }}"
+          echo "VITE_AUTH_DOMAIN_FIREBASE=${{ secrets.VITE_AUTH_DOMAIN_FIREBASE }}"
+          echo "VITE_STORAGE_BUCKET_FIREBASE=${{ secrets.VITE_STORAGE_BUCKET_FIREBASE }}"
+          echo "VITE_MESSAGING_SENDER_ID_FIREBASE=${{ secrets.VITE_MESSAGING_SENDER_ID_FIREBASE }}"
+          echo "VITE_APP_ID_FIREBASE=${{ secrets.VITE_APP_ID_FIREBASE }}"
+          echo "VITE_MEASUREMENT_ID_FIREBASE=${{ secrets.VITE_MEASUREMENT_ID_FIREBASE }}"
+
+      - name: Clear npm cache and install dependencies
+        run: |
+          npm cache clean --force
+          npm ci
+
+      - name: Build and Test
+        run: |
+          npm run build --if-present
+          npm test
+
+      - name: Deploy with GitHub Pages
+        if: matrix.node-version == '20.x'  # Only deploy from Node 20.x
+        run: |
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           npm run deploy -- -u "github-actions-bot <support+actions@github.com>" -f
         env:
