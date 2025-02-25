@@ -7,11 +7,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: main # Specify environment to access secrets
+    environment: main # Required to access secrets
     strategy:
       matrix:
-        node-version: [20.x] # Only use LTS version for deployment
-    
+        node-version: [20.x] # Using LTS version
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -32,18 +32,12 @@ jobs:
           echo "VITE_MESSAGING_SENDER_ID_FIREBASE=${{ secrets.VITE_MESSAGING_SENDER_ID_FIREBASE }}" >> .env
           echo "VITE_APP_ID_FIREBASE=${{ secrets.VITE_APP_ID_FIREBASE }}" >> .env
           echo "VITE_MEASUREMENT_ID_FIREBASE=${{ secrets.VITE_MEASUREMENT_ID_FIREBASE }}" >> .env
-        shell: bash
-        env:
-          VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
-          VITE_AUTH_DOMAIN_FIREBASE: ${{ secrets.VITE_AUTH_DOMAIN_FIREBASE }}
-          VITE_PROJECT_ID_FIREBASE: ${{ secrets.VITE_PROJECT_ID_FIREBASE }}
-          VITE_STORAGE_BUCKET_FIREBASE: ${{ secrets.VITE_STORAGE_BUCKET_FIREBASE }}
-          VITE_MESSAGING_SENDER_ID_FIREBASE: ${{ secrets.VITE_MESSAGING_SENDER_ID_FIREBASE }}
-          VITE_APP_ID_FIREBASE: ${{ secrets.VITE_APP_ID_FIREBASE }}
-          VITE_MEASUREMENT_ID_FIREBASE: ${{ secrets.VITE_MEASUREMENT_ID_FIREBASE }}
 
-      - name: Debug Environment Variables
-        run: env | grep VITE_
+      - name: Debug .env file
+        run: cat .env
+
+      - name: Debug Environment Variables (Avoid failure)
+        run: env | grep VITE_ || true
 
       - name: Install dependencies
         run: |
