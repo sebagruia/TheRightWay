@@ -1,21 +1,17 @@
-# This workflow installs dependencies, builds, runs tests, and deploys to GitHub Pages
 name: Node.js CI
 
 on:
   push:
     branches: ["main"]
-  pull_request:
-    branches: ["main"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    environment: main # Specify environment to access secrets
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
-        # Supported Node.js versions
-
+        node-version: [20.x] # Only use LTS version for deployment
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -47,19 +43,9 @@ jobs:
           VITE_MEASUREMENT_ID_FIREBASE: ${{ secrets.VITE_MEASUREMENT_ID_FIREBASE }}
 
       - name: Debug Environment Variables
-        run: cat .env
+        run: env | grep VITE_
 
-      - name: Debug GitHub Secrets (Ensure they exist)
-        run: |
-          echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}"
-          echo "VITE_PROJECT_ID_FIREBASE=${{ secrets.VITE_PROJECT_ID_FIREBASE }}"
-          echo "VITE_AUTH_DOMAIN_FIREBASE=${{ secrets.VITE_AUTH_DOMAIN_FIREBASE }}"
-          echo "VITE_STORAGE_BUCKET_FIREBASE=${{ secrets.VITE_STORAGE_BUCKET_FIREBASE }}"
-          echo "VITE_MESSAGING_SENDER_ID_FIREBASE=${{ secrets.VITE_MESSAGING_SENDER_ID_FIREBASE }}"
-          echo "VITE_APP_ID_FIREBASE=${{ secrets.VITE_APP_ID_FIREBASE }}"
-          echo "VITE_MEASUREMENT_ID_FIREBASE=${{ secrets.VITE_MEASUREMENT_ID_FIREBASE }}"
-
-      - name: Clear npm cache and install dependencies
+      - name: Install dependencies
         run: |
           npm cache clean --force
           npm ci
@@ -70,8 +56,9 @@ jobs:
           npm test
 
       - name: Deploy with GitHub Pages
-        if: matrix.node-version == '20.x'  # Only deploy from Node 20.x
         run: |
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "github-actions-bot"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           npm run deploy -- -u "github-actions-bot <support+actions@github.com>" -f
         env:
