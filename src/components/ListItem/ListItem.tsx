@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import styles from './ListItem.module.scss';
 
 import { useNavigate } from 'react-router-dom';
@@ -9,12 +9,15 @@ import { stateMapping } from '../../redux/stateMapping';
 
 import { deleteListItemFromFirestore, updatingListItemToFirestore } from '../../firebase/firebase.utils';
 
-import { CiTrash } from 'react-icons/ci';
+import MessageToast from '../Toast/Toast';
+
+import { CiTrash, CiMemoPad } from 'react-icons/ci';
 import { IoEllipsisVerticalOutline } from 'react-icons/io5';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 
 import { Item } from '../../interfaces/item';
 import { List } from '../../interfaces/list';
+import { ToastPosition } from '../../enums/messageToast';
 
 import { formatName } from '../../utils';
 interface IProps {
@@ -26,7 +29,8 @@ interface IProps {
 const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { id, check, quantity, unit } = item;
+  const [showToast, setShowToast] = useState(false);
+  const { id, check, quantity, unit, note } = item;
 
   const deleteItem = (listId: string, itemID: string) => {
     if (userAuth) {
@@ -49,8 +53,19 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
     }
   };
 
+  const showToastMessage = () => {
+    setShowToast(!showToast);
+  };
+
   return (
     <li className="li-item">
+      <MessageToast
+        show={showToast}
+        message={note}
+        position={ToastPosition.TopStart}
+        toggleShow={showToastMessage}
+        title={id}
+      />
       <div className={`${styles.list_component} text-secondary`}>
         <div className={styles.check_list}>
           <i
@@ -68,6 +83,9 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
         <div className={styles.edit_list}>
           <p className={`m-0 pt-1 ${styles.quantity}`}>{`${quantity} ${unit}`}</p>
           <IoEllipsisVerticalOutline />
+
+          {note && <CiMemoPad onClick={showToastMessage} className={styles.note} size="20px" />}
+
           <CiTrash
             className={`${styles.garbage} fas fa-regular fa-trash pe-1`}
             role="button"
