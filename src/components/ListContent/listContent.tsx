@@ -78,7 +78,7 @@ const ListContent: FC<IProps> = ({
     if (userAuth) {
       getListItems(userAuth.id, selectedList.id);
     }
-  }, [selectedList.id, userAuth]);
+  }, [selectedList.id]);
 
   const handleClick = () => {
     setVisible(!visible);

@@ -31,7 +31,7 @@ interface IProps {
 const EditItem: FC<IProps> = ({ userAuth, selectedList, selectedItemObject }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [item, setItem] = useState(selectedItemObject || {});
+  const [item, setItem] = useState<Item>(selectedItemObject || {});
 
   const onSelectUnit = (event: any) => {
     setItem({ ...item, unit: event });
@@ -47,7 +47,8 @@ const EditItem: FC<IProps> = ({ userAuth, selectedList, selectedItemObject }) =>
     setItem({ ...item, id: event.target.value, itemName: event.target.value });
   };
 
-  const onSubmitEditedItem = () => {
+  const onSubmitEditedItem = (event: React.FormEvent) => {
+    event.preventDefault();
     if (userAuth && selectedItemObject) {
       updatingListItemToFirestore(userAuth.id, selectedList.id, item);
     } else {
