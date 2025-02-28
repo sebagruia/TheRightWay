@@ -9,7 +9,7 @@ import { stateMapping } from '../../redux/stateMapping';
 
 import { deleteListItemFromFirestore, updatingListItemToFirestore } from '../../firebase/firebase.utils';
 
-import MessageToast from '../Toast/Toast';
+import MessageToast from '../MessageToast/MessageToast';
 
 import { CiTrash, CiMemoPad } from 'react-icons/ci';
 import { IoEllipsisVerticalOutline } from 'react-icons/io5';
