@@ -66,7 +66,9 @@ export const listReducer = createReducer(initialState, (builder) => {
     .addCase(deleteListItem, (state, action) => {
       const listIdValue = action.payload.listId;
       const itemIdValue = action.payload.itemId;
-      delete state.listItemsForOfflineMode[listIdValue][itemIdValue];
+      if (listIdValue && itemIdValue) {
+        delete state.listItemsForOfflineMode[listIdValue][itemIdValue];
+      }
     })
     .addCase(editItem, (state, action) => {
       const idList = action.payload.listId;
