@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import styles from './ListItem.module.scss';
 
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +9,8 @@ import { stateMapping } from '../../redux/stateMapping';
 
 import { deleteListItemFromFirestore, updatingListItemToFirestore } from '../../firebase/firebase.utils';
 
-import MessageToast from '../Toast/Toast';
+import MessageToast from '../MessageToast/MessageToast';
+import ModalPopUp from '../ModalPopUp/ModalPopUp';
 
 import { CiTrash, CiMemoPad } from 'react-icons/ci';
 import { IoEllipsisVerticalOutline } from 'react-icons/io5';
@@ -30,15 +31,9 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showToast, setShowToast] = useState(false);
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [deleteMessage, setDeleteMessage] = useState({ content: '' });
   const { id, check, quantity, unit, note } = item;
-
-  const deleteItem = (listId: string, itemID: string) => {
-    if (userAuth) {
-      deleteListItemFromFirestore(userAuth.id, listId, itemID);
-    } else {
-      dispatch(deleteListItem(listId, itemID));
-    }
-  };
 
   const selectItemForEdit = (item: Item) => {
     dispatch(selectingCurrentItem(item));
@@ -57,8 +52,36 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
     setShowToast(!showToast);
   };
 
+  const openModal = () => {
+    setDeleteMessage({ content: `Delete ${id}?` });
+  };
+
+  const closeModal = () => {
+    setDeleteMessage({ content: '' });
+  };
+
+  const confirmDeletion = () => {
+    setDeleteMessage({ content: '' });
+    setDeleteConfirmation(true);
+  };
+
+  useEffect(() => {
+    if (userAuth && deleteConfirmation) {
+      deleteListItemFromFirestore(userAuth.id, selectedList.id, id);
+    } else if (deleteConfirmation) {
+      dispatch(deleteListItem(selectedList.id, id));
+    }
+  }, [deleteConfirmation]);
+
   return (
     <li className="li-item">
+      <ModalPopUp
+        message={deleteMessage}
+        closeModal={closeModal}
+        confirm={confirmDeletion}
+        closeText="Cancel"
+        saveText="Ok"
+      />
       <MessageToast
         show={showToast}
         message={note}
@@ -90,7 +113,7 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
             className={`${styles.garbage} fas fa-regular fa-trash pe-1`}
             role="button"
             size="24px"
-            onClick={() => deleteItem(selectedList.id, id)}
+            onClick={openModal}
             aria-hidden="true"
           />
           <MdKeyboardArrowRight
