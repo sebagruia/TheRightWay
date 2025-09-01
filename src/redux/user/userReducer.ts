@@ -6,7 +6,7 @@ import { setUser, setModalMessage, setGoogleCalendarAccessToken } from './userAc
 interface InitialState {
   user: LoggedUser | null;
   error: ModalMessage;
-  googleCalendarAccessToken: string;
+  googleCalendarAccessToken: boolean;
 }
 const initialState: InitialState = {
   user: null,
@@ -14,7 +14,7 @@ const initialState: InitialState = {
     title: '',
     content: '',
   },
-  googleCalendarAccessToken: '',
+  googleCalendarAccessToken: false,
 };
 
 export const userReducer = createReducer(initialState, (builder) => {

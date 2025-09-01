@@ -25,8 +25,8 @@ interface IProps {
 }
 
 const Home: FC<IProps> = ({ userAuth, lists, error }) => {
-  const { gooleCalendarAccessToken, addGoogleCalendarEvent } = useGoogleCalendar();
-  console.log(gooleCalendarAccessToken);
+  const { isGoogleCalendarConnected, addGoogleCalendarEvent } = useGoogleCalendar();
+  console.log('Google Calendar connected:', isGoogleCalendarConnected);
 
   // TO-DO - This is temporary and should be replaced with dynamic data from a form,
   // that should be revealed by button click from List page

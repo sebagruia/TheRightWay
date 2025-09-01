@@ -6,4 +6,4 @@ import { ModalMessage } from '../../interfaces/modal';
 
 export const setUser = createAction<LoggedUser | null>(userActions.SET_USER);
 export const setModalMessage = createAction<ModalMessage>(userActions.SET_USER_MODAL_MESSAGE);
-export const setGoogleCalendarAccessToken = createAction<string>(userActions.SET_GOOGLE_CALENDAR_ACCESSS_TOKEN);
+export const setGoogleCalendarAccessToken = createAction<boolean>(userActions.SET_GOOGLE_CALENDAR_ACCESSS_TOKEN);

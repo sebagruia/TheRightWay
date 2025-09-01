@@ -26,6 +26,7 @@ import { ModalHeaderBackground } from '../interfaces/modal';
 
 import { fetchListItemsAction, fetchUserListAction } from '../redux/list/listActions';
 import { setGoogleCalendarAccessToken } from '../redux/user/userActions';
+import { API_ENDPOINTS } from '../config/api';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -71,14 +72,46 @@ export const createUserProfileDocument = async (userAuth: User, additionalData?:
   return userRef;
 };
 
-export const getGoogleCalendarAccessToken = (userCredential: UserCredential, dispatch: any) => {
+export const getGoogleCalendarAccessToken = async (userCredential: UserCredential, dispatch: any) => {
   const credential = GoogleAuthProvider.credentialFromResult(userCredential);
-  const googleCalendarAccessToken = credential?.accessToken;
-  if (!googleCalendarAccessToken) {
+  const accessToken = credential?.accessToken;
+
+  // Access refresh token from the credential response
+  const refreshToken = (userCredential as any)._tokenResponse?.refresh_token;
+
+  if (!accessToken) {
     throw new Error('Failed to retrieve google calendar access token');
   }
-  dispatch(setGoogleCalendarAccessToken(googleCalendarAccessToken));
-  return googleCalendarAccessToken;
+
+  try {
+    // Get Firebase ID token for authentication
+    const idToken = await userCredential.user.getIdToken();
+
+    const response = await fetch(API_ENDPOINTS.STORE_TOKENS, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        idToken,
+        accessToken,
+        refreshToken,
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to store tokens');
+    }
+
+    dispatch(setGoogleCalendarAccessToken(true));
+    console.log('OAuth tokens stored securely on backend');
+  } catch (error: any) {
+    console.error('Error storing OAuth tokens:', error);
+    throw new Error('Failed to store Google Calendar tokens: ' + error.message);
+  }
+
+  return accessToken; // Return for any immediate use if needed
 };
 
 export const signInWithGoogle = async (dispatch: Dispatch): Promise<UserInfo | null> => {
@@ -88,7 +121,9 @@ export const signInWithGoogle = async (dispatch: Dispatch): Promise<UserInfo | n
   try {
     const userCredential = await signInWithPopup(auth, provider);
     const userAuth = userCredential.user;
-    getGoogleCalendarAccessToken(userCredential, dispatch);
+
+    await getGoogleCalendarAccessToken(userCredential, dispatch);
+
     return { userAuth, userCredential };
   } catch (error: any) {
     const errorCode = error.code;
@@ -149,7 +184,7 @@ export const registerNewUser = async (email: string, password: string, dispatch:
 
 export const signOutUser = async (dispatch: Dispatch) => {
   try {
-    dispatch(setGoogleCalendarAccessToken(''));
+    dispatch(setGoogleCalendarAccessToken(false));
     await signOut(auth);
     console.log('Sign Out Succesfull');
   } catch (error) {

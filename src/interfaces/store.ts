@@ -8,5 +8,5 @@ export interface InitialState {
   selectedList: List;
   selectedItemObject: Item;
   sortType: string | null;
-  googleCalendarAccessToken: string;
+  googleCalendarAccessToken: boolean;
 }
