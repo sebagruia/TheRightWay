@@ -1,11 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { ModalMessage } from '../../interfaces/modal';
 import { LoggedUser } from '../../interfaces/user';
-import { setUser, setModalMessage } from './userActions';
+import { setUser, setModalMessage, setGoogleCalendarAccessToken } from './userActions';
 
 interface InitialState {
   user: LoggedUser | null;
   error: ModalMessage;
+  googleCalendarAccessToken: string;
 }
 const initialState: InitialState = {
   user: null,
@@ -13,6 +14,7 @@ const initialState: InitialState = {
     title: '',
     content: '',
   },
+  googleCalendarAccessToken: '',
 };
 
 export const userReducer = createReducer(initialState, (builder) => {
@@ -22,6 +24,9 @@ export const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(setModalMessage, (state, action) => {
       state.error = action.payload;
+    })
+    .addCase(setGoogleCalendarAccessToken, (state, action) => {
+      state.googleCalendarAccessToken = action.payload;
     })
     .addDefaultCase((state) => state);
 });

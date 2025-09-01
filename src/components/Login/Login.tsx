@@ -49,8 +49,8 @@ const Login: FC<IProps> = ({ error }) => {
 
   const logInWithGoogle = async () => {
     await persistor.purge();
-    const userAuth = await signInWithGoogle(dispatch);
-    if (userAuth) {
+    const userInfo = await signInWithGoogle(dispatch);
+    if (userInfo?.userAuth) {
       navigate('/lists');
     }
   };

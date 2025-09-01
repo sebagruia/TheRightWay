@@ -8,10 +8,12 @@ import {
   signInWithPopup,
   signOut,
   User,
+  UserCredential,
 } from 'firebase/auth';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+import { Dispatch } from 'redux';
 
 import { setModalMessage } from '../redux/user/userActions';
 
@@ -19,9 +21,11 @@ import 'firebase/firestore';
 
 import { Item, Items } from '../interfaces/item';
 import { List } from '../interfaces/list';
+import { UserInfo } from '../interfaces/user';
 import { ModalHeaderBackground } from '../interfaces/modal';
 
 import { fetchListItemsAction, fetchUserListAction } from '../redux/list/listActions';
+import { setGoogleCalendarAccessToken } from '../redux/user/userActions';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -67,11 +71,25 @@ export const createUserProfileDocument = async (userAuth: User, additionalData?:
   return userRef;
 };
 
-export const signInWithGoogle = async (dispatch: any) => {
+export const getGoogleCalendarAccessToken = (userCredential: UserCredential, dispatch: any) => {
+  const credential = GoogleAuthProvider.credentialFromResult(userCredential);
+  const googleCalendarAccessToken = credential?.accessToken;
+  if (!googleCalendarAccessToken) {
+    throw new Error('Failed to retrieve google calendar access token');
+  }
+  dispatch(setGoogleCalendarAccessToken(googleCalendarAccessToken));
+  return googleCalendarAccessToken;
+};
+
+export const signInWithGoogle = async (dispatch: Dispatch): Promise<UserInfo | null> => {
+  // Request Google Calendar permissions
+  provider.addScope('https://www.googleapis.com/auth/calendar.events');
+
   try {
     const userCredential = await signInWithPopup(auth, provider);
     const userAuth = userCredential.user;
-    return userAuth;
+    getGoogleCalendarAccessToken(userCredential, dispatch);
+    return { userAuth, userCredential };
   } catch (error: any) {
     const errorCode = error.code;
     dispatch(
@@ -86,7 +104,7 @@ export const signInWithGoogle = async (dispatch: any) => {
   }
 };
 
-export const signInWithPassword = async (loginEmail: string, loginPass: string, dispatch: any) => {
+export const signInWithPassword = async (loginEmail: string, loginPass: string, dispatch: Dispatch) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, loginEmail, loginPass);
     const userAuth = userCredential.user;
@@ -105,7 +123,7 @@ export const signInWithPassword = async (loginEmail: string, loginPass: string, 
   }
 };
 
-export const registerNewUser = async (email: string, password: string, dispatch: any) => {
+export const registerNewUser = async (email: string, password: string, dispatch: Dispatch) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const userAuth = userCredential.user;
@@ -129,8 +147,9 @@ export const registerNewUser = async (email: string, password: string, dispatch:
   }
 };
 
-export const signOutUser = async () => {
+export const signOutUser = async (dispatch: Dispatch) => {
   try {
+    dispatch(setGoogleCalendarAccessToken(''));
     await signOut(auth);
     console.log('Sign Out Succesfull');
   } catch (error) {
@@ -138,7 +157,7 @@ export const signOutUser = async () => {
   }
 };
 
-export const fetchUserLists = (userId: string) => async (dispatch: any) => {
+export const fetchUserLists = (userId: string) => async (dispatch: Dispatch) => {
   const userListsRef = firestore.collection(`/users/${userId}/lists/`);
   try {
     userListsRef.onSnapshot((snapShot) => {
@@ -163,7 +182,7 @@ export const fetchUserLists = (userId: string) => async (dispatch: any) => {
   }
 };
 
-export const fetchListsItems = (userId: string, listId: string) => async (dispatch: any) => {
+export const fetchListsItems = (userId: string, listId: string) => async (dispatch: Dispatch) => {
   const listItemsRef = firestore.collection(`/users/${userId}/lists/${listId}/items`);
   try {
     listItemsRef.onSnapshot((snapShot) => {
@@ -179,7 +198,7 @@ export const fetchListsItems = (userId: string, listId: string) => async (dispat
   }
 };
 
-export const addListNameToFirestore = async (userId: string, listId: string, listDetails: List, dispatch: any) => {
+export const addListNameToFirestore = async (userId: string, listId: string, listDetails: List, dispatch: Dispatch) => {
   const docRef = firestore.collection(`/users/${userId}/lists/`).doc(listId);
   const snapShot = await docRef.get();
   if (!snapShot.exists) {
@@ -210,7 +229,7 @@ export const deleteListFromFirestore = async (userId: string, listId: string) =>
   }
 };
 
-export const addListItemToFirestore = async (userId: string, listId: string, item: Item, dispatch: any) => {
+export const addListItemToFirestore = async (userId: string, listId: string, item: Item, dispatch: Dispatch) => {
   const itemRef = firestore.doc(`/users/${userId}/lists/${listId}/items/${item.id}`);
   const itenSnapShot = await itemRef.get();
   if (!itenSnapShot.exists) {
