@@ -30,7 +30,7 @@ const Navigation: FC<IProps> = ({ userAuth }) => {
   const logOut = async () => {
     await persistor.purge();
     dispatch(clearStateAction(initialState));
-    await signOutUser();
+    await signOutUser(dispatch);
   };
 
   const handleClickMenu = () => {

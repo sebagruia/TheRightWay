@@ -7,4 +7,5 @@ export const stateMapping = (state: any) => ({
   selectedList: state.listReducer.selectedList,
   selectedItemObject: state.listReducer.selectedItemObject,
   sortType: state.listReducer.sortType,
+  googleCalendarAccessToken: state.userReducer.googleCalendarAccessToken,
 });
