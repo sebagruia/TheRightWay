@@ -8,12 +8,16 @@ import { addListItemToFirestore, fetchListsItems } from '../../firebase/firebase
 import { addNewItemInList } from '../../redux/list/listActions';
 import { setModalMessage } from '../../redux/user/userActions';
 
+import { useGoogleCalendar } from '../../api/googleCalendar';
+
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
 import BackArrow from '../BackArrow/BackArrow';
 import Category from '../Category/Category';
 import ModalPopUp from '../ModalPopUp/ModalPopUp';
 import SortType from '../SortType/SortType';
+
+import { SiGooglecalendar } from 'react-icons/si';
 
 import { Items, ItemsOfflineMode } from '../../interfaces/item';
 import { List, Lists } from '../../interfaces/list';
@@ -45,6 +49,26 @@ const ListContent: FC<IProps> = ({
   const dispatch = useDispatch();
   const [inputText, setInputText] = useState('');
   const [visible, setVisible] = useState(false);
+
+  const { isGoogleCalendarConnected, addGoogleCalendarEvent } = useGoogleCalendar();
+  console.log('Google Calendar connected:', isGoogleCalendarConnected);
+
+  // TO-DO - This is temporary and should be replaced with dynamic data from a form,
+  // that should be revealed by button click from List page
+  const event = {
+    summary: 'INATLNIRE CU SEBA',
+    location: '123 Main St, City',
+    description: 'Discuss quarterly report',
+    start: {
+      dateTime: '2025-10-06T10:00:00-00:00',
+      timeZone: 'Europe/Bucharest',
+    },
+    end: {
+      dateTime: '2025-10-06T11:00:00-23:00',
+      timeZone: 'Europe/Bucharest',
+    },
+  };
+  // =============
 
   const checkedItems = () => {
     if (listItemsOnline && Object.values(listItemsOnline).length) {
@@ -139,6 +163,13 @@ const ListContent: FC<IProps> = ({
                 </div>
                 {((listItemsOnline && Object.keys(listItemsOnline).length > 1) ||
                   (listItemsForOfflineMode && Object.keys(listItemsForOfflineMode).length > 1)) && <SortType />}
+                <SiGooglecalendar
+                  role="button"
+                  className={`ms-5 ${styles.googleCalendar}`}
+                  onClick={async () => {
+                    await addGoogleCalendarEvent(event);
+                  }}
+                />
               </div>
 
               {((listItemsOnline && Object.keys(listItemsOnline).length > 0) ||

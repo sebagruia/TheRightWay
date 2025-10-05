@@ -3,7 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 import { createCalendarEvent } from './services/googleCalendar';
-import { verifyFirebaseToken, storeUserTokens, getUserTokens } from './services/firebase';
+import { verifyFirebaseToken, storeUserTokens, getUserTokens } from './services/firebase_server';
 import { errorHandler, asyncHandler } from './middleware/errorHandler';
 import type { Request, Response } from 'express';
 import type { StoreTokensRequest, CreateEventRequestSecure } from './types/index';

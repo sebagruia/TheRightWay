@@ -16,8 +16,6 @@ import { ModalMessage } from '../../interfaces/modal';
 
 import { formatName } from '../../utils';
 
-import { useGoogleCalendar } from '../../api/googleCalendar';
-
 interface IProps {
   userAuth: any;
   lists: Lists;
@@ -25,26 +23,6 @@ interface IProps {
 }
 
 const Home: FC<IProps> = ({ userAuth, lists, error }) => {
-  const { isGoogleCalendarConnected, addGoogleCalendarEvent } = useGoogleCalendar();
-  console.log('Google Calendar connected:', isGoogleCalendarConnected);
-
-  // TO-DO - This is temporary and should be replaced with dynamic data from a form,
-  // that should be revealed by button click from List page
-  const event = {
-    summary: 'INATLNIRE CU SEBA',
-    location: '123 Main St, City',
-    description: 'Discuss quarterly report',
-    start: {
-      dateTime: '2025-09-01T10:00:00-07:00',
-      timeZone: 'Europe/Bucharest',
-    },
-    end: {
-      dateTime: '2025-09-01T11:00:00-09:00',
-      timeZone: 'Europe/Bucharest',
-    },
-  };
-  // =============
-
   const dispatch = useDispatch();
   const [listName, setListName] = useState('');
   const [visible, setVisible] = useState(true);
@@ -86,15 +64,6 @@ const Home: FC<IProps> = ({ userAuth, lists, error }) => {
 
   return (
     <div className="container">
-      <button
-        onClick={async () => {
-          await addGoogleCalendarEvent(event);
-        }}
-        className={`btn btn-warning ${styles.addButton} `}
-        type="submit"
-      >
-        SEBA
-      </button>
       <ModalPopUp message={error} closeModal={closeModal} closeText="Close" />
       <div className={`row ${styles.addNewListInput_row}`}>
         <div className="col">
