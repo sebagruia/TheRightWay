@@ -2,11 +2,11 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
-import { createCalendarEvent } from './services/googleCalendar.js';
-import { verifyFirebaseToken, storeUserTokens, getUserTokens } from './services/firebase.js';
-import { errorHandler, asyncHandler } from './middleware/errorHandler.js';
+import { createCalendarEvent } from './services/googleCalendar';
+import { verifyFirebaseToken, storeUserTokens, getUserTokens } from './services/firebase';
+import { errorHandler, asyncHandler } from './middleware/errorHandler';
 import type { Request, Response } from 'express';
-import type { StoreTokensRequest, CreateEventRequestSecure } from './types/index.js';
+import type { StoreTokensRequest, CreateEventRequestSecure } from './types/index';
 
 // Load environment variables
 dotenv.config();
