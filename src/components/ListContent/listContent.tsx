@@ -17,7 +17,7 @@ import Category from '../Category/Category';
 import ModalPopUp from '../ModalPopUp/ModalPopUp';
 import SortType from '../SortType/SortType';
 
-import { SiGooglecalendar } from 'react-icons/si';
+import { BsCalendarDay } from 'react-icons/bs';
 
 import { Items, ItemsOfflineMode } from '../../interfaces/item';
 import { List, Lists } from '../../interfaces/list';
@@ -163,7 +163,7 @@ const ListContent: FC<IProps> = ({
                 </div>
                 {((listItemsOnline && Object.keys(listItemsOnline).length > 1) ||
                   (listItemsForOfflineMode && Object.keys(listItemsForOfflineMode).length > 1)) && <SortType />}
-                <SiGooglecalendar
+                <BsCalendarDay
                   role="button"
                   className={`ms-5 ${styles.googleCalendar}`}
                   onClick={async () => {
