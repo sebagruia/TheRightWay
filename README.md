@@ -20,6 +20,10 @@ This project was initially created with CRA and migrated to Vite
 
 In the project directory, you can run:
 
+### `npm run both`
+
+Will start both the server and client. Server, serves the app with google token in case user wants to connect to google calendar and a add a new event for the to-do list
+
 ### `npm run dev`
 
 Runs the app in the development mode.\
