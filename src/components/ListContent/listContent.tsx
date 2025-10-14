@@ -16,6 +16,7 @@ import BackArrow from '../BackArrow/BackArrow';
 import Category from '../Category/Category';
 import ModalPopUp from '../ModalPopUp/ModalPopUp';
 import SortType from '../SortType/SortType';
+import CalendarEventView from '../CalendarEventView/CalendarEventView';
 
 import { BsCalendarDay } from 'react-icons/bs';
 
@@ -49,26 +50,9 @@ const ListContent: FC<IProps> = ({
   const dispatch = useDispatch();
   const [inputText, setInputText] = useState('');
   const [visible, setVisible] = useState(false);
+  const [eventFormVisible, setEventFormVisible] = useState(false);
 
-  const { isGoogleCalendarConnected, addGoogleCalendarEvent } = useGoogleCalendar();
-  console.log('Google Calendar connected:', isGoogleCalendarConnected);
-
-  // TO-DO - This is temporary and should be replaced with dynamic data from a form,
-  // that should be revealed by button click from List page
-  const event = {
-    summary: 'INATLNIRE CU SEBA',
-    location: '123 Main St, City',
-    description: 'Discuss quarterly report',
-    start: {
-      dateTime: '2025-10-06T10:00:00-00:00',
-      timeZone: 'Europe/Bucharest',
-    },
-    end: {
-      dateTime: '2025-10-06T11:00:00-23:00',
-      timeZone: 'Europe/Bucharest',
-    },
-  };
-  // =============
+  const { addGoogleCalendarEvent } = useGoogleCalendar();
 
   const checkedItems = () => {
     if (listItemsOnline && Object.values(listItemsOnline).length) {
@@ -137,15 +121,22 @@ const ListContent: FC<IProps> = ({
     dispatch(setModalMessage({ content: '' }));
   };
 
+  const toggleEventFormVisibility = () => setEventFormVisible(!eventFormVisible);
+
   return (
     <div className={`container ${styles.containerCustom}`}>
       <ModalPopUp message={error} closeModal={closeModal} closeText="Close" />
+      <CalendarEventView
+        listName={formatName(selectedList.listName)}
+        show={eventFormVisible}
+        closeEventForm={toggleEventFormVisibility}
+        apiCall={addGoogleCalendarEvent}
+      />
 
       <div className={`row ${styles.listContent_row}`}>
         <div className="col">
           <div className={styles.listContent_container}>
             <BackArrow route="/lists" />
-
             <div className={styles.titleContainer}>
               <div className={styles.addItemButtontAndTitle}>
                 <h1 className="m-0">
@@ -166,9 +157,7 @@ const ListContent: FC<IProps> = ({
                 <BsCalendarDay
                   role="button"
                   className={`ms-5 ${styles.googleCalendar}`}
-                  onClick={async () => {
-                    await addGoogleCalendarEvent(event);
-                  }}
+                  onClick={toggleEventFormVisibility}
                 />
               </div>
 
@@ -193,6 +182,7 @@ const ListContent: FC<IProps> = ({
                 </div>
               )}
             </div>
+
             <div className={styles.addNewItemInput_container}>
               <form
                 onSubmit={addNewItem}
