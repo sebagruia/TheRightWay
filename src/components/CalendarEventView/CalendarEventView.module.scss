@@ -1,0 +1,11 @@
+@use '../../styles/variables.scss' as *;
+
+.calendarEventView {
+  width: 80%;
+  @media screen and (max-width: $screen-sm) {
+    width: 100%;
+  }
+  textarea {
+    resize: none;
+  }
+}

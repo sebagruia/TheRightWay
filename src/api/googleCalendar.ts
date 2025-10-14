@@ -14,6 +14,7 @@ export const useGoogleCalendar = () => {
     const sm = stateMapping(state);
     return sm.googleCalendarAccessToken;
   });
+
   const addGoogleCalendarEvent = async (eventData: CalendarEvent): Promise<any | null> => {
     const user = auth.currentUser;
     if (!user) {
