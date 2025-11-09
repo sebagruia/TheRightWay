@@ -16,7 +16,7 @@ import BackArrow from '../BackArrow/BackArrow';
 import Category from '../Category/Category';
 import ModalPopUp from '../ModalPopUp/ModalPopUp';
 import SortType from '../SortType/SortType';
-import CalendarEventView from '../CalendarEventView/CalendarEventView';
+import CalendarEventView from '../CalendarEventViewForm/CalendarEventViewForm';
 
 import { BsCalendarDay } from 'react-icons/bs';
 
