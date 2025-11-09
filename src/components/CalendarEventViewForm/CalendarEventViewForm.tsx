@@ -1,5 +1,7 @@
-import React, { FC, useState } from 'react';
-import styles from './CalendarEventView.module.scss';
+import React, { FC } from 'react';
+import styles from './CalendarEventViewForm.module.scss';
+
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { Form, Row, Col, Button, Modal } from 'react-bootstrap';
 
@@ -12,45 +14,51 @@ interface IProps {
   apiCall: (eventData: CalendarEvent) => Promise<void>;
 }
 
+interface FormData {
+  summary: string;
+  location: string;
+  startDate: string;
+  startTime: string;
+  endDate: string;
+  endTime: string;
+  description: string;
+}
+
 const CalendarEventView: FC<IProps> = ({ listName, show, closeEventForm, apiCall }) => {
-  const [formData, setFormData] = useState({
-    summary: '',
-    location: '',
-    startDate: '',
-    startTime: '',
-    endDate: '',
-    endTime: '',
-    description: '',
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    defaultValues: {
+      summary: '',
+      location: '',
+      startDate: '',
+      startTime: '',
+      endDate: '',
+      endTime: '',
+      description: '',
+    },
   });
 
-  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
-  };
-
-  const mapToCalendarEventPayload = (formData: any): CalendarEvent => {
+  const mapToCalendarEventPayload = (formValues: FormData): CalendarEvent => {
     return {
-      summary: formData.summary,
-      location: formData.location,
-      description: formData.description,
+      summary: formValues.summary,
+      location: formValues.location,
+      description: formValues.description,
       start: {
-        dateTime: `${formData.startDate}T${formData.startTime}:00`,
+        dateTime: `${formValues.startDate}T${formValues.startTime}:00`,
         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       },
       end: {
-        dateTime: `${formData.endDate}T${formData.endTime}:00`,
+        dateTime: `${formValues.endDate}T${formValues.endTime}:00`,
         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       },
     };
   };
 
-  const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    const calendarEventPayload = mapToCalendarEventPayload(formData);
+  const submitForm: SubmitHandler<FormData> = async (values) => {
+    const calendarEventPayload = mapToCalendarEventPayload(values);
     await apiCall?.(calendarEventPayload);
   };
 
@@ -61,26 +69,24 @@ const CalendarEventView: FC<IProps> = ({ listName, show, closeEventForm, apiCall
           <Modal.Title>{listName ?? 'New event'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={submitForm}>
+          <Form onSubmit={handleSubmit(submitForm)}>
             <Form.Group className="mb-3" controlId="formTitle">
               <Form.Control
                 type="text"
-                value={formData.summary}
                 placeholder="Title"
-                name="summary"
-                onChange={handleFormChange}
-                required
+                {...register('summary', { required: 'Title is required' })}
+                isInvalid={!!errors.summary}
               />
+              <Form.Control.Feedback type="invalid">{errors.summary?.message}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formLocation">
               <Form.Control
                 type="text"
-                value={formData.location}
                 placeholder="Location"
-                name="location"
-                onChange={handleFormChange}
-                required
+                {...register('location', { required: 'Location is required' })}
+                isInvalid={!!errors.location}
               />
+              <Form.Control.Feedback type="invalid">{errors.location?.message}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group as={Row} className="mb-3" controlId="formStartDate">
               <Form.Label column sm={2}>
@@ -89,21 +95,19 @@ const CalendarEventView: FC<IProps> = ({ listName, show, closeEventForm, apiCall
               <Col sm={5}>
                 <Form.Control
                   type="date"
-                  value={formData.startDate}
-                  name="startDate"
                   className="mb-3 mb-sm-0"
-                  onChange={handleFormChange}
-                  required
+                  {...register('startDate', { required: 'Start date is required' })}
+                  isInvalid={!!errors.startDate}
                 />
+                <Form.Control.Feedback type="invalid">{errors.startDate?.message}</Form.Control.Feedback>
               </Col>
               <Col sm={5}>
                 <Form.Control
                   type="time"
-                  value={formData.startTime}
-                  name="startTime"
-                  onChange={handleFormChange}
-                  required
+                  {...register('startTime', { required: 'Start time is required' })}
+                  isInvalid={!!errors.startTime}
                 />
+                <Form.Control.Feedback type="invalid">{errors.startTime?.message}</Form.Control.Feedback>
               </Col>
             </Form.Group>
 
@@ -114,33 +118,25 @@ const CalendarEventView: FC<IProps> = ({ listName, show, closeEventForm, apiCall
               <Col sm={5}>
                 <Form.Control
                   type="date"
-                  value={formData.endDate}
-                  name="endDate"
                   className="mb-3 mb-sm-0"
-                  onChange={handleFormChange}
-                  required
+                  {...register('endDate', { required: 'End date is required' })}
+                  isInvalid={!!errors.endDate}
                 />
+                <Form.Control.Feedback type="invalid">{errors.endDate?.message}</Form.Control.Feedback>
               </Col>
               <Col sm={5}>
                 <Form.Control
                   type="time"
-                  value={formData.endTime}
-                  name="endTime"
-                  onChange={handleFormChange}
-                  required
+                  {...register('endTime', { required: 'End time is required' })}
+                  isInvalid={!!errors.endTime}
                 />
+                <Form.Control.Feedback type="invalid">{errors.endTime?.message}</Form.Control.Feedback>
               </Col>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formNotes">
               <Form.Label>Notes</Form.Label>
-              <Form.Control
-                as="textarea"
-                value={formData.description}
-                name="description"
-                rows={3}
-                onChange={handleFormChange}
-              />
+              <Form.Control as="textarea" rows={3} {...register('description')} />
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3 modal-footer" controlId="formButtons">
