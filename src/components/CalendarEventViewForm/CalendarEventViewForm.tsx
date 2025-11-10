@@ -139,7 +139,7 @@ const CalendarEventView: FC<IProps> = ({ listName, show, closeEventForm, apiCall
               <Form.Control as="textarea" rows={3} {...register('description')} />
             </Form.Group>
 
-            <Form.Group as={Row} className="mb-3 modal-footer" controlId="formButtons">
+            <Form.Group className="mb-3 modal-footer" controlId="formButtons">
               <Col sm={2}>
                 <Button variant="outline-secondary" onClick={closeEventForm}>
                   Close
