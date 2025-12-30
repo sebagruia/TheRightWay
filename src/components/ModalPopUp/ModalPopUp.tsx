@@ -12,22 +12,29 @@ interface IProps {
   message: ModalMessage;
   closeModal: () => void;
   confirm?: () => void;
-  closeText: string;
-  saveText?: string;
+  redirect?: () => void;
 }
 
-const ModalPopUp: FC<IProps> = ({ message, closeModal, confirm, closeText, saveText }) => {
+const ModalPopUp: FC<IProps> = ({ message, closeModal, confirm, redirect }) => {
+  const generateHeaderBackground = (type: ModalHeaderBackground) => {
+    switch (type) {
+      case ModalHeaderBackground.error:
+        return { backgroundColor: '#de4701' };
+      case ModalHeaderBackground.warning:
+        return { backgroundColor: '#ffc107' };
+      case ModalHeaderBackground.success:
+        return { backgroundColor: '#28a745' };
+      default:
+        return { backgroundColor: '#28a745' };
+    }
+  };
   return (
     <Fragment>
       {message && (
         <Modal show={!!message.content}>
           <Modal.Header
             className="text-white"
-            style={
-              message.headerBackground === ModalHeaderBackground.error
-                ? { backgroundColor: '#de4701' }
-                : { backgroundColor: '#ffc107' }
-            }
+            style={generateHeaderBackground(message.headerBackground ?? ModalHeaderBackground.success)}
           >
             <Modal.Title>{message.title}</Modal.Title>
           </Modal.Header>
@@ -38,17 +45,22 @@ const ModalPopUp: FC<IProps> = ({ message, closeModal, confirm, closeText, saveT
             <Button
               className={`btn text-white ${styles.modalCancelButton} `}
               variant="outline-primary"
-              onClick={() => closeModal()}
+              onClick={closeModal}
             >
-              {closeText}
+              {message.closeText}
             </Button>
-            {saveText && confirm && (
+            {message.saveText && confirm && (
+              <Button className={`btn text-white ${styles.modalOkButton} `} variant="outline-warning" onClick={confirm}>
+                {message.saveText}
+              </Button>
+            )}
+            {message.redirectPath?.pathName && redirect && (
               <Button
                 className={`btn text-white ${styles.modalOkButton} `}
                 variant="outline-warning"
-                onClick={() => confirm()}
+                onClick={redirect}
               >
-                {saveText}
+                {message.redirectPath?.buttonText}
               </Button>
             )}
           </Modal.Footer>

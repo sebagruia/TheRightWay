@@ -64,7 +64,7 @@ const Home: FC<IProps> = ({ userAuth, lists, error }) => {
 
   return (
     <div className="container">
-      <ModalPopUp message={error} closeModal={closeModal} closeText="Close" />
+      <ModalPopUp message={error} closeModal={closeModal} />
       <div className={`row ${styles.addNewListInput_row}`}>
         <div className="col">
           <div className={styles.addNewListInput_container}>

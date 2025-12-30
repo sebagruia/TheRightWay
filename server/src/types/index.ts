@@ -46,6 +46,7 @@ export interface StoreTokensRequest {
   idToken: string; // Firebase ID token for authentication
   accessToken: string;
   refreshToken?: string;
+  expiresAt: number;
 }
 
 // Updated calendar event request (no longer needs accessToken)

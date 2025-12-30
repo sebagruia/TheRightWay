@@ -35,7 +35,7 @@ export const createCalendarEvent = async (accessToken: string, eventData: Calend
   }
 };
 
-// Validate access token by making a simple API call
+// Validate access token by making a API call
 export const validateAccessToken = async (accessToken: string): Promise<boolean> => {
   try {
     const calendar = createCalendarClient(accessToken);

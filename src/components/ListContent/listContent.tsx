@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './listContent.module.scss';
 
 import { connect, useDispatch } from 'react-redux';
@@ -8,7 +9,7 @@ import { addListItemToFirestore, fetchListsItems } from '../../firebase/firebase
 import { addNewItemInList } from '../../redux/list/listActions';
 import { setModalMessage } from '../../redux/user/userActions';
 
-import { useGoogleCalendar } from '../../api/googleCalendar';
+import { useGoogleCalendar } from '../../api/googleCalendarClient';
 
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
@@ -22,7 +23,7 @@ import { BsCalendarDay } from 'react-icons/bs';
 
 import { Items, ItemsOfflineMode } from '../../interfaces/item';
 import { List, Lists } from '../../interfaces/list';
-import { ModalMessage } from '../../interfaces/modal';
+import { ModalMessage, ModalHeaderBackground } from '../../interfaces/modal';
 import { ItemsCategory } from '../../interfaces/utilsInterfaces';
 
 import { formatName, itemsCategory, sortCategories } from '../../utils';
@@ -51,6 +52,8 @@ const ListContent: FC<IProps> = ({
   const [inputText, setInputText] = useState('');
   const [visible, setVisible] = useState(false);
   const [eventFormVisible, setEventFormVisible] = useState(false);
+
+  const navigate = useNavigate();
 
   const { addGoogleCalendarEvent } = useGoogleCalendar();
 
@@ -118,14 +121,19 @@ const ListContent: FC<IProps> = ({
   };
 
   const closeModal = () => {
-    dispatch(setModalMessage({ content: '' }));
+    dispatch(setModalMessage({ content: '', headerBackground: ModalHeaderBackground.success }));
+  };
+
+  const redirectModal = () => {
+    closeModal();
+    navigate(error.redirectPath ? error.redirectPath.pathName : '/');
   };
 
   const toggleEventFormVisibility = () => setEventFormVisible(!eventFormVisible);
 
   return (
     <div className={`container ${styles.containerCustom}`}>
-      <ModalPopUp message={error} closeModal={closeModal} closeText="Close" />
+      <ModalPopUp message={error} closeModal={closeModal} redirect={redirectModal} />
       <CalendarEventView
         listName={formatName(selectedList.listName)}
         show={eventFormVisible}
