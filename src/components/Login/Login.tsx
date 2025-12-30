@@ -87,7 +87,7 @@ const Login: FC<IProps> = ({ error }) => {
 
   return (
     <Fragment>
-      <ModalPopUp message={error} closeModal={closeModal} closeText="Close" />
+      <ModalPopUp message={error} closeModal={closeModal} />
       <div className="container">
         <div className={`row ${styles.login_row}`}>
           <div className={`col-sm-6 ${styles.login_col}`}>

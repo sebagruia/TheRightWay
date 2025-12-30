@@ -27,13 +27,7 @@ const ReminderButton: FC<IProps> = ({ children, notificationEnabled }) => {
 
   return (
     <Fragment>
-      <ModalPopUp
-        message={deleteReminder}
-        closeModal={closeModal}
-        confirm={confirmDeletion}
-        closeText="Cancel"
-        saveText="Ok"
-      />
+      <ModalPopUp message={deleteReminder} closeModal={closeModal} confirm={confirmDeletion} />
       <li className={styles.newReminder}>
         <button
           onClick={() => {}}

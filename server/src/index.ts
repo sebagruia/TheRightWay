@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
-import { createCalendarEvent } from './services/googleCalendar';
+import { createCalendarEvent } from './services/googleCalendarServer';
 import { verifyFirebaseToken, storeUserTokens, getUserTokens } from './services/firebase_server';
 import { errorHandler, asyncHandler } from './middleware/errorHandler';
 import type { Request, Response } from 'express';
@@ -12,7 +12,7 @@ import type { StoreTokensRequest, CreateEventRequestSecure } from './types/index
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 4010;
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 
 // Security middleware
@@ -42,7 +42,7 @@ app.get('/health', (_req: Request, res: Response) => {
 app.post(
   '/api/auth/store-tokens',
   asyncHandler(async (req: Request, res: Response): Promise<void> => {
-    const { idToken, accessToken, refreshToken }: StoreTokensRequest = req.body;
+    const { idToken, accessToken, expiresAt }: StoreTokensRequest = req.body;
 
     if (!idToken) {
       res.status(400).json({
@@ -71,7 +71,7 @@ app.post(
     }
 
     // Store tokens for the authenticated user
-    const storeResult = await storeUserTokens(verificationResult.userId!, accessToken, refreshToken);
+    const storeResult = await storeUserTokens(verificationResult.userId!, accessToken, expiresAt);
 
     if (storeResult.success) {
       res.status(200).json({
@@ -111,7 +111,7 @@ app.post(
 
     // Verify Firebase ID token
     const verificationResult = await verifyFirebaseToken(idToken);
-    if (!verificationResult.success) {
+    if (!verificationResult.success || !verificationResult.userId) {
       res.status(401).json({
         success: false,
         error: 'Invalid Firebase token',
@@ -120,8 +120,8 @@ app.post(
     }
 
     // Get stored tokens for the authenticated user
-    const tokensResult = await getUserTokens(verificationResult.userId!);
-    if (!tokensResult.success) {
+    const { success, accessToken, expiresAt } = await getUserTokens(verificationResult.userId);
+    if (!success) {
       res.status(400).json({
         success: false,
         error: 'No Google Calendar access found. Please reconnect your Google account.',
@@ -129,13 +129,20 @@ app.post(
       return;
     }
 
-    // Create calendar event using stored access token
-    const result = await createCalendarEvent(tokensResult.accessToken!, event);
-
-    if (result.success) {
-      res.status(201).json(result);
+    if (Date.now() >= expiresAt) {
+      res.status(401).json({
+        success: false,
+        error: 'Failed to refresh access token. Please reconnect your Google account.',
+      });
+      return;
     } else {
-      res.status(400).json(result);
+      const result = await createCalendarEvent(accessToken, event);
+
+      if (result.success) {
+        res.status(201).json(result);
+      } else {
+        res.status(400).json(result);
+      }
     }
   }),
 );

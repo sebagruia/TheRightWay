@@ -45,7 +45,11 @@ export const auth = getAuth();
 export const firestore = firebase.firestore();
 
 const provider = new GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account' });
+provider.setCustomParameters({
+  prompt: 'consent',
+  access_type: 'offline',
+  include_granted_scopes: 'true',
+});
 
 export const createUserProfileDocument = async (userAuth: User, additionalData?: any) => {
   if (!userAuth) {
@@ -76,8 +80,8 @@ export const getGoogleCalendarAccessToken = async (userCredential: UserCredentia
   const credential = GoogleAuthProvider.credentialFromResult(userCredential);
   const accessToken = credential?.accessToken;
 
-  // Access refresh token from the credential response
-  const refreshToken = (userCredential as any)._tokenResponse?.refresh_token;
+  const expiresIn = parseInt((userCredential as any)._tokenResponse?.expiresIn || '3600');
+  const expiresAt = Date.now() + expiresIn * 1000;
 
   if (!accessToken) {
     throw new Error('Failed to retrieve google calendar access token');
@@ -95,7 +99,7 @@ export const getGoogleCalendarAccessToken = async (userCredential: UserCredentia
       body: JSON.stringify({
         idToken,
         accessToken,
-        refreshToken,
+        expiresAt,
       }),
     });
 
@@ -234,7 +238,7 @@ export const fetchListsItems = (userId: string, listId: string) => async (dispat
 };
 
 export const addListNameToFirestore = async (userId: string, listId: string, listDetails: List, dispatch: Dispatch) => {
-  const docRef = firestore.collection(`/users/${userId}/lists/`).doc(listId);
+  const docRef = firestore.collection(`/users/${userId}/lists`).doc(listId);
   const snapShot = await docRef.get();
   if (!snapShot.exists) {
     try {

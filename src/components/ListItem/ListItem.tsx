@@ -18,6 +18,7 @@ import { MdKeyboardArrowRight } from 'react-icons/md';
 
 import { Item } from '../../interfaces/item';
 import { List } from '../../interfaces/list';
+import { ModalMessage } from '../../interfaces/modal';
 import { ToastPosition } from '../../enums/messageToast';
 
 import { formatName } from '../../utils';
@@ -32,7 +33,7 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
   const navigate = useNavigate();
   const [showToast, setShowToast] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-  const [deleteMessage, setDeleteMessage] = useState({ content: '' });
+  const [deleteMessage, setDeleteMessage] = useState<ModalMessage>({ content: '' });
   const { id, check, quantity, unit, note } = item;
 
   const selectItemForEdit = (item: Item) => {
@@ -53,7 +54,7 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
   };
 
   const openModal = () => {
-    setDeleteMessage({ content: `Delete ${id}?` });
+    setDeleteMessage({ content: `Delete ${id}?`, closeText: 'Cancel', saveText: 'Ok' });
   };
 
   const closeModal = () => {
@@ -75,13 +76,7 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
 
   return (
     <li className="li-item">
-      <ModalPopUp
-        message={deleteMessage}
-        closeModal={closeModal}
-        confirm={confirmDeletion}
-        closeText="Cancel"
-        saveText="Ok"
-      />
+      <ModalPopUp message={deleteMessage} closeModal={closeModal} confirm={confirmDeletion} />
       <MessageToast
         show={showToast}
         message={note}

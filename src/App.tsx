@@ -23,8 +23,6 @@ interface IProps {
   getUserLists: (userId: string) => Promise<void>;
 }
 
-console.log(auth);
-
 const App: FC<IProps> = ({ getUserLists }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

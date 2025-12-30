@@ -59,11 +59,11 @@ export const verifyFirebaseToken = async (idToken: string) => {
 };
 
 // Store Google OAuth tokens for a user
-export const storeUserTokens = async (userId: string, accessToken: string, refreshToken?: string) => {
+export const storeUserTokens = async (userId: string, accessToken: string, expiresAt: number) => {
   try {
     const tokenData = {
       accessToken,
-      refreshToken: refreshToken || null,
+      expiresAt,
       updatedAt: admin.firestore.FieldValue.serverTimestamp(),
     };
 
@@ -95,7 +95,7 @@ export const getUserTokens = async (userId: string) => {
     return {
       success: true,
       accessToken: data?.accessToken,
-      refreshToken: data?.refreshToken,
+      expiresAt: data?.expiresAt,
     };
   } catch (error: any) {
     console.error('Error getting user tokens:', error);
