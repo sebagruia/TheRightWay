@@ -2,7 +2,6 @@
   "name": "the_right_way",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://sebagruia.github.io/TheRightWay/",
   "dependencies": {
     "@redux-devtools/extension": "^3.3.0",
     "@reduxjs/toolkit": "^2.5.1",
