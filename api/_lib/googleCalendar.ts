@@ -1,5 +1,5 @@
 import { google } from 'googleapis';
-import type { CalendarEvent, ApiResponse } from '../types/index.js';
+import type { CalendarEvent, ApiResponse } from './types';
 
 // Create Google Calendar client with access token
 const createCalendarClient = (accessToken: string) => {

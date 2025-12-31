@@ -1,48 +1,60 @@
 import admin from 'firebase-admin';
-import dotenv from 'dotenv';
-
-// Load environment variables first
-dotenv.config();
 
 // Initialize Firebase Admin SDK once
-const serviceAccount = {
-  type: process.env.FIREBASE_TYPE,
-  project_id: process.env.FIREBASE_PROJECT_ID,
-  private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
-  private_key: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-  client_email: process.env.FIREBASE_CLIENT_EMAIL,
-  client_id: process.env.FIREBASE_CLIENT_ID,
-  auth_uri: process.env.FIREBASE_AUTH_URI,
-  token_uri: process.env.FIREBASE_TOKEN_URI,
-  auth_provider_x509_cert_url: process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
-  client_x509_cert_url: process.env.FIREBASE_CLIENT_X509_CERT_URL,
-  universe_domain: process.env.FIREBASE_UNIVERSE_DOMAIN,
-};
+let firebaseInitialized = false;
 
-// Validate required fields
-if (!serviceAccount.project_id) {
-  throw new Error('FIREBASE_PROJECT_ID environment variable is required');
-}
-if (!serviceAccount.client_email) {
-  throw new Error('FIREBASE_CLIENT_EMAIL environment variable is required');
-}
-if (!serviceAccount.private_key) {
-  throw new Error('FIREBASE_PRIVATE_KEY environment variable is required');
-}
+const initializeFirebase = () => {
+  if (firebaseInitialized || admin.apps.length > 0) {
+    return;
+  }
 
-if (!admin.apps.length) {
+  const serviceAccount = {
+    type: process.env.FIREBASE_TYPE,
+    project_id: process.env.FIREBASE_PROJECT_ID,
+    private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
+    private_key: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    client_email: process.env.FIREBASE_CLIENT_EMAIL,
+    client_id: process.env.FIREBASE_CLIENT_ID,
+    auth_uri: process.env.FIREBASE_AUTH_URI,
+    token_uri: process.env.FIREBASE_TOKEN_URI,
+    auth_provider_x509_cert_url: process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
+    client_x509_cert_url: process.env.FIREBASE_CLIENT_X509_CERT_URL,
+    universe_domain: process.env.FIREBASE_UNIVERSE_DOMAIN,
+  };
+
+  // Validate required fields
+  if (!serviceAccount.project_id) {
+    throw new Error('FIREBASE_PROJECT_ID environment variable is required');
+  }
+  if (!serviceAccount.client_email) {
+    throw new Error('FIREBASE_CLIENT_EMAIL environment variable is required');
+  }
+  if (!serviceAccount.private_key) {
+    throw new Error('FIREBASE_PRIVATE_KEY environment variable is required');
+  }
+
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
   });
-}
+
+  firebaseInitialized = true;
+};
 
 // Export reusable instances
-export const firestore = admin.firestore();
-export const auth = admin.auth();
+export const getFirestore = () => {
+  initializeFirebase();
+  return admin.firestore();
+};
+
+export const getAuth = () => {
+  initializeFirebase();
+  return admin.auth();
+};
 
 // Verify Firebase ID token
 export const verifyFirebaseToken = async (idToken: string) => {
   try {
+    const auth = getAuth();
     const decodedToken = await auth.verifyIdToken(idToken);
     return {
       success: true,
@@ -61,6 +73,7 @@ export const verifyFirebaseToken = async (idToken: string) => {
 // Store Google OAuth tokens for a user
 export const storeUserTokens = async (userId: string, accessToken: string, expiresAt: number) => {
   try {
+    const firestore = getFirestore();
     const tokenData = {
       accessToken,
       expiresAt,
@@ -82,6 +95,7 @@ export const storeUserTokens = async (userId: string, accessToken: string, expir
 // Get stored Google OAuth tokens for a user
 export const getUserTokens = async (userId: string) => {
   try {
+    const firestore = getFirestore();
     const doc = await firestore.collection('userTokens').doc(userId).get();
 
     if (!doc.exists) {
