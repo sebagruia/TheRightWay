@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { verifyFirebaseToken, storeUserTokens } from '../_lib/firebase.ts';
-import type { StoreTokensRequest } from '../_lib/types.ts';
+import { verifyFirebaseToken, storeUserTokens } from '../_lib/firebase.js';
+import type { StoreTokensRequest } from '../_lib/types.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Only allow POST requests

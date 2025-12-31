@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { verifyFirebaseToken, getUserTokens } from '../_lib/firebase.ts';
-import { createCalendarEvent } from '../_lib/googleCalendar.ts';
-import type { CreateEventRequestSecure } from '../_lib/types.ts';
+import { verifyFirebaseToken, getUserTokens } from '../_lib/firebase.js';
+import { createCalendarEvent } from '../_lib/googleCalendar.js';
+import type { CreateEventRequestSecure } from '../_lib/types.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Only allow POST requests
