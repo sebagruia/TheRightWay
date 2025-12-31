@@ -1,18 +1,17 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { ModalMessage } from '../../interfaces/modal';
-import { LoggedUser } from '../../interfaces/user';
-import { setUser, setModalMessage } from './userActions';
+import { InitialStateUser } from '../../interfaces/store';
+import { setUser, setModalMessage, setGoogleCalendarAccessToken } from './userActions';
+import { ModalHeaderBackground } from '../../interfaces/modal';
 
-interface InitialState {
-  user: LoggedUser | null;
-  error: ModalMessage;
-}
-const initialState: InitialState = {
+const initialState: InitialStateUser = {
   user: null,
   error: {
     title: '',
     content: '',
+    headerBackground: ModalHeaderBackground.success,
+    closeText: 'Close',
   },
+  googleCalendarAccessToken: false,
 };
 
 export const userReducer = createReducer(initialState, (builder) => {
@@ -22,6 +21,9 @@ export const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(setModalMessage, (state, action) => {
       state.error = action.payload;
+    })
+    .addCase(setGoogleCalendarAccessToken, (state, action) => {
+      state.googleCalendarAccessToken = action.payload;
     })
     .addDefaultCase((state) => state);
 });

@@ -44,13 +44,7 @@ const ListOfItems: FC<IProps> = ({ userAuth, children, list, deleteList }) => {
 
   return (
     <Fragment>
-      <ModalPopUp
-        message={deleteMessage}
-        closeModal={closeModal}
-        confirm={confirmDeletion}
-        closeText="Cancel"
-        saveText="Ok"
-      />
+      <ModalPopUp message={deleteMessage} closeModal={closeModal} confirm={confirmDeletion} />
       <li className={styles.newListLi}>
         <button
           onClick={() => {
