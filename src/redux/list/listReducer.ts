@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { PURGE } from 'redux-persist';
 
-import { InitialState } from '../../interfaces/store';
+import { InitialStateList } from '../../interfaces/store';
 import {
   addNewItemInList,
   addNewListAction,
@@ -17,7 +17,7 @@ import {
   toggleSort,
 } from './listActions';
 
-export const initialState: InitialState = {
+export const initialState: InitialStateList = {
   lists: {},
   listItemsOnline: {},
   listItemsForOfflineMode: {},

@@ -49,8 +49,8 @@ const Login: FC<IProps> = ({ error }) => {
 
   const logInWithGoogle = async () => {
     await persistor.purge();
-    const userAuth = await signInWithGoogle(dispatch);
-    if (userAuth) {
+    const userInfo = await signInWithGoogle(dispatch);
+    if (userInfo?.userAuth) {
       navigate('/lists');
     }
   };
@@ -87,7 +87,7 @@ const Login: FC<IProps> = ({ error }) => {
 
   return (
     <Fragment>
-      <ModalPopUp message={error} closeModal={closeModal} closeText="Close" />
+      <ModalPopUp message={error} closeModal={closeModal} />
       <div className="container">
         <div className={`row ${styles.login_row}`}>
           <div className={`col-sm-6 ${styles.login_col}`}>
