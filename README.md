@@ -218,12 +218,45 @@ vercel dev
 
 This project is private and not licensed for public use.
 
+## ⚙️ Important Development Notes
+
+### TypeScript + ES Modules: `.js` Extensions Required
+
+This project uses `"type": "module"` in `package.json`, which requires **explicit file extensions** in import statements.
+
+**⚠️ Critical Rule:** When importing TypeScript files in the `/api` folder, you MUST use `.js` extensions:
+
+```typescript
+// ✅ CORRECT - Even though firebase.ts exists
+import { verifyFirebaseToken } from '../_lib/firebase.js';
+
+// ❌ WRONG - Will fail on Vercel
+import { verifyFirebaseToken } from '../_lib/firebase';
+```
+
+**Why?**
+
+- Node.js ES modules require explicit extensions at runtime
+- TypeScript compiles `.ts` → `.js`
+- Import paths must reference the **runtime** file extension (`.js`), not the source (`.ts`)
+
+**References:**
+
+- [Node.js ESM Documentation](https://nodejs.org/api/esm.html#mandatory-file-extensions)
+- [TypeScript ESM Node](https://www.typescriptlang.org/docs/handbook/esm-node.html)
+
 ## 🐛 Known Issues & Troubleshooting
+
+**Issue: Module not found errors in `/api` folder**
+
+- Solution: Ensure all imports in serverless functions use `.js` extensions (see note above)
+- Example: `import { x } from './file.js'` not `import { x } from './file'`
 
 **Issue: Firebase errors on deployment**
 
 - Solution: Verify all environment variables are set correctly in Vercel
 - Check `FIREBASE_PRIVATE_KEY` has proper newlines (`\n`)
+- Ensure no leading/trailing spaces in environment variable values
 
 **Issue: Google Calendar integration not working**
 
