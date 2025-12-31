@@ -49,7 +49,7 @@ export interface StoreTokensRequest {
   expiresAt: number;
 }
 
-// Updated calendar event request (no longer needs accessToken)
+// Secure event creation request
 export interface CreateEventRequestSecure {
   idToken: string; // Firebase ID token for authentication
   event: CalendarEvent;
