@@ -2,8 +2,9 @@ import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './listContent.module.scss';
 
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { stateMapping } from '../../redux/stateMapping';
+import { isGlobalLoading } from '../../redux/global/globalSelectors';
 
 import { addListItemToFirestore, fetchListsItems } from '../../firebase/firebase.utils';
 import { addNewItemInList } from '../../redux/list/listActions';
@@ -17,7 +18,7 @@ import BackArrow from '../BackArrow/BackArrow';
 import Category from '../Category/Category';
 import ModalPopUp from '../ModalPopUp/ModalPopUp';
 import SortType from '../SortType/SortType';
-import CalendarEventView from '../CalendarEventViewForm/CalendarEventViewForm';
+import CalendarEventViewForm from '../CalendarEventViewForm/CalendarEventViewForm';
 
 import { BsCalendarDay } from 'react-icons/bs';
 
@@ -56,6 +57,8 @@ const ListContent: FC<IProps> = ({
   const navigate = useNavigate();
 
   const { addGoogleCalendarEvent } = useGoogleCalendar();
+
+  const isLoading = useSelector(isGlobalLoading);
 
   const checkedItems = () => {
     if (listItemsOnline && Object.values(listItemsOnline).length) {
@@ -134,11 +137,12 @@ const ListContent: FC<IProps> = ({
   return (
     <div className={`container ${styles.containerCustom}`}>
       <ModalPopUp message={error} closeModal={closeModal} redirect={redirectModal} />
-      <CalendarEventView
+      <CalendarEventViewForm
         listName={formatName(selectedList.listName)}
         show={eventFormVisible}
         closeEventForm={toggleEventFormVisibility}
         apiCall={addGoogleCalendarEvent}
+        isLoading={isLoading}
       />
 
       <div className={`row ${styles.listContent_row}`}>

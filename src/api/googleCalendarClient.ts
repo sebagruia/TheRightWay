@@ -1,11 +1,15 @@
 import { useSelector, useDispatch } from 'react-redux';
+
+import { setModalMessage } from '../redux/user/userActions';
+import { setGlobalLoadingAction } from '../redux/global/globalActions';
+import { stateMapping } from '../redux/stateMapping';
+
+import { auth } from '../firebase/firebase.utils';
+import { API_ENDPOINTS } from '../config/api';
+
 import { CalendarEvent } from '../interfaces/calendar';
 import { InitialStateList } from '../interfaces/store';
-import { stateMapping } from '../redux/stateMapping';
-import { auth } from '../firebase/firebase.utils';
 import { ModalHeaderBackground } from '../interfaces/modal';
-import { setModalMessage } from '../redux/user/userActions';
-import { API_ENDPOINTS } from '../config/api';
 
 export const useGoogleCalendar = () => {
   const dispatch = useDispatch();
@@ -15,7 +19,7 @@ export const useGoogleCalendar = () => {
     return sm.googleCalendarAccessToken;
   });
 
-  const addGoogleCalendarEvent = async (eventData: CalendarEvent): Promise<any | null> => {
+  const addGoogleCalendarEvent = async (eventData: CalendarEvent): Promise<{ success: boolean; data?: any }> => {
     const user = auth.currentUser;
     if (!user) {
       dispatch(
@@ -25,12 +29,14 @@ export const useGoogleCalendar = () => {
           headerBackground: ModalHeaderBackground.error,
         }),
       );
-      return null;
+      return { success: false };
     }
 
     const idToken = await user.getIdToken();
 
     try {
+      dispatch(setGlobalLoadingAction(true));
+
       const response = await fetch(API_ENDPOINTS.CALENDAR_EVENTS, {
         method: 'POST',
         headers: {
@@ -43,6 +49,8 @@ export const useGoogleCalendar = () => {
       });
 
       if (!response.ok) {
+        dispatch(setGlobalLoadingAction(false));
+
         const errorData = await response.json();
 
         console.log('Error response from calendar event API:', errorData);
@@ -100,10 +108,11 @@ export const useGoogleCalendar = () => {
               }),
             );
         }
-        return null;
+        return { success: false };
       }
 
       const data = await response.json();
+      dispatch(setGlobalLoadingAction(false));
       dispatch(
         setModalMessage({
           title: 'Success',
@@ -114,7 +123,9 @@ export const useGoogleCalendar = () => {
       );
       return data;
     } catch (error) {
+      dispatch(setGlobalLoadingAction(false));
       console.error('Error adding calendar event:', error);
+      return { success: false };
     }
   };
 

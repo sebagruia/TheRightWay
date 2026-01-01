@@ -8,4 +8,5 @@ export const stateMapping = (state: any) => ({
   selectedItemObject: state.listReducer.selectedItemObject,
   sortType: state.listReducer.sortType,
   googleCalendarAccessToken: state.userReducer.googleCalendarAccessToken,
+  isGlobalLoading: state.globalReducer.isGlobalLoading,
 });
