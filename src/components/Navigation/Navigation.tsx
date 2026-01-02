@@ -1,10 +1,11 @@
 import React, { FC, useState } from 'react';
 
-import { connect, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../redux/hooks';
 import { clearStateAction } from '../../redux/list/listActions';
 import { initialState } from '../../redux/list/listReducer';
-import { stateMapping } from '../../redux/stateMapping';
 import { persistor } from '../../redux/store';
+import { selectUserAuth } from '../../redux/user/userSelectors';
 
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -17,13 +18,10 @@ import { signOutUser } from '../../firebase/firebase.utils';
 
 import styles from './Navigation.module.scss';
 
-interface IProps {
-  userAuth: any;
-}
-
-const Navigation: FC<IProps> = ({ userAuth }) => {
-  const dispatch = useDispatch();
+const Navigation: FC = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const userAuth = useSelector(selectUserAuth);
 
   const [showMenu, setShowMenu] = useState(false);
 
@@ -105,7 +103,7 @@ const Navigation: FC<IProps> = ({ userAuth }) => {
                 <li className={`nav-item ${styles.item1} ${styles.nav_item_custom}`}>
                   <Link
                     to="/login"
-                    onClick={userAuth && logOut}
+                    onClick={userAuth ? logOut : undefined}
                     className={`btn btn-outline-secondary ${styles.wraper}`}
                   >
                     <span className="font-weight-light">{userAuth ? 'Log out' : 'Log in'}</span>
@@ -123,11 +121,4 @@ const Navigation: FC<IProps> = ({ userAuth }) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
-  const sm = stateMapping(state);
-  return {
-    userAuth: sm.userAuth,
-  };
-};
-
-export default connect(mapStateToProps)(Navigation);
+export default Navigation;

@@ -1,7 +1,7 @@
-import { InitialStateUser } from '../../interfaces/store';
-import { stateMapping } from '../stateMapping';
+import { RootState } from '../store';
 
-export const userError = (state: InitialStateUser) => {
-  const sm = stateMapping(state);
-  return sm.userError;
-};
+export const selectUserAuth = (state: RootState) => state.userReducer.user;
+
+export const userError = (state: RootState) => state.userReducer.error;
+
+export const selectGoogleCalendarAccessToken = (state: RootState) => state.userReducer.googleCalendarAccessToken;

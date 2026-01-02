@@ -1,7 +1,5 @@
-import { InitialStateGlobal } from '../../interfaces/store';
-import { stateMapping } from '../stateMapping';
+import { RootState } from '../store';
 
-export const isGlobalLoading = (state: InitialStateGlobal) => {
-  const sm = stateMapping(state);
-  return sm.isGlobalLoading;
+export const isGlobalLoading = (state: RootState) => {
+  return state.globalReducer.isGlobalLoading;
 };

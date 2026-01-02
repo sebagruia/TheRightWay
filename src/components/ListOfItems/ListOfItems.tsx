@@ -3,7 +3,7 @@ import styles from './ListOfItems.module.scss';
 
 import { useNavigate } from 'react-router-dom';
 
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../redux/hooks';
 import { selectListAction } from '../../redux/list/listActions';
 
 import ModalPopUp from '../ModalPopUp/ModalPopUp';
@@ -19,7 +19,7 @@ interface IProps {
 }
 
 const ListOfItems: FC<IProps> = ({ userAuth, children, list, deleteList }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [deleteMessage, setDeleteMessage] = useState<ModalMessage>({ content: '' });

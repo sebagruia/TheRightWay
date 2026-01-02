@@ -1,7 +1,8 @@
 import React, { FC, FormEvent, Fragment, useState } from 'react';
 import styles from './Login.module.scss';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../redux/hooks';
 import { clearStateAction } from '../../redux/list/listActions';
 import { initialState } from '../../redux/list/listReducer';
 import { persistor } from '../../redux/store';
@@ -31,7 +32,7 @@ interface IProps {
 }
 
 const Login: FC<IProps> = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [loginEmail, setLoginEmail] = useState('');

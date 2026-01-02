@@ -1,23 +1,20 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../redux/hooks';
 
 import { setModalMessage } from '../redux/user/userActions';
 import { setGlobalLoadingAction } from '../redux/global/globalActions';
-import { stateMapping } from '../redux/stateMapping';
+import { selectGoogleCalendarAccessToken } from '../redux/user/userSelectors';
 
 import { auth } from '../firebase/firebase.utils';
 import { API_ENDPOINTS } from '../config/api';
 
 import { CalendarEvent } from '../interfaces/calendar';
-import { InitialStateList } from '../interfaces/store';
 import { ModalHeaderBackground } from '../interfaces/modal';
 
 export const useGoogleCalendar = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const isGoogleCalendarConnected = useSelector((state: InitialStateList) => {
-    const sm = stateMapping(state);
-    return sm.googleCalendarAccessToken;
-  });
+  const isGoogleCalendarConnected = useSelector(selectGoogleCalendarAccessToken);
 
   const addGoogleCalendarEvent = async (eventData: CalendarEvent): Promise<{ success: boolean; data?: any }> => {
     const user = auth.currentUser;
