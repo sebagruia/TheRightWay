@@ -3,9 +3,11 @@ import styles from './ListItem.module.scss';
 
 import { useNavigate } from 'react-router-dom';
 
-import { connect, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../redux/hooks';
 import { deleteListItem, selectingCurrentItem, editItem } from '../../redux/list/listActions';
-import { stateMapping } from '../../redux/stateMapping';
+import { selectUserAuth } from '../../redux/user/userSelectors';
+import { selectSelectedList } from '../../redux/list/listSelectors';
 
 import { deleteListItemFromFirestore, updatingListItemToFirestore } from '../../firebase/firebase.utils';
 
@@ -18,19 +20,19 @@ import { MdKeyboardArrowRight } from 'react-icons/md';
 
 import { Item } from '../../interfaces/item';
 import { List } from '../../interfaces/list';
-import { ModalMessage } from '../../interfaces/modal';
+import { ModalMessage, ModalHeaderBackground } from '../../interfaces/modal';
 import { ToastPosition } from '../../enums/messageToast';
 
 import { formatName } from '../../utils';
 interface IProps {
-  userAuth: any;
   item: Item;
-  selectedList: List;
 }
 
-const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
-  const dispatch = useDispatch();
+const ListItem: FC<IProps> = ({ item }) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const userAuth = useSelector(selectUserAuth);
+  const selectedList = useSelector(selectSelectedList);
   const [showToast, setShowToast] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [deleteMessage, setDeleteMessage] = useState<ModalMessage>({ content: '' });
@@ -54,7 +56,12 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
   };
 
   const openModal = () => {
-    setDeleteMessage({ content: `Delete ${id}?`, closeText: 'Cancel', saveText: 'Ok' });
+    setDeleteMessage({
+      content: `Delete ${id}?`,
+      headerBackground: ModalHeaderBackground.warning,
+      closeText: 'Cancel',
+      saveText: 'Ok',
+    });
   };
 
   const closeModal = () => {
@@ -124,12 +131,4 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
-  const sm = stateMapping(state);
-  return {
-    userAuth: sm.userAuth,
-    selectedList: sm.selectedList,
-  };
-};
-
-export default connect(mapStateToProps)(ListItem);
+export default ListItem;

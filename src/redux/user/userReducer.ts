@@ -8,7 +8,7 @@ const initialState: InitialStateUser = {
   error: {
     title: '',
     content: '',
-    headerBackground: ModalHeaderBackground.success,
+    headerBackground: ModalHeaderBackground.error,
     closeText: 'Close',
   },
   googleCalendarAccessToken: false,

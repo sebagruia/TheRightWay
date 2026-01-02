@@ -1,9 +1,10 @@
 import React, { ChangeEvent, FC, FormEvent, Fragment, useState } from 'react';
 import styles from './Register.module.scss';
 
-import { connect, useDispatch } from 'react-redux';
-import { stateMapping } from '../../redux/stateMapping';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../redux/hooks';
 import { setModalMessage } from '../../redux/user/userActions';
+import { userError } from '../../redux/user/userSelectors';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -11,17 +12,14 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import ModalPopUp from '../ModalPopUp/ModalPopUp';
 
-import { ModalHeaderBackground, ModalMessage } from '../../interfaces/modal';
+import { ModalHeaderBackground } from '../../interfaces/modal';
 
 import { createUserProfileDocument, registerNewUser } from '../../firebase/firebase.utils';
 
-interface IProps {
-  error: ModalMessage;
-}
-
-const Register: FC<IProps> = ({ error }) => {
-  const dispatch = useDispatch();
+const Register: FC = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const error = useSelector(userError);
   const [validated, setValidated] = useState(false);
   const [registerName, setLoginName] = useState('');
   const [registerEmail, setRegisterEmail] = useState('');
@@ -170,11 +168,4 @@ const Register: FC<IProps> = ({ error }) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
-  const sm = stateMapping(state);
-  return {
-    error: sm.userError,
-  };
-};
-
-export default connect(mapStateToProps)(Register);
+export default Register;

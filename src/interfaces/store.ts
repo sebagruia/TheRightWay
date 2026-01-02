@@ -17,3 +17,7 @@ export interface InitialStateUser {
   error: ModalMessage;
   googleCalendarAccessToken: boolean;
 }
+
+export interface InitialStateGlobal {
+  isGlobalLoading: boolean;
+}

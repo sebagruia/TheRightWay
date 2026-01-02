@@ -1,8 +1,10 @@
 import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
 import styles from './home.module.scss';
 
-import { connect, useDispatch } from 'react-redux';
-import { stateMapping } from '../../redux/stateMapping';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../redux/hooks';
+import { selectUserAuth, userError } from '../../redux/user/userSelectors';
+import { selectLists } from '../../redux/list/listSelectors';
 
 import { addListNameToFirestore, deleteListFromFirestore } from '../../firebase/firebase.utils';
 import { addNewListAction, deleteListAction } from '../../redux/list/listActions';
@@ -11,19 +13,15 @@ import { setModalMessage } from '../../redux/user/userActions';
 import ListOfItems from '../ListOfItems/ListOfItems';
 import ModalPopUp from '../ModalPopUp/ModalPopUp';
 
-import { Lists } from '../../interfaces/list';
-import { ModalMessage } from '../../interfaces/modal';
-
 import { formatName } from '../../utils';
 
-interface IProps {
-  userAuth: any;
-  lists: Lists;
-  error: ModalMessage;
-}
+const Home: FC = () => {
+  const dispatch = useAppDispatch();
 
-const Home: FC<IProps> = ({ userAuth, lists, error }) => {
-  const dispatch = useDispatch();
+  const userAuth = useSelector(selectUserAuth);
+  const lists = useSelector(selectLists);
+  const error = useSelector(userError);
+
   const [listName, setListName] = useState('');
   const [visible, setVisible] = useState(true);
 
@@ -118,13 +116,4 @@ const Home: FC<IProps> = ({ userAuth, lists, error }) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
-  const sm = stateMapping(state);
-  return {
-    userAuth: sm.userAuth,
-    lists: sm.lists,
-    error: sm.userError,
-  };
-};
-
-export default connect(mapStateToProps)(Home);
+export default Home;

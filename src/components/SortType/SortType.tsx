@@ -2,7 +2,7 @@ import React, { MouseEvent, useState } from 'react';
 import styles from './SortType.module.scss';
 
 import { toggleSort } from '../../redux/list/listActions';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../redux/hooks';
 
 import Toast from 'react-bootstrap/Toast';
 
@@ -10,7 +10,7 @@ import { AiOutlineSortAscending, AiOutlineSortDescending } from 'react-icons/ai'
 import { MdOutlineSortByAlpha, MdSort } from 'react-icons/md';
 
 const SortType = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [show, setShow] = useState(false);
   const [sortType, setSortType] = useState('');
 
