@@ -9,6 +9,7 @@ import { selectListAction } from '../../redux/list/listActions';
 import ModalPopUp from '../ModalPopUp/ModalPopUp';
 
 import { List } from '../../interfaces/list';
+import { ModalHeaderBackground, ModalMessage } from '../../interfaces/modal';
 
 interface IProps {
   children: ReactNode;
@@ -21,14 +22,19 @@ const ListOfItems: FC<IProps> = ({ userAuth, children, list, deleteList }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-  const [deleteMessage, setDeleteMessage] = useState({ content: '' });
+  const [deleteMessage, setDeleteMessage] = useState<ModalMessage>({ content: '' });
 
   const closeModal = () => {
     setDeleteMessage({ content: '' });
   };
 
   const openModal = () => {
-    setDeleteMessage({ content: 'Are you Sure?' });
+    setDeleteMessage({
+      content: 'Are you Sure?',
+      headerBackground: ModalHeaderBackground.warning,
+      closeText: 'Cancel',
+      saveText: 'Ok',
+    });
   };
 
   const confirmDeletion = () => {

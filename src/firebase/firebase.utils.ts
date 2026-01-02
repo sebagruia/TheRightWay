@@ -143,6 +143,7 @@ export const signInWithGoogle = async (dispatch: Dispatch): Promise<UserInfo | n
         title: 'Error',
         content: `There was an error signing in: ${errorCode}`,
         headerBackground: ModalHeaderBackground.error,
+        closeText: 'Close',
       }),
     );
     console.log(`There was an error signing in: ${errorCode}`);

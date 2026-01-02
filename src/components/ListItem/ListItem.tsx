@@ -18,7 +18,7 @@ import { MdKeyboardArrowRight } from 'react-icons/md';
 
 import { Item } from '../../interfaces/item';
 import { List } from '../../interfaces/list';
-import { ModalMessage } from '../../interfaces/modal';
+import { ModalMessage, ModalHeaderBackground } from '../../interfaces/modal';
 import { ToastPosition } from '../../enums/messageToast';
 
 import { formatName } from '../../utils';
@@ -54,7 +54,12 @@ const ListItem: FC<IProps> = ({ userAuth, item, selectedList }) => {
   };
 
   const openModal = () => {
-    setDeleteMessage({ content: `Delete ${id}?`, closeText: 'Cancel', saveText: 'Ok' });
+    setDeleteMessage({
+      content: `Delete ${id}?`,
+      headerBackground: ModalHeaderBackground.warning,
+      closeText: 'Cancel',
+      saveText: 'Ok',
+    });
   };
 
   const closeModal = () => {

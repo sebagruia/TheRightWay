@@ -1,13 +1,13 @@
 import React, { FC, FormEvent, Fragment, useState } from 'react';
 import styles from './Login.module.scss';
 
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { clearStateAction } from '../../redux/list/listActions';
 import { initialState } from '../../redux/list/listReducer';
-import { stateMapping } from '../../redux/stateMapping';
 import { persistor } from '../../redux/store';
 import { setModalMessage, setUser } from '../../redux/user/userActions';
 import { isGlobalLoading } from '../../redux/global/globalSelectors';
+import { userError } from '../../redux/user/userSelectors';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -30,7 +30,7 @@ interface IProps {
   error: ModalMessage;
 }
 
-const Login: FC<IProps> = ({ error }) => {
+const Login: FC<IProps> = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
@@ -38,6 +38,7 @@ const Login: FC<IProps> = ({ error }) => {
   const [loginPass, setLoginPass] = useState('');
 
   const isLoading = useSelector(isGlobalLoading);
+  const error = useSelector(userError);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -79,6 +80,7 @@ const Login: FC<IProps> = ({ error }) => {
             title: 'Email Validation',
             content: 'You need to verify your email. Please check your Inbox and follow the link.',
             headerBackground: ModalHeaderBackground.warning,
+            closeText: 'Close',
           }),
         );
       }
@@ -86,7 +88,7 @@ const Login: FC<IProps> = ({ error }) => {
   };
 
   const closeModal = () => {
-    dispatch(setModalMessage({ content: '' }));
+    dispatch(setModalMessage({ content: '', headerBackground: ModalHeaderBackground.error, closeText: 'Close' }));
   };
 
   return (
@@ -137,11 +139,4 @@ const Login: FC<IProps> = ({ error }) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
-  const sm = stateMapping(state);
-  return {
-    error: sm.userError,
-  };
-};
-
-export default connect(mapStateToProps)(Login);
+export default Login;
