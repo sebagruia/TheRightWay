@@ -101,36 +101,40 @@ const CalendarEventViewForm: FC<IProps> = ({ listName, show, closeEventForm, api
   };
 
   return (
-    <Modal className={styles.calendarEventView} show={show} backdrop="static">
-      <Modal.Header closeButton className="my-3" onClick={closeEventForm}>
-        <Modal.Title>{listName ?? 'New event'}</Modal.Title>
+    <Modal className={styles.calendarEventView} show={show} backdrop="static" size="lg">
+      <Modal.Header closeButton onClick={closeEventForm}>
+        <Modal.Title>{listName ?? 'Create New Event'}</Modal.Title>
       </Modal.Header>
       {isLoading ? (
         <CalendarEventFormSkeleton />
       ) : (
         <Modal.Body>
           <Form onSubmit={handleSubmit(submitForm)}>
-            <Form.Group className="mb-3" controlId="formTitle">
+            <Form.Group className={styles.formSection} controlId="formTitle">
+              <Form.Label>Event Title *</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Title"
+                placeholder="Enter event title"
                 {...register('summary', { required: 'Title is required' })}
                 isInvalid={!!errors.summary}
               />
               <Form.Control.Feedback type="invalid">{errors.summary?.message}</Form.Control.Feedback>
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formLocation">
+
+            <Form.Group className={styles.formSection} controlId="formLocation">
+              <Form.Label>Location *</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Location"
+                placeholder="Enter location"
                 {...register('location', { required: 'Location is required' })}
                 isInvalid={!!errors.location}
               />
               <Form.Control.Feedback type="invalid">{errors.location?.message}</Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Row} className="mb-3" controlId="formStartDate">
+
+            <Form.Group as={Row} className={`${styles.formSection} ${styles.dateTimeRow}`} controlId="formStartDate">
               <Form.Label column sm={2}>
-                Start
+                Start *
               </Form.Label>
               <Col sm={5}>
                 <Form.Control
@@ -151,9 +155,9 @@ const CalendarEventViewForm: FC<IProps> = ({ listName, show, closeEventForm, api
               </Col>
             </Form.Group>
 
-            <Form.Group as={Row} className="mb-3" controlId="formEndDate">
+            <Form.Group as={Row} className={`${styles.formSection} ${styles.dateTimeRow}`} controlId="formEndDate">
               <Form.Label column sm={2}>
-                End
+                End *
               </Form.Label>
               <Col sm={5}>
                 <Form.Control
@@ -173,17 +177,28 @@ const CalendarEventViewForm: FC<IProps> = ({ listName, show, closeEventForm, api
                 <Form.Control.Feedback type="invalid">{errors.endTime?.message}</Form.Control.Feedback>
               </Col>
             </Form.Group>
-            <Form.Group className="d-flex align-items-center gap-3 mb-3" controlId="formDescription">
-              <Form.Control
-                type="email"
-                placeholder="Add guests by email"
-                {...register('emailInput')}
-                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addAttendee())}
-              />
-              <MdPersonAddAlt onClick={addAttendee} role="button" size={22} aria-label="Add guest" />
+
+            <Form.Group className={`${styles.formSection} ${styles.guestInputWrapper}`} controlId="formGuests">
+              <Form.Label>Add Guests</Form.Label>
+              <div className="d-flex align-items-center gap-2">
+                <Form.Control
+                  type="email"
+                  placeholder="Enter guest email"
+                  {...register('emailInput')}
+                  onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addAttendee())}
+                />
+                <MdPersonAddAlt
+                  onClick={addAttendee}
+                  className={styles.addGuestIcon}
+                  size={38}
+                  aria-label="Add guest"
+                  title="Add guest"
+                />
+              </div>
             </Form.Group>
+
             {fields.length > 0 && (
-              <Form.Group className="mb-3">
+              <Form.Group className={styles.formSection}>
                 <Form.Label className={styles.guestsLabel}>
                   {fields.length} {fields.length === 1 ? 'Guest' : 'Guests'}
                 </Form.Label>
@@ -191,24 +206,24 @@ const CalendarEventViewForm: FC<IProps> = ({ listName, show, closeEventForm, api
               </Form.Group>
             )}
 
-            <Form.Group className="mb-3" controlId="formNotes">
+            <Form.Group className={styles.formSection} controlId="formNotes">
               <Form.Label>Notes</Form.Label>
-              <Form.Control as="textarea" rows={3} {...register('description')} />
+              <Form.Control
+                as="textarea"
+                rows={4}
+                placeholder="Add additional notes or description"
+                {...register('description')}
+              />
             </Form.Group>
 
-            <Form.Group className="mb-3 modal-footer" controlId="formButtons">
-              <Col sm={2}>
-                <Button variant="outline-secondary" onClick={closeEventForm}>
-                  Close
-                </Button>
-              </Col>
-
-              <Col sm={2}>
-                <Button type="submit" variant="outline-warning">
-                  Add
-                </Button>
-              </Col>
-            </Form.Group>
+            <div className={styles.buttonGroup}>
+              <Button className={styles.cancelButton} onClick={closeEventForm}>
+                Cancel
+              </Button>
+              <Button type="submit" className={styles.submitButton}>
+                Create Event
+              </Button>
+            </div>
           </Form>
         </Modal.Body>
       )}
