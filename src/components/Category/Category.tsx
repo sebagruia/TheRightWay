@@ -1,27 +1,26 @@
 import React, { FC, Fragment, useState } from 'react';
 import styles from './Category.module.scss';
 
-import { connect } from 'react-redux';
-import { stateMapping } from '../../redux/stateMapping';
+import { useSelector } from 'react-redux';
+import { selectSelectedList, selectSortType } from '../../redux/list/listSelectors';
 
 import ListItem from '../ListItem/ListItem';
 
 import { Items, ItemsOfflineMode } from '../../interfaces/item';
-import { List, Lists } from '../../interfaces/list';
 
 import { TbArrowBadgeDown, TbArrowBadgeRight } from 'react-icons/tb';
 
 interface IProps {
-  lists: Lists;
   listItemsOnline: Items;
   listItemsForOfflineMode: ItemsOfflineMode;
-  selectedList: List;
-  sortType: string | null;
   categoryName: string;
 }
 
-const Category: FC<IProps> = ({ listItemsOnline, listItemsForOfflineMode, selectedList, sortType, categoryName }) => {
+const Category: FC<IProps> = ({ listItemsOnline, listItemsForOfflineMode, categoryName }) => {
   const [unfold, setUnfold] = useState(false);
+
+  const selectedList = useSelector(selectSelectedList);
+  const sortType = useSelector(selectSortType);
   const listItemsInCategory =
     listItemsOnline && Object.values(listItemsOnline).length
       ? Object.values(listItemsOnline).filter((item) => item.category === categoryName)
@@ -80,13 +79,4 @@ const Category: FC<IProps> = ({ listItemsOnline, listItemsForOfflineMode, select
   );
 };
 
-const mapStateToProps = (state: any) => {
-  const sm = stateMapping(state);
-  return {
-    lists: sm.lists,
-    selectedList: sm.selectedList,
-    sortType: sm.sortType,
-  };
-};
-
-export default connect(mapStateToProps)(Category);
+export default Category;

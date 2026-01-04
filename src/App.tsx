@@ -4,7 +4,7 @@ import './App.scss';
 
 import { Route, Routes, useNavigate } from 'react-router-dom';
 
-import { connect, useDispatch } from 'react-redux';
+import { useAppDispatch } from './redux/hooks';
 import { setUser } from './redux/user/userActions';
 
 import EditItemPage from './pages/EditItemPage/EditItemPage';
@@ -19,12 +19,8 @@ import { DocumentData } from 'firebase/firestore';
 
 import { auth, createUserProfileDocument, fetchUserLists } from './firebase/firebase.utils';
 
-interface IProps {
-  getUserLists: (userId: string) => Promise<void>;
-}
-
-const App: FC<IProps> = ({ getUserLists }) => {
-  const dispatch = useDispatch();
+const App: FC = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   useEffect(() => {
     const unsubscribFromAuth = auth.onAuthStateChanged(async (userAuth) => {
@@ -37,7 +33,7 @@ const App: FC<IProps> = ({ getUserLists }) => {
               ...snapshot.data(),
             }),
           );
-          getUserLists(userAuth.uid);
+          dispatch(fetchUserLists(userAuth.uid));
         });
       } else {
         dispatch(setUser(null));
@@ -47,7 +43,7 @@ const App: FC<IProps> = ({ getUserLists }) => {
         unsubscribFromAuth();
       };
     });
-  }, [navigate, getUserLists]);
+  }, [navigate, dispatch]);
 
   return (
     <Routes>
@@ -63,8 +59,4 @@ const App: FC<IProps> = ({ getUserLists }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch: any) => ({
-  getUserLists: (userId: string) => dispatch(fetchUserLists(userId)),
-});
-
-export default connect(null, mapDispatchToProps)(App);
+export default App;

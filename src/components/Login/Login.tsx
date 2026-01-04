@@ -1,12 +1,14 @@
 import React, { FC, FormEvent, Fragment, useState } from 'react';
 import styles from './Login.module.scss';
 
-import { connect, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../redux/hooks';
 import { clearStateAction } from '../../redux/list/listActions';
 import { initialState } from '../../redux/list/listReducer';
-import { stateMapping } from '../../redux/stateMapping';
 import { persistor } from '../../redux/store';
 import { setModalMessage, setUser } from '../../redux/user/userActions';
+import { isGlobalLoading } from '../../redux/global/globalSelectors';
+import { userError } from '../../redux/user/userSelectors';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -19,6 +21,7 @@ import Form from 'react-bootstrap/Form';
 import EmailInput from '../FormComponets/EmailInput/EmailInput';
 import PassWordInput from '../FormComponets/PasswordInput/PassWordInput';
 import ModalPopUp from '../ModalPopUp/ModalPopUp';
+import Loading from '../Loading/Loading';
 
 import { ModalHeaderBackground, ModalMessage } from '../../interfaces/modal';
 
@@ -28,12 +31,15 @@ interface IProps {
   error: ModalMessage;
 }
 
-const Login: FC<IProps> = ({ error }) => {
-  const dispatch = useDispatch();
+const Login: FC<IProps> = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPass, setLoginPass] = useState('');
+
+  const isLoading = useSelector(isGlobalLoading);
+  const error = useSelector(userError);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -75,6 +81,7 @@ const Login: FC<IProps> = ({ error }) => {
             title: 'Email Validation',
             content: 'You need to verify your email. Please check your Inbox and follow the link.',
             headerBackground: ModalHeaderBackground.warning,
+            closeText: 'Close',
           }),
         );
       }
@@ -82,7 +89,7 @@ const Login: FC<IProps> = ({ error }) => {
   };
 
   const closeModal = () => {
-    dispatch(setModalMessage({ content: '' }));
+    dispatch(setModalMessage({ content: '', headerBackground: ModalHeaderBackground.error, closeText: 'Close' }));
   };
 
   return (
@@ -90,50 +97,47 @@ const Login: FC<IProps> = ({ error }) => {
       <ModalPopUp message={error} closeModal={closeModal} />
       <div className="container">
         <div className={`row ${styles.login_row}`}>
-          <div className={`col-sm-6 ${styles.login_col}`}>
-            <Form
-              className={`${styles.login_form} justify-content-center`}
-              noValidate
-              validated={validated}
-              onSubmit={handleSubmit}
-            >
-              <EmailInput
-                setLoginEmail={setLoginEmail}
-                validationMessage={emailValidationMessages}
-                label="Email address"
-              />
-
-              <PassWordInput
-                setLoginPass={setLoginPass}
-                validationMessage={passwordValidationMessages}
-                label="Password"
-              />
-
-              <Button
-                className={`mt-3 ${styles.btn_primary_custom}`}
-                onClick={logInWithPassword}
-                variant="primary"
-                type="submit"
-                size="sm"
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <div className={`col-sm-6 ${styles.login_col}`}>
+              <Form
+                className={`${styles.login_form} justify-content-center`}
+                noValidate
+                validated={validated}
+                onSubmit={handleSubmit}
               >
-                Log In
+                <EmailInput
+                  setLoginEmail={setLoginEmail}
+                  validationMessage={emailValidationMessages}
+                  label="Email address"
+                />
+
+                <PassWordInput
+                  setLoginPass={setLoginPass}
+                  validationMessage={passwordValidationMessages}
+                  label="Password"
+                />
+
+                <Button
+                  className={`mt-3 ${styles.btn_primary_custom}`}
+                  onClick={logInWithPassword}
+                  variant="primary"
+                  type="submit"
+                  size="sm"
+                >
+                  Log In
+                </Button>
+              </Form>
+              <Button variant="outline-warning" onClick={logInWithGoogle}>
+                <span>Sign in with Google</span>
               </Button>
-            </Form>
-            <Button variant="outline-warning" onClick={logInWithGoogle}>
-              <span>Sign in with Google</span>
-            </Button>
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </Fragment>
   );
 };
 
-const mapStateToProps = (state: any) => {
-  const sm = stateMapping(state);
-  return {
-    error: sm.userError,
-  };
-};
-
-export default connect(mapStateToProps)(Login);
+export default Login;

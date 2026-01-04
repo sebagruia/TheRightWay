@@ -2,8 +2,16 @@ import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './listContent.module.scss';
 
-import { connect, useDispatch } from 'react-redux';
-import { stateMapping } from '../../redux/stateMapping';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../redux/hooks';
+import { isGlobalLoading } from '../../redux/global/globalSelectors';
+import { selectUserAuth, userError } from '../../redux/user/userSelectors';
+import {
+  selectListItemsOnline,
+  selectListItemsForOfflineMode,
+  selectSelectedList,
+  selectSortType,
+} from '../../redux/list/listSelectors';
 
 import { addListItemToFirestore, fetchListsItems } from '../../firebase/firebase.utils';
 import { addNewItemInList } from '../../redux/list/listActions';
@@ -17,38 +25,26 @@ import BackArrow from '../BackArrow/BackArrow';
 import Category from '../Category/Category';
 import ModalPopUp from '../ModalPopUp/ModalPopUp';
 import SortType from '../SortType/SortType';
-import CalendarEventView from '../CalendarEventViewForm/CalendarEventViewForm';
+import CalendarEventViewForm from '../CalendarEventViewForm/CalendarEventViewForm';
 
 import { BsCalendarDay } from 'react-icons/bs';
 
-import { Items, ItemsOfflineMode } from '../../interfaces/item';
-import { List, Lists } from '../../interfaces/list';
-import { ModalMessage, ModalHeaderBackground } from '../../interfaces/modal';
+import { ModalHeaderBackground } from '../../interfaces/modal';
 import { ItemsCategory } from '../../interfaces/utilsInterfaces';
 
 import { formatName, itemsCategory, sortCategories } from '../../utils';
 
-interface IProps {
-  userAuth: any;
-  lists: Lists;
-  listItemsForOfflineMode: ItemsOfflineMode;
-  listItemsOnline: Items;
-  selectedList: List;
-  sortType: string | null;
-  error: ModalMessage;
-  getListItems: (userId: string, listId: string) => any;
-}
+const ListContent: FC = () => {
+  const dispatch = useAppDispatch();
 
-const ListContent: FC<IProps> = ({
-  userAuth,
-  listItemsOnline,
-  listItemsForOfflineMode,
-  selectedList,
-  sortType,
-  error,
-  getListItems,
-}) => {
-  const dispatch = useDispatch();
+  const userAuth = useSelector(selectUserAuth);
+  const listItemsOnline = useSelector(selectListItemsOnline);
+  const listItemsForOfflineMode = useSelector(selectListItemsForOfflineMode);
+  const selectedList = useSelector(selectSelectedList);
+  const sortType = useSelector(selectSortType);
+  const error = useSelector(userError);
+  const isLoading = useSelector(isGlobalLoading);
+
   const [inputText, setInputText] = useState('');
   const [visible, setVisible] = useState(false);
   const [eventFormVisible, setEventFormVisible] = useState(false);
@@ -87,9 +83,9 @@ const ListContent: FC<IProps> = ({
 
   useEffect(() => {
     if (userAuth) {
-      getListItems(userAuth.id, selectedList.id);
+      dispatch(fetchListsItems(userAuth.id, selectedList.id));
     }
-  }, [selectedList.id, userAuth]);
+  }, [selectedList.id, userAuth, dispatch]);
 
   const handleClick = () => {
     setVisible(!visible);
@@ -134,11 +130,12 @@ const ListContent: FC<IProps> = ({
   return (
     <div className={`container ${styles.containerCustom}`}>
       <ModalPopUp message={error} closeModal={closeModal} redirect={redirectModal} />
-      <CalendarEventView
+      <CalendarEventViewForm
         listName={formatName(selectedList.listName)}
         show={eventFormVisible}
         closeEventForm={toggleEventFormVisibility}
         apiCall={addGoogleCalendarEvent}
+        isLoading={isLoading}
       />
 
       <div className={`row ${styles.listContent_row}`}>
@@ -245,21 +242,4 @@ const ListContent: FC<IProps> = ({
   );
 };
 
-const mapStateToProps = (state: any) => {
-  const sm = stateMapping(state);
-  return {
-    userAuth: sm.userAuth,
-    lists: sm.lists,
-    listItemsOnline: sm.listItemsOnline,
-    listItemsForOfflineMode: sm.listItemsForOfflineMode,
-    selectedList: sm.selectedList,
-    sortType: sm.sortType,
-    error: sm.userError,
-  };
-};
-
-const mapDispatchToProps = (dispatch: any) => ({
-  getListItems: (userId: string, listId: string) => dispatch(fetchListsItems(userId, listId)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ListContent);
+export default ListContent;

@@ -1,8 +1,10 @@
 import React, { ChangeEvent, FC, useState } from 'react';
 import styles from './EditItem.module.scss';
 
-import { connect, useDispatch } from 'react-redux';
-import { stateMapping } from '../../redux/stateMapping';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../redux/hooks';
+import { selectUserAuth } from '../../redux/user/userSelectors';
+import { selectSelectedList, selectSelectedItemObject } from '../../redux/list/listSelectors';
 
 import { editItem } from '../../redux/list/listActions';
 
@@ -19,18 +21,16 @@ import { updatingListItemToFirestore } from '../../firebase/firebase.utils';
 import BackArrow from '../BackArrow/BackArrow';
 
 import { Item } from '../../interfaces/item';
-import { List } from '../../interfaces/list';
 
 import { itemsCategory, formatName, units } from '../../utils';
-interface IProps {
-  userAuth: any;
-  selectedItemObject: Item;
-  selectedList: List;
-}
-
-const EditItem: FC<IProps> = ({ userAuth, selectedList, selectedItemObject }) => {
+const EditItem: FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+
+  const userAuth = useSelector(selectUserAuth);
+  const selectedList = useSelector(selectSelectedList);
+  const selectedItemObject = useSelector(selectSelectedItemObject);
+
   const [item, setItem] = useState<Item>(selectedItemObject || {});
 
   const onSelectUnit = (event: any) => {
@@ -168,14 +168,4 @@ const EditItem: FC<IProps> = ({ userAuth, selectedList, selectedItemObject }) =>
   );
 };
 
-const mapStateToProps = (state: any) => {
-  const sm = stateMapping(state);
-  return {
-    userAuth: sm.userAuth,
-    lists: sm.lists,
-    selectedList: sm.selectedList,
-    selectedItemObject: sm.selectedItemObject,
-  };
-};
-
-export default connect(mapStateToProps)(EditItem);
+export default EditItem;
