@@ -16,6 +16,7 @@ import 'firebase/compat/firestore';
 import { Dispatch } from 'redux';
 
 import { setModalMessage } from '../redux/user/userActions';
+import { setGlobalLoadingAction } from '../redux/global/globalActions';
 
 import 'firebase/firestore';
 
@@ -123,19 +124,26 @@ export const signInWithGoogle = async (dispatch: Dispatch): Promise<UserInfo | n
   provider.addScope('https://www.googleapis.com/auth/calendar.events');
 
   try {
+    dispatch(setGlobalLoadingAction(true));
+
     const userCredential = await signInWithPopup(auth, provider);
     const userAuth = userCredential.user;
 
     await getGoogleCalendarAccessToken(userCredential, dispatch);
 
+    dispatch(setGlobalLoadingAction(false));
+
     return { userAuth, userCredential };
   } catch (error: any) {
+    dispatch(setGlobalLoadingAction(false));
+
     const errorCode = error.code;
     dispatch(
       setModalMessage({
         title: 'Error',
         content: `There was an error signing in: ${errorCode}`,
         headerBackground: ModalHeaderBackground.error,
+        closeText: 'Close',
       }),
     );
     console.log(`There was an error signing in: ${errorCode}`);
