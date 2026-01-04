@@ -1,0 +1,36 @@
+@use '../../styles/variables' as *;
+
+.attendeeItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+  background-color: $lightGray;
+  border-left: 3px solid $accentColor;
+  border-radius: 0.25rem;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: $gray;
+    border-left-color: $primaryColor;
+  }
+
+  .attendeeEmail {
+    font-size: 0.95rem;
+    color: $neutralColor;
+    word-break: break-word;
+  }
+
+  .removeIcon {
+    cursor: pointer;
+    color: $mediumGray;
+    transition: color 0.2s ease;
+    flex-shrink: 0;
+    margin-left: 0.5rem;
+
+    &:hover {
+      color: $danger;
+    }
+  }
+}
