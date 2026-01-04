@@ -6,13 +6,13 @@ import { Form, Row, Col, Button, Modal } from 'react-bootstrap';
 
 import CalendarEventFormSkeleton from './CalendarEventFormSkeleton';
 
-import { CalendarEvent } from '../../interfaces/calendar';
+import { GoogleCalendarEvent } from '../../interfaces/calendar';
 
 interface IProps {
   listName: string;
   closeEventForm: () => void;
   show: boolean;
-  apiCall: (eventData: CalendarEvent) => Promise<{ success: boolean }>;
+  apiCall: (eventData: GoogleCalendarEvent) => Promise<{ success: boolean }>;
   isLoading?: boolean;
 }
 
@@ -43,7 +43,7 @@ const CalendarEventViewForm: FC<IProps> = ({ listName, show, closeEventForm, api
     },
   });
 
-  const mapToCalendarEventPayload = (formValues: FormData): CalendarEvent => {
+  const mapToCalendarEventPayload = (formValues: FormData): GoogleCalendarEvent => {
     return {
       summary: formValues.summary,
       location: formValues.location,

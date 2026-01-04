@@ -8,7 +8,7 @@ import { selectGoogleCalendarAccessToken } from '../redux/user/userSelectors';
 import { auth } from '../firebase/firebase.utils';
 import { API_ENDPOINTS } from '../config/api';
 
-import { CalendarEvent } from '../interfaces/calendar';
+import { GoogleCalendarEvent } from '../interfaces/calendar';
 import { ModalHeaderBackground } from '../interfaces/modal';
 
 export const useGoogleCalendar = () => {
@@ -16,7 +16,7 @@ export const useGoogleCalendar = () => {
 
   const isGoogleCalendarConnected = useSelector(selectGoogleCalendarAccessToken);
 
-  const addGoogleCalendarEvent = async (eventData: CalendarEvent): Promise<{ success: boolean; data?: any }> => {
+  const addGoogleCalendarEvent = async (eventData: GoogleCalendarEvent): Promise<{ success: boolean; data?: any }> => {
     const user = auth.currentUser;
     if (!user) {
       dispatch(
