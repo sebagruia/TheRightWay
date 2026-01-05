@@ -1,22 +1,10 @@
 // Interfaces matching frontend CalendarEvent structure
-export interface CalendarEvent {
-  summary: string;
-  location?: string;
-  description?: string;
-  start: {
-    dateTime: string;
-    timeZone: string;
-  };
-  end: {
-    dateTime: string;
-    timeZone: string;
-  };
-}
+import { GoogleCalendarEvent } from '../../src/interfaces/calendar';
 
 // API request/response types
 export interface CreateEventRequest {
   accessToken: string;
-  event: CalendarEvent;
+  event: GoogleCalendarEvent;
 }
 
 export interface CreateEventResponse {
@@ -52,5 +40,5 @@ export interface StoreTokensRequest {
 // Secure event creation request
 export interface CreateEventRequestSecure {
   idToken: string; // Firebase ID token for authentication
-  event: CalendarEvent;
+  event: GoogleCalendarEvent;
 }

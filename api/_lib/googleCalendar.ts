@@ -1,5 +1,7 @@
 import { google } from 'googleapis';
-import type { CalendarEvent, ApiResponse } from './types';
+import type { ApiResponse } from './types';
+import {GoogleCalendarEvent} from '../../src/interfaces/calendar';
+
 
 // Create Google Calendar client with access token
 const createCalendarClient = (accessToken: string) => {
@@ -10,7 +12,7 @@ const createCalendarClient = (accessToken: string) => {
 };
 
 // Create calendar event
-export const createCalendarEvent = async (accessToken: string, eventData: CalendarEvent): Promise<ApiResponse> => {
+export const createCalendarEvent = async (accessToken: string, eventData: GoogleCalendarEvent): Promise<ApiResponse> => {
   try {
     const calendar = createCalendarClient(accessToken);
 
