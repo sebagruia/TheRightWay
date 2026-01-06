@@ -199,7 +199,7 @@ const ListContent: FC = () => {
                     } tasks`}</p>
                   </div>
                 )}
-              {activeKey === 'statistics' && <StatisticsChart />}
+              {activeKey === 'statistics' && <StatisticsChart data={listItemsOnline ?? listItemsForOfflineMode} />}
             </div>
 
             <div className={styles.addNewItemInput_container}>

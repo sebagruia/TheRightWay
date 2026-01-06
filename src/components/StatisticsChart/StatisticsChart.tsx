@@ -3,28 +3,17 @@ import styles from './StatisticsChart.module.scss';
 
 import { Pie, PieChart, Legend } from 'recharts';
 
-const data = [
-  { name: 'Peste', value: 400, fill: '#1e63a0ff' },
-  { name: 'Paste', value: 300, fill: '#00C49F' },
-  { name: 'Patiseri', value: 300, fill: '#FFBB28' },
-  { name: 'Fructe', value: 200, fill: '#FF8042' },
-  { name: 'Peste', value: 400, fill: '#1e63a0ff' },
-  { name: 'Paste', value: 300, fill: '#00C49F' },
-  { name: 'Patiseriecu cele mai bune', value: 300, fill: '#FFBB28' },
-  { name: 'Peste', value: 400, fill: '#1e63a0ff' },
-  { name: 'Paste', value: 300, fill: '#00C49F' },
-  { name: 'Patiseri', value: 300, fill: '#FFBB28' },
-  { name: 'Fructe', value: 200, fill: '#FF8042' },
-  { name: 'Peste', value: 400, fill: '#1e63a0ff' },
-  { name: 'Paste', value: 300, fill: '#00C49F' },
-  { name: 'Patiseriecu cele mai bune', value: 300, fill: '#FFBB28' },
-];
+import { Items } from '../../interfaces/item';
+
+import { mapListItemsToChartData } from '../../utils';
 
 interface IProps {
   isAnimationActive?: boolean;
+  data: Items;
 }
 
-const StatisticsChart: FC<IProps> = ({ isAnimationActive = true }) => {
+const StatisticsChart: FC<IProps> = ({ isAnimationActive = true, data }) => {
+  const parsedData = mapListItemsToChartData(data);
   return (
     <div className={styles.chartWrapper}>
       <PieChart
@@ -33,7 +22,7 @@ const StatisticsChart: FC<IProps> = ({ isAnimationActive = true }) => {
         responsive
       >
         <Pie
-          data={data}
+          data={parsedData}
           innerRadius="70%"
           outerRadius="80%"
           cornerRadius="50%"
@@ -41,7 +30,7 @@ const StatisticsChart: FC<IProps> = ({ isAnimationActive = true }) => {
           paddingAngle={1}
           dataKey="value"
           isAnimationActive={isAnimationActive}
-          label={true}
+          label={(entry) => `${entry.value}%`}
           labelLine={{ strokeWidth: 1 }}
         />
         <Legend iconSize={5} wrapperStyle={{ bottom: '-20px', fontSize: '14px' }} />
