@@ -27,6 +27,7 @@ import ModalPopUp from '../ModalPopUp/ModalPopUp';
 import SortType from '../SortType/SortType';
 import CalendarEventViewForm from '../CalendarEventViewForm/CalendarEventViewForm';
 import StatsNav from '../StatsNav/StatsNav';
+import StatisticsChart from '../StatisticsChart/StatisticsChart';
 
 import { BsCalendarDay } from 'react-icons/bs';
 
@@ -198,6 +199,7 @@ const ListContent: FC = () => {
                     } tasks`}</p>
                   </div>
                 )}
+              {activeKey === 'statistics' && <StatisticsChart />}
             </div>
 
             <div className={styles.addNewItemInput_container}>
