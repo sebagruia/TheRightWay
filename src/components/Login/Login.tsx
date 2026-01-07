@@ -1,4 +1,4 @@
-import React, { FC, FormEvent, Fragment, useState } from 'react';
+import React, { FormEvent, Fragment, useState } from 'react';
 import styles from './Login.module.scss';
 
 import { useSelector } from 'react-redux';
@@ -23,15 +23,11 @@ import PassWordInput from '../FormComponets/PasswordInput/PassWordInput';
 import ModalPopUp from '../ModalPopUp/ModalPopUp';
 import Loading from '../Loading/Loading';
 
-import { ModalHeaderBackground, ModalMessage } from '../../interfaces/modal';
+import { ModalHeaderBackground } from '../../interfaces/modal';
 
 import { emailValidationMessages, passwordValidationMessages } from '../../utils';
 
-interface IProps {
-  error: ModalMessage;
-}
-
-const Login: FC<IProps> = () => {
+const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
