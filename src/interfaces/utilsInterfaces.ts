@@ -7,4 +7,5 @@ export interface ItemsCategory {
   id: number;
   iconName: string;
   name: string;
+  color: string;
 }
