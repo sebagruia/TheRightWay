@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './listContent.module.scss';
+import styles from './ListContent.module.scss';
 
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../redux/hooks';
