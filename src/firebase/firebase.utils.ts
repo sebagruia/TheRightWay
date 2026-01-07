@@ -163,6 +163,7 @@ export const signInWithPassword = async (loginEmail: string, loginPass: string, 
         title: 'Error',
         content: `There was an error signing in: ${errorCode}`,
         headerBackground: ModalHeaderBackground.error,
+        closeText: 'Close',
       }),
     );
     console.log(`There was an error signing in: ${errorCode}`);
@@ -187,6 +188,7 @@ export const registerNewUser = async (email: string, password: string, dispatch:
         title: 'Error',
         content: `There was an error registering new user: ${errorCode}`,
         headerBackground: ModalHeaderBackground.error,
+        closeText: 'Close',
       }),
     );
     console.log(`There was an error registering new user: ${errorCode}`);
@@ -258,8 +260,9 @@ export const addListNameToFirestore = async (userId: string, listId: string, lis
     dispatch(
       setModalMessage({
         title: 'Error',
-        content: 'You have an item with the same name',
+        content: 'You have a list with the same name',
         headerBackground: ModalHeaderBackground.error,
+        closeText: 'Close',
       }),
     );
   }
@@ -291,6 +294,7 @@ export const addListItemToFirestore = async (userId: string, listId: string, ite
         title: 'Error',
         content: 'You have an item with the same name',
         headerBackground: ModalHeaderBackground.error,
+        closeText: 'Close',
       }),
     );
   }

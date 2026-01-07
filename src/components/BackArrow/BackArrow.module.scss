@@ -1,10 +1,15 @@
 @use '../../styles//variables.scss' as *;
 
 .backArrow {
-  color: gray;
+  color: $primaryColor;
   margin-bottom: 40px;
-  opacity: 0.5;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+  width: fit-content;
+
   &:hover {
-    color: #2b3f5d;
+    background-color: rgba(211, 158, 0, 0.1);
+    color: $accentColor;
   }
 }

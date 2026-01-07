@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './listContent.module.scss';
+import styles from './ListContent.module.scss';
 
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../redux/hooks';
@@ -26,11 +26,14 @@ import Category from '../Category/Category';
 import ModalPopUp from '../ModalPopUp/ModalPopUp';
 import SortType from '../SortType/SortType';
 import CalendarEventViewForm from '../CalendarEventViewForm/CalendarEventViewForm';
+import StatsNav from '../StatsNav/StatsNav';
+import StatisticsChart from '../StatisticsChart/StatisticsChart';
 
 import { BsCalendarDay } from 'react-icons/bs';
 
 import { ModalHeaderBackground } from '../../interfaces/modal';
 import { ItemsCategory } from '../../interfaces/utilsInterfaces';
+import { StatsTabsType } from '../../interfaces/statsNav';
 
 import { formatName, itemsCategory, sortCategories } from '../../utils';
 
@@ -48,6 +51,7 @@ const ListContent: FC = () => {
   const [inputText, setInputText] = useState('');
   const [visible, setVisible] = useState(false);
   const [eventFormVisible, setEventFormVisible] = useState(false);
+  const [activeKey, setActiveKey] = useState<StatsTabsType>('progress');
 
   const navigate = useNavigate();
 
@@ -127,6 +131,12 @@ const ListContent: FC = () => {
 
   const toggleEventFormVisibility = () => setEventFormVisible(!eventFormVisible);
 
+  const handleStatsNavTabSelect = (key: StatsTabsType | null) => {
+    if (key) {
+      setActiveKey(key);
+    }
+  };
+
   return (
     <div className={`container ${styles.containerCustom}`}>
       <ModalPopUp message={error} closeModal={closeModal} redirect={redirectModal} />
@@ -166,26 +176,30 @@ const ListContent: FC = () => {
                 />
               </div>
 
+              <StatsNav activeKey={activeKey} setKey={handleStatsNavTabSelect} />
+
               {((listItemsOnline && Object.keys(listItemsOnline).length > 0) ||
-                (listItemsForOfflineMode && Object.keys(listItemsForOfflineMode).length > 0)) && (
-                <div className={styles.progressContainer}>
-                  <ProgressBar
-                    animated
-                    variant="warning"
-                    now={percentage()}
-                    label={`${!isNaN(percentage()) ? percentage() : 0}%`}
-                  />
-                  <p>{`${checkedItems()} of ${
-                    Object.keys(
-                      userAuth
-                        ? listItemsOnline
-                        : listItemsForOfflineMode[selectedList.id]
-                          ? listItemsForOfflineMode[selectedList.id]
-                          : {},
-                    ).length
-                  } tasks`}</p>
-                </div>
-              )}
+                (listItemsForOfflineMode && Object.keys(listItemsForOfflineMode).length > 0)) &&
+                activeKey === 'progress' && (
+                  <div className={styles.progressContainer}>
+                    <ProgressBar
+                      animated
+                      variant="warning"
+                      now={percentage()}
+                      label={`${!isNaN(percentage()) ? percentage() : 0}%`}
+                    />
+                    <p>{`${checkedItems()} of ${
+                      Object.keys(
+                        userAuth
+                          ? listItemsOnline
+                          : listItemsForOfflineMode[selectedList.id]
+                            ? listItemsForOfflineMode[selectedList.id]
+                            : {},
+                      ).length
+                    } tasks`}</p>
+                  </div>
+                )}
+              {activeKey === 'statistics' && <StatisticsChart data={listItemsOnline ?? listItemsForOfflineMode} />}
             </div>
 
             <div className={styles.addNewItemInput_container}>
