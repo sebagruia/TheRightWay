@@ -6,4 +6,10 @@
   @media screen and (min-width: $screen-sm) {
     max-width: 80%;
   }
+  :global(.recharts-wrapper) {
+    aspect-ratio: 1.2 / 1;
+    @media screen and (min-width: $screen-md) {
+      aspect-ratio: 1;
+    }
+  }
 }

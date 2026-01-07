@@ -17,7 +17,7 @@ const StatisticsChart: FC<IProps> = ({ isAnimationActive = true, data }) => {
   return (
     <div className={styles.chartWrapper}>
       <PieChart
-        style={{ width: '100%', maxHeight: '60vh', aspectRatio: 1 }}
+        style={{ width: '100%', maxHeight: '60vh' }}
         margin={{ top: 15, right: 0, bottom: 0, left: 0 }}
         responsive
       >
