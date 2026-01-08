@@ -52,7 +52,8 @@ export const itemsCategory: ItemsCategory[] = [
   { id: 17, iconName: 'fa-solid fa-person-swimming', name: 'Activitati Sportive', color: '#00BFFF' },
   { id: 18, iconName: 'fa-brands fa-xbox', name: 'Jocuri', color: '#8A2BE2' },
   { id: 19, iconName: 'fa-solid fa-plug', name: 'Electrocasnice', color: '#FF4500' },
-  { id: 20, iconName: 'fa-solid fa-infinity', name: 'Generale', color: '#A9A9A9' },
+  { id: 20, iconName: 'fa-solid fa-tree', name: 'Gradina', color: '#66CDAA' },
+  { id: 21, iconName: 'fa-solid fa-infinity', name: 'Generale', color: '#A9A9A9' },
 ];
 
 export const mapListItemsToChartData = (items: Items) => {
