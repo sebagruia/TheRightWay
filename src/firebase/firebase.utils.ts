@@ -207,23 +207,54 @@ export const signOutUser = async (dispatch: Dispatch) => {
 };
 
 export const fetchUserLists = (userId: string) => async (dispatch: Dispatch) => {
-  const userListsRef = firestore.collection(`/users/${userId}/lists/`);
   try {
-    userListsRef.onSnapshot((snapShot) => {
-      let listsObject = {};
-      const lists = snapShot.docs.map((item) => item.data());
-      lists.forEach((list) => {
+    const ownedListsRef = firestore.collectionGroup('lists').where('owner', '==', userId);
+    const sharedListsRef = firestore.collectionGroup('lists').where('sharedWith', 'array-contains', userId);
+
+    let ownedLists: any = {};
+    let sharedLists: any = {};
+
+    ownedListsRef.onSnapshot((ownedSnapshot) => {
+      ownedLists = {};
+      ownedSnapshot.docs.forEach((doc) => {
+        const list = doc.data();
         if (list.items) {
           let listItems = {};
           const itemsKeys = Object.keys(list.items).sort();
           for (const key of itemsKeys) {
             listItems = { ...listItems, [key]: list.items[key] };
           }
-          listsObject = { ...listsObject, [list.id]: { ...list, items: { ...listItems } } };
+          ownedLists[list.id] = { ...list, items: { ...listItems } };
         } else {
-          listsObject = { ...listsObject, [list.id]: list };
+          ownedLists[list.id] = list;
         }
       });
+
+      const listsObject = { ...ownedLists, ...sharedLists };
+      dispatch(fetchUserListAction(listsObject));
+    });
+
+    sharedListsRef.onSnapshot((sharedSnapshot) => {
+      sharedLists = {};
+      sharedSnapshot.docs.forEach((doc) => {
+        const list = doc.data();
+        // Skip if this list is already in owned (avoid duplicates)
+        if (list.owner === userId) return;
+
+        if (list.items) {
+          let listItems = {};
+          const itemsKeys = Object.keys(list.items).sort();
+          for (const key of itemsKeys) {
+            listItems = { ...listItems, [key]: list.items[key] };
+          }
+          sharedLists[list.id] = { ...list, items: { ...listItems } };
+        } else {
+          sharedLists[list.id] = list;
+        }
+      });
+
+      const listsObject = { ...ownedLists, ...sharedLists };
+      console.log('📦 Combined lists object:', listsObject);
       dispatch(fetchUserListAction(listsObject));
     });
   } catch (error) {
@@ -252,7 +283,7 @@ export const addListNameToFirestore = async (userId: string, listId: string, lis
   const snapShot = await docRef.get();
   if (!snapShot.exists) {
     try {
-      docRef.set(listDetails);
+      await docRef.set(listDetails);
     } catch (error) {
       console.log(error);
     }
@@ -272,8 +303,8 @@ export const deleteListFromFirestore = async (userId: string, listId: string) =>
   const itemsRef = firestore.collection(`/users/${userId}/lists/${listId}/items`);
   try {
     const items = await itemsRef.get();
-    items.docs.map((doc) => doc.ref.delete());
-    firestore.collection(`/users/${userId}/lists/`).doc(listId).delete();
+    await Promise.all(items.docs.map((doc) => doc.ref.delete()));
+    await firestore.collection(`/users/${userId}/lists/`).doc(listId).delete();
   } catch (error) {
     console.log(error);
   }
@@ -284,7 +315,7 @@ export const addListItemToFirestore = async (userId: string, listId: string, ite
   const itenSnapShot = await itemRef.get();
   if (!itenSnapShot.exists) {
     try {
-      itemRef.set(item);
+      await itemRef.set(item);
     } catch (error) {
       console.log(error);
     }

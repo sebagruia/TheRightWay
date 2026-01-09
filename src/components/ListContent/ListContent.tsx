@@ -31,7 +31,6 @@ import StatisticsChart from '../StatisticsChart/StatisticsChart';
 
 import { BsCalendarDay } from 'react-icons/bs';
 
-import { ModalHeaderBackground } from '../../interfaces/modal';
 import { ItemsCategory } from '../../interfaces/utilsInterfaces';
 import { StatsTabsType } from '../../interfaces/statsNav';
 
@@ -121,7 +120,7 @@ const ListContent: FC = () => {
   };
 
   const closeModal = () => {
-    dispatch(setModalMessage({ content: '', headerBackground: ModalHeaderBackground.success }));
+    dispatch(setModalMessage({ content: '' }));
   };
 
   const redirectModal = () => {

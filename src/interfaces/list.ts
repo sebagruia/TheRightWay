@@ -7,6 +7,8 @@ export interface ListAction {
 export interface List {
   id: string;
   listName: string;
+  owner: string;
+  sharedWith: string[];
 }
 export interface Lists {
   [key: string]: List;
