@@ -16,7 +16,7 @@ interface IProps {
 }
 
 const ModalPopUp: FC<IProps> = ({ message, closeModal, confirm, redirect }) => {
-  const generateHeaderBackground = (type: ModalHeaderBackground) => {
+  const generateHeaderBackground = (type: ModalHeaderBackground | string) => {
     switch (type) {
       case ModalHeaderBackground.error:
         return { backgroundColor: '#de4701' };
@@ -25,17 +25,14 @@ const ModalPopUp: FC<IProps> = ({ message, closeModal, confirm, redirect }) => {
       case ModalHeaderBackground.success:
         return { backgroundColor: '#28a745' };
       default:
-        return { backgroundColor: '#28a745' };
+        return { backgroundColor: 'transparent' };
     }
   };
   return (
     <Fragment>
       {message && (
         <Modal show={!!message.content}>
-          <Modal.Header
-            className="text-white"
-            style={generateHeaderBackground(message.headerBackground ?? ModalHeaderBackground.success)}
-          >
+          <Modal.Header className="text-white" style={generateHeaderBackground(message.headerBackground ?? '')}>
             <Modal.Title>{message.title}</Modal.Title>
           </Modal.Header>
 

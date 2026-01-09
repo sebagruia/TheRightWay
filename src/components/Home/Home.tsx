@@ -39,6 +39,8 @@ const Home: FC = () => {
       const listDetails = {
         id: formatName(listName),
         listName: listName,
+        owner: userAuth?.id || 'guest',
+        sharedWith: [],
       };
       if (userAuth) {
         addListNameToFirestore(userAuth.id, listDetails.id, listDetails, dispatch);

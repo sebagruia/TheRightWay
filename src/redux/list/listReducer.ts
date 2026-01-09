@@ -24,6 +24,8 @@ export const initialState: InitialStateList = {
   selectedList: {
     id: '',
     listName: '',
+    owner: '',
+    sharedWith: [],
   },
   selectedItemObject: {
     id: '',
